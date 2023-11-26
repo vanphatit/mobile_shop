@@ -9,11 +9,11 @@ public class Staff {
     private String address;
     private Boolean gender;
     private java.sql.Date birthday;
-    private int phone;
+    private String phone;
     private Boolean role;
     private String idShift;
 
-    public Staff(String id, String name, String password, String address, Boolean gender, Date birthday, int phone, Boolean role, String idShift) {
+    public Staff(String id, String name, String password, String address, Boolean gender, Date birthday, String phone, Boolean role, String idShift) {
         this.id = id;
         this.name = name;
         this.password = password;
@@ -73,11 +73,11 @@ public class Staff {
         this.birthday = birthday;
     }
 
-    public int getPhone() {
+    public String getPhone() {
         return phone;
     }
 
-    public void setPhone(int phone) {
+    public void setPhone(String phone) {
         this.phone = phone;
     }
 

@@ -4,10 +4,10 @@ public class Suplier {
     private String id;
     private String name;
     private String address;
-    private int phone;
+    private String phone;
     private String status;
 
-    public Suplier(String id, String name, String address, int phone, String status) {
+    public Suplier(String id, String name, String address, String phone, String status) {
         this.id = id;
         this.name = name;
         this.address = address;
@@ -25,7 +25,7 @@ public class Suplier {
     public String getAddress() {
         return address;
     }
-    public int getPhoneNumber() {
+    public String getPhoneNumber() {
         return phone;
     }
     public String getStatus() {
@@ -40,7 +40,7 @@ public class Suplier {
     public void setAddress(String address) {
         this.address = address;
     }
-    public void setPhoneNumber(int phone) {
+    public void setPhoneNumber(String phone) {
         this.phone = phone;
     }
     public void setStatus(String status) {

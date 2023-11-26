@@ -4,41 +4,38 @@
  */
 package mobileshop.dao;
 
-import javax.swing.*;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import javax.swing.JOptionPane;
 import mobileshop.db.JDBCUtil;
-import mobileshop.model.Staff;
+import mobileshop.model.Customer;
 
 /**
  *
  * @author phatlee
  */
-
-public class StaffDAO implements IDAO<Staff>{
-
-    public static StaffDAO getInstance() {
-        return new StaffDAO();
+public class CustomerDAO implements IDAO<Customer> {
+    
+    public static CustomerDAO getIntance(){
+        return new CustomerDAO();
     }
 
     @Override
-    public int insert(Staff staff) {
+    public int insert(Customer customer) {
         int ketqua = 0;
         try {
             Connection con = JDBCUtil.getConnection();
-            String sql = "INSERT INTO staff (id, name, passwors, address, gender, birthday, phone, role, id_shift) VALUES (?,?,?,?,?,?,?,?,?)";
+            String sql = "INSERT INTO customer (id, name, address, gender, birthday, phone, id_category) VALUES (?,?,?,?,?,?,?)";
             PreparedStatement pst = con.prepareStatement(sql);
-            pst.setString(1, staff.getId());
-            pst.setString(2, staff.getName());
-            pst.setString(3, staff.getPassword());
-            pst.setString(4, staff.getAddress());
-            pst.setBoolean(5, staff.getGender());
-            pst.setDate(6, staff.getBirthday());
-            pst.setString(7, staff.getPhone());
-            pst.setBoolean(8, staff.getRole());
-            pst.setString(9, staff.getIdShift());
+            pst.setString(1, customer.getId());
+            pst.setString(2, customer.getName());
+            pst.setString(3, customer.getAddress());
+            pst.setBoolean(4, customer.getGender());
+            pst.setDate(5, customer.getBirthday());
+            pst.setString(6, customer.getPhone());
+            pst.setString(7, customer.getIdCategory());
             ketqua = pst.executeUpdate();
             JDBCUtil.closeConnection(con);
         } catch (SQLException e) {
@@ -48,21 +45,19 @@ public class StaffDAO implements IDAO<Staff>{
     }
 
     @Override
-    public int update(Staff staff) {
+    public int update(Customer customer) {
         int ketqua = 0;
         try {
             Connection con = JDBCUtil.getConnection();
-            String sql = "UPDATE staff SET name = ?, password = ?, address = ?, gender = ?, birthday = ?, phone = ?, role = ?, id_shift = ? WHERE id = ?";
+            String sql = "UPDATE customer SET name = ?, address = ?, gender = ?, birthday = ?, phone = ?, id_category = ? WHERE id = ?";
             PreparedStatement pst = con.prepareStatement(sql);
-            pst.setString(1, staff.getId());
-            pst.setString(2, staff.getName());
-            pst.setString(3, staff.getPassword());
-            pst.setString(4, staff.getAddress());
-            pst.setBoolean(5, staff.getGender());
-            pst.setDate(6, staff.getBirthday());
-            pst.setString(7, staff.getPhone());
-            pst.setBoolean(8, staff.getRole());
-            pst.setString(9, staff.getIdShift());
+            pst.setString(1, customer.getName());
+            pst.setString(2, customer.getAddress());
+            pst.setBoolean(3, customer.getGender());
+            pst.setDate(4, customer.getBirthday());
+            pst.setString(5, customer.getPhone());
+            pst.setString(6, customer.getIdCategory());
+            pst.setString(7, customer.getId());
             ketqua = pst.executeUpdate();
             JDBCUtil.closeConnection(con);
         } catch (SQLException e) {
@@ -72,13 +67,13 @@ public class StaffDAO implements IDAO<Staff>{
     }
 
     @Override
-    public int delete(Staff staff) {
+    public int delete(Customer customer) {
         int ketqua = 0;
         try {
             Connection con = JDBCUtil.getConnection();
-            String sql = "DELETE FROM staff WHERE id = ?";
+            String sql = "DELETE FROM customer WHERE id = ?";
             PreparedStatement pst = con.prepareStatement(sql);
-            pst.setString(1, staff.getId());
+            pst.setString(1, customer.getId());
             ketqua = pst.executeUpdate();
             JDBCUtil.closeConnection(con);
         } catch (SQLException e) {
@@ -88,25 +83,23 @@ public class StaffDAO implements IDAO<Staff>{
     }
 
     @Override
-    public ArrayList<Staff> selectAll() {
-        ArrayList<Staff> list = new ArrayList<>();
+    public ArrayList<Customer> selectAll() {
+        ArrayList<Customer> list = new ArrayList<>();
         try {
             Connection con = JDBCUtil.getConnection();
-            String sql = "SELECT * FROM staff";
+            String sql = "SELECT * FROM customer";
             PreparedStatement pst = con.prepareStatement(sql);
             var rs = pst.executeQuery();
             while (rs.next()) {
-                String idStaff = rs.getString("id");
+                String idCustomer = rs.getString("id");
                 String name = rs.getString("name");
-                String password = rs.getString("password");
                 String address = rs.getString("address");
                 Boolean gender = rs.getBoolean("gender");
                 java.sql.Date birthday = rs.getDate("birthday");
                 String phone = rs.getString("phone");
-                Boolean role = rs.getBoolean("role");
-                String idShift = rs.getString("id_shift");
-                Staff staff = new Staff(idStaff, name, password, address, gender, birthday, phone, role, idShift);
-                list.add(staff);
+                String idCate = rs.getString("id_category");
+                Customer customer = new Customer(idCustomer, name, address, gender, birthday, phone, idCate);
+                list.add(customer);
             }
         } catch (SQLException e) {
             JOptionPane.showMessageDialog(null, "Lỗi truy vấn!", "Error", JOptionPane.ERROR_MESSAGE);
@@ -115,35 +108,34 @@ public class StaffDAO implements IDAO<Staff>{
     }
 
     @Override
-    public Staff selectById(String t) {
-        Staff staff = null;
+    public Customer selectById(String t) {
+        Customer customer = null;
         try {
             Connection con = JDBCUtil.getConnection();
-            String sql = "SELECT * FROM staff WHERE id = ?";
+            String sql = "SELECT * FROM customer WHERE id = ?";
             PreparedStatement pst = con.prepareStatement(sql);
             pst.setString(1, t);
             var rs = pst.executeQuery();
             while (rs.next()) {
-                String idStaff = rs.getString("id");
+                String idCustomer = rs.getString("id");
                 String name = rs.getString("name");
-                String password = rs.getString("password");
                 String address = rs.getString("address");
                 Boolean gender = rs.getBoolean("gender");
                 java.sql.Date birthday = rs.getDate("birthday");
                 String phone = rs.getString("phone");
-                Boolean role = rs.getBoolean("role");
-                String idShift = rs.getString("id_shift");
-                staff = new Staff(idStaff, name, password, address, gender, birthday, phone, role, idShift);
+                String idCate = rs.getString("id_category");
+                customer = new Customer(idCustomer, name, address, gender, birthday, phone, idCate);
             }
             
         } catch (SQLException e) {
             JOptionPane.showMessageDialog(null, "Lỗi truy vấn!", "Error", JOptionPane.ERROR_MESSAGE);
         }
-        return staff;
+        return customer;
     }
 
     @Override
-    public Staff selectbyId(String t, String tt) {
+    public Customer selectbyId(String t, String tt) {
         return null;
     }
+    
 }

@@ -4,34 +4,30 @@
  */
 package mobileshop.dao;
 
-import javax.swing.*;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.ArrayList;
-
+import javax.swing.JOptionPane;
 import mobileshop.db.JDBCUtil;
-import mobileshop.model.Object;
 
 /**
  *
  * @author phatlee
  */
-
-public class ObjectDAO implements IDAO<Object>{
+public class SuplierDAO implements IDAO<mobileshop.model.Suplier>{
     @Override
-    public int insert(Object o) {
+    public int insert(mobileshop.model.Suplier o) {
         int ketqua = 0;
         try {
             Connection con = JDBCUtil.getConnection();
-            String sql = "INSERT INTO object (id, name, status, manufacture, unitprice, id_category) VALUES (?,?,?,?,?,?)";
+            String sql = "INSERT INTO suplier (id, name, address, phone, status) VALUES (?,?,?,?,?)";
             PreparedStatement pst = con.prepareStatement(sql);
             pst.setString(1, o.getId());
             pst.setString(2, o.getName());
-            pst.setString(3, o.getStatus());
-            pst.setString(4, o.getManufacturer());
-            pst.setInt(5, o.getUnitPrice());
-            pst.setString(6, o.getIdCategory());
+            pst.setString(3, o.getAddress());
+            pst.setString(4, o.getPhoneNumber());
+            pst.setString(6, o.getStatus());
             ketqua = pst.executeUpdate();
             JDBCUtil.closeConnection(con);
         } catch (SQLException e) {
@@ -41,18 +37,18 @@ public class ObjectDAO implements IDAO<Object>{
     }
 
     @Override
-    public int update(Object o) {
+    public int update(mobileshop.model.Suplier o) {
         int ketqua = 0;
         try {
             Connection con = JDBCUtil.getConnection();
-            String sql = "UPDATE object SET name = ?, status = ?, manufacture = ?, unitprice = ?, id_category = ? WHERE id = ?";
+            String sql = "UPDATE suplier SET name = ?, address = ?, phone = ?, status = ? WHERE id = ?";
             PreparedStatement pst = con.prepareStatement(sql);
+            
             pst.setString(1, o.getName());
-            pst.setString(2, o.getStatus());
-            pst.setString(3, o.getManufacturer());
-            pst.setInt(4, o.getUnitPrice());
-            pst.setString(5, o.getIdCategory());
-            pst.setString(6, o.getId());
+            pst.setString(2, o.getAddress());
+            pst.setString(3, o.getPhoneNumber());
+            pst.setString(4, o.getStatus());
+            pst.setString(5, o.getId());
             ketqua = pst.executeUpdate();
             JDBCUtil.closeConnection(con);
         } catch (SQLException e) {
@@ -62,11 +58,11 @@ public class ObjectDAO implements IDAO<Object>{
     }
 
     @Override
-    public int delete(Object o) {
+    public int delete(mobileshop.model.Suplier o) {
         int ketqua = 0;
         try {
             Connection con = JDBCUtil.getConnection();
-            String sql = "DELETE FROM object WHERE id = ?";
+            String sql = "DELETE FROM suplier WHERE id = ?";
             PreparedStatement pst = con.prepareStatement(sql);
             pst.setString(1, o.getId());
             ketqua = pst.executeUpdate();
@@ -78,22 +74,21 @@ public class ObjectDAO implements IDAO<Object>{
     }
 
     @Override
-    public ArrayList<Object> selectAll() {
-        ArrayList<Object> list = new ArrayList<>();
+    public ArrayList<mobileshop.model.Suplier> selectAll() {
+        ArrayList<mobileshop.model.Suplier> list = new ArrayList<>();
         try {
             Connection con = JDBCUtil.getConnection();
-            String sql = "SELECT * FROM object";
+            String sql = "SELECT * FROM suplier";
             PreparedStatement pst = con.prepareStatement(sql);
             var rs = pst.executeQuery();
             while (rs.next()) {
                 String id = rs.getString("id");
                 String name = rs.getString("name");
+                String address = rs.getString("address");
+                String phone = rs.getString("phone");
                 String status = rs.getString("status");
-                String manufacture = rs.getString("manufacture");
-                int unitPrice = rs.getInt("unitprice");
-                String idCategory = rs.getString("id_category");
-                Object obj = new Object(id, name, status, manufacture, unitPrice, idCategory);
-                list.add(obj);
+                mobileshop.model.Suplier sup = new mobileshop.model.Suplier(id, name, address, phone, status);
+                list.add(sup);
             }
         } catch (SQLException e) {
             JOptionPane.showMessageDialog(null, "Lỗi truy vấn!", "Error", JOptionPane.ERROR_MESSAGE);
@@ -102,31 +97,30 @@ public class ObjectDAO implements IDAO<Object>{
     }
 
     @Override
-    public Object selectById(String t) {
-        Object obj = null;
+    public mobileshop.model.Suplier selectById(String t) {
+        mobileshop.model.Suplier sup = null;
         try {
             Connection con = JDBCUtil.getConnection();
-            String sql = "SELECT * FROM object WHERE id = ?";
+            String sql = "SELECT * FROM suplier WHERE id = ?";
             PreparedStatement pst = con.prepareStatement(sql);
             pst.setString(1, t);
             var rs = pst.executeQuery();
             while (rs.next()) {
                 String id = rs.getString("id");
                 String name = rs.getString("name");
+                String address = rs.getString("address");
+                String phone = rs.getString("phone");
                 String status = rs.getString("status");
-                String manufacture = rs.getString("manufacture");
-                int unitPrice = rs.getInt("unitprice");
-                String idCategory = rs.getString("id_category");
-                obj = new Object(id, name, status, manufacture, unitPrice, idCategory);
+                sup = new mobileshop.model.Suplier(id, name, address, phone, status);
             }
         } catch (SQLException e) {
             JOptionPane.showMessageDialog(null, "Lỗi truy vấn!", "Error", JOptionPane.ERROR_MESSAGE);
         }
-        return obj;
+        return sup;
     }
 
     @Override
-    public Object selectbyId(String t, String tt) {
+    public mobileshop.model.Suplier selectbyId(String t, String tt) {
         return null;
     }
 }

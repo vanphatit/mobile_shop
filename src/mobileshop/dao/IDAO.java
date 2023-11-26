@@ -20,4 +20,6 @@ public interface IDAO<T> {
     public ArrayList<T> selectAll();
 
     public T selectById(String t);
+    
+    public T selectbyId(String t, String tt);
 }

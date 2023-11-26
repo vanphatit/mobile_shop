@@ -6,10 +6,10 @@ public class Customer {
     private String address;
     private Boolean gender;
     private java.sql.Date birthday;
-    private int phone;
+    private String phone;
     private String idCategory;
 
-    public Customer(String id, String name, String address, Boolean gender, java.sql.Date birthday, int phone, String idCategory) {
+    public Customer(String id, String name, String address, Boolean gender, java.sql.Date birthday, String phone, String idCategory) {
         this.id = id;
         this.name = name;
         this.address = address;
@@ -61,11 +61,11 @@ public class Customer {
         this.birthday = birthday;
     }
 
-    public int getPhone() {
+    public String getPhone() {
         return phone;
     }
 
-    public void setPhone(int phone) {
+    public void setPhone(String phone) {
         this.phone = phone;
     }
 

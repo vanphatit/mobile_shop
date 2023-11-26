@@ -4,34 +4,35 @@
  */
 package mobileshop.dao;
 
-import javax.swing.*;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.ArrayList;
-
+import javax.swing.JOptionPane;
 import mobileshop.db.JDBCUtil;
-import mobileshop.model.Object;
+import mobileshop.model.ReceptNote;
 
 /**
  *
  * @author phatlee
  */
+public class ReceptNoteDAO implements IDAO<ReceptNote> {
+    public static ReceptNoteDAO getInstance() {
+        return new ReceptNoteDAO();
+    }
 
-public class ObjectDAO implements IDAO<Object>{
     @Override
-    public int insert(Object o) {
+    public int insert(ReceptNote receptNote) {
         int ketqua = 0;
         try {
             Connection con = JDBCUtil.getConnection();
-            String sql = "INSERT INTO object (id, name, status, manufacture, unitprice, id_category) VALUES (?,?,?,?,?,?)";
+            String sql = "INSERT INTO recept_note (id, date, more_info, id_suplierr, id_staff) VALUES (?,?,?,?,?,?)";
             PreparedStatement pst = con.prepareStatement(sql);
-            pst.setString(1, o.getId());
-            pst.setString(2, o.getName());
-            pst.setString(3, o.getStatus());
-            pst.setString(4, o.getManufacturer());
-            pst.setInt(5, o.getUnitPrice());
-            pst.setString(6, o.getIdCategory());
+            pst.setString(1, receptNote.getId());
+            pst.setDate(2, receptNote.getDate());
+            pst.setString(3, receptNote.getMoreInfo());
+            pst.setString(4, receptNote.getIdSuplier());
+            pst.setString(5, receptNote.getIdStaff());
             ketqua = pst.executeUpdate();
             JDBCUtil.closeConnection(con);
         } catch (SQLException e) {
@@ -41,18 +42,18 @@ public class ObjectDAO implements IDAO<Object>{
     }
 
     @Override
-    public int update(Object o) {
+    public int update(ReceptNote receptNote) {
         int ketqua = 0;
         try {
             Connection con = JDBCUtil.getConnection();
-            String sql = "UPDATE object SET name = ?, status = ?, manufacture = ?, unitprice = ?, id_category = ? WHERE id = ?";
+            String sql = "UPDATE recept_note SET date = ?, more_info = ?, id_suplier = ?, id_staff = ? WHERE id = ?";
             PreparedStatement pst = con.prepareStatement(sql);
-            pst.setString(1, o.getName());
-            pst.setString(2, o.getStatus());
-            pst.setString(3, o.getManufacturer());
-            pst.setInt(4, o.getUnitPrice());
-            pst.setString(5, o.getIdCategory());
-            pst.setString(6, o.getId());
+            
+            pst.setDate(1, receptNote.getDate());
+            pst.setString(2, receptNote.getMoreInfo());
+            pst.setString(3, receptNote.getIdSuplier());
+            pst.setString(4, receptNote.getIdStaff());
+            pst.setString(5, receptNote.getId());
             ketqua = pst.executeUpdate();
             JDBCUtil.closeConnection(con);
         } catch (SQLException e) {
@@ -62,13 +63,13 @@ public class ObjectDAO implements IDAO<Object>{
     }
 
     @Override
-    public int delete(Object o) {
+    public int delete(ReceptNote receptNote) {
         int ketqua = 0;
         try {
             Connection con = JDBCUtil.getConnection();
-            String sql = "DELETE FROM object WHERE id = ?";
+            String sql = "DELETE FROM recept_note WHERE id = ?";
             PreparedStatement pst = con.prepareStatement(sql);
-            pst.setString(1, o.getId());
+            pst.setString(1, receptNote.getId());
             ketqua = pst.executeUpdate();
             JDBCUtil.closeConnection(con);
         } catch (SQLException e) {
@@ -78,22 +79,21 @@ public class ObjectDAO implements IDAO<Object>{
     }
 
     @Override
-    public ArrayList<Object> selectAll() {
-        ArrayList<Object> list = new ArrayList<>();
+    public ArrayList<ReceptNote> selectAll() {
+        ArrayList<ReceptNote> list = new ArrayList<>();
         try {
             Connection con = JDBCUtil.getConnection();
-            String sql = "SELECT * FROM object";
+            String sql = "SELECT * FROM recept_note";
             PreparedStatement pst = con.prepareStatement(sql);
             var rs = pst.executeQuery();
             while (rs.next()) {
-                String id = rs.getString("id");
-                String name = rs.getString("name");
-                String status = rs.getString("status");
-                String manufacture = rs.getString("manufacture");
-                int unitPrice = rs.getInt("unitprice");
-                String idCategory = rs.getString("id_category");
-                Object obj = new Object(id, name, status, manufacture, unitPrice, idCategory);
-                list.add(obj);
+                String idReceptNote = rs.getString("id");
+                java.sql.Date date = rs.getDate("date");
+                String moreInfo = rs.getString("more_info");
+                String idSuplier = rs.getString("id_suplier");
+                String idStaff = rs.getString("id_staff");
+                ReceptNote receptNote = new ReceptNote(idReceptNote, date, moreInfo, idSuplier, idStaff);
+                list.add(receptNote);
             }
         } catch (SQLException e) {
             JOptionPane.showMessageDialog(null, "Lỗi truy vấn!", "Error", JOptionPane.ERROR_MESSAGE);
@@ -102,31 +102,31 @@ public class ObjectDAO implements IDAO<Object>{
     }
 
     @Override
-    public Object selectById(String t) {
-        Object obj = null;
+    public ReceptNote selectById(String t) {
+        ReceptNote receptNote = null;
         try {
             Connection con = JDBCUtil.getConnection();
-            String sql = "SELECT * FROM object WHERE id = ?";
+            String sql = "SELECT * FROM recept_note WHERE id = ?";
             PreparedStatement pst = con.prepareStatement(sql);
             pst.setString(1, t);
             var rs = pst.executeQuery();
             while (rs.next()) {
-                String id = rs.getString("id");
-                String name = rs.getString("name");
-                String status = rs.getString("status");
-                String manufacture = rs.getString("manufacture");
-                int unitPrice = rs.getInt("unitprice");
-                String idCategory = rs.getString("id_category");
-                obj = new Object(id, name, status, manufacture, unitPrice, idCategory);
+                String idReceptNote = rs.getString("id");
+                java.sql.Date date = rs.getDate("date");
+                String moreInfo = rs.getString("more_info");
+                String idSuplier = rs.getString("id_suplier");
+                String idStaff = rs.getString("id_staff");
+                receptNote = new ReceptNote(idReceptNote, date, moreInfo, idSuplier, idStaff);
             }
+            
         } catch (SQLException e) {
             JOptionPane.showMessageDialog(null, "Lỗi truy vấn!", "Error", JOptionPane.ERROR_MESSAGE);
         }
-        return obj;
+        return receptNote;
     }
 
     @Override
-    public Object selectbyId(String t, String tt) {
+    public ReceptNote selectbyId(String t, String tt) {
         return null;
     }
 }
