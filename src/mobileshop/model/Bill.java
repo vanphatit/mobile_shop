@@ -1,15 +1,13 @@
 package mobileshop.model;
 
-import java.util.Date;
-
 public class Bill {
     private String id;
-    private Date date;
+    private java.sql.Date date;
     private String status;
     private String idCustomer;
     private String idStaff;
 
-    public Bill(String id, Date date, String status, String idCustomer, String idStaff) {
+    public Bill(String id, java.sql.Date date, String status, String idCustomer, String idStaff) {
         this.id = id;
         this.date = date;
         this.status = status;
@@ -25,11 +23,11 @@ public class Bill {
         this.id = id;
     }
 
-    public Date getDate() {
+    public java.sql.Date getDate() {
         return date;
     }
 
-    public void setDate(Date date) {
+    public void setDate(java.sql.Date date) {
         this.date = date;
     }
 

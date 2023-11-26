@@ -1,23 +1,27 @@
 package mobileshop.model;
 
-import java.util.Date;
+import java.sql.Date;
 
 public class Staff {
     private String id;
     private String name;
+    private String password;
     private String address;
     private Boolean gender;
-    private Date birthday;
+    private java.sql.Date birthday;
     private int phone;
+    private Boolean role;
     private String idShift;
 
-    public Staff(String id, String name, String address, Boolean gender, Date birthday, int phone, String idShift) {
+    public Staff(String id, String name, String password, String address, Boolean gender, Date birthday, int phone, Boolean role, String idShift) {
         this.id = id;
         this.name = name;
+        this.password = password;
         this.address = address;
         this.gender = gender;
         this.birthday = birthday;
         this.phone = phone;
+        this.role = role;
         this.idShift = idShift;
     }
 
@@ -35,6 +39,14 @@ public class Staff {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 
     public String getAddress() {
@@ -67,6 +79,14 @@ public class Staff {
 
     public void setPhone(int phone) {
         this.phone = phone;
+    }
+
+    public Boolean getRole() {
+        return role;
+    }
+
+    public void setRole(Boolean role) {
+        this.role = role;
     }
 
     public String getIdShift() {

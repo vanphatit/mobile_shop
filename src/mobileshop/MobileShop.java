@@ -5,10 +5,11 @@
 package mobileshop;
 
 import java.sql.Connection;
-import mobileshop.dao.UserDAO;
+import mobileshop.dao.StaffDAO;
 
 import mobileshop.db.JDBCUtil;
-import mobileshop.model.Users;
+import mobileshop.model.Staff;
+
 
 /**
  *
@@ -26,8 +27,7 @@ public class MobileShop {
         } else {
             System.out.println("Connect failed!");
         }
-        Users user = UserDAO.getInstance().selectById("ST01");
-        System.out.println(user.getIdStaff() + " " + user.getPassword() + " " + user.getIdRole());
+        Staff staff = StaffDAO.getInstance().selectById("ST01");
+        System.out.println(staff.getName() + " " + staff.getRole());
     }
-    
 }

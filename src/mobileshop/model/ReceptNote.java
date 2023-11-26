@@ -1,18 +1,20 @@
 package mobileshop.model;
 
-import java.util.Date;
+import java.sql.Date;
 
 public class ReceptNote {
     private String id;
-    private Date date;
+    private java.sql.Date date;
     private String moreInfo;
     private String idSuplier;
+    private String idStaff;
 
-    public ReceptNote(String id, Date date, String moreInfo, String idSuplier) {
+    public ReceptNote(String id, Date date, String moreInfo, String idSuplier, String idStaff) {
         this.id = id;
         this.date = date;
         this.moreInfo = moreInfo;
         this.idSuplier = idSuplier;
+        this.idStaff = idStaff;
     }
 
     public String getId() {
@@ -23,11 +25,11 @@ public class ReceptNote {
         this.id = id;
     }
 
-    public Date getDate() {
+    public java.sql.Date getDate() {
         return date;
     }
 
-    public void setDate(Date date) {
+    public void setDate(java.sql.Date date) {
         this.date = date;
     }
 
@@ -45,5 +47,13 @@ public class ReceptNote {
 
     public void setIdSuplier(String idSuplier) {
         this.idSuplier = idSuplier;
+    }
+
+    public String getIdStaff() {
+        return idStaff;
+    }
+
+    public void setIdStaff(String idStaff) {
+        this.idStaff = idStaff;
     }
 }

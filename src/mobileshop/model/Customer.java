@@ -1,17 +1,15 @@
 package mobileshop.model;
 
-import java.util.Date;
-
 public class Customer {
     private String id;
     private String name;
     private String address;
     private Boolean gender;
-    private Date birthday;
+    private java.sql.Date birthday;
     private int phone;
     private String idCategory;
 
-    public Customer(String id, String name, String address, Boolean gender, Date birthday, int phone, String idCategory) {
+    public Customer(String id, String name, String address, Boolean gender, java.sql.Date birthday, int phone, String idCategory) {
         this.id = id;
         this.name = name;
         this.address = address;
@@ -55,11 +53,11 @@ public class Customer {
         this.gender = gender;
     }
 
-    public Date getBirthday() {
+    public java.sql.Date getBirthday() {
         return birthday;
     }
 
-    public void setBirthday(Date birthday) {
+    public void setBirthday(java.sql.Date birthday) {
         this.birthday = birthday;
     }
 
