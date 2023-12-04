@@ -1,4 +1,4 @@
-package mobileshop.view.login;
+package mobileshop.view.UI;
 
 import mobileshop.view.component.PanelCoverLogin;
 import mobileshop.view.component.PanelLogin;

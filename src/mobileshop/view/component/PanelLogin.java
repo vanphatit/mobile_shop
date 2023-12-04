@@ -13,8 +13,8 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import mobileshop.controller.LoginController;
-import mobileshop.view.login.home;
-import mobileshop.view.login.login;
+import mobileshop.view.UI.home;
+import mobileshop.view.UI.login;
 import net.miginfocom.swing.MigLayout;
 
 public class PanelLogin extends javax.swing.JLayeredPane {

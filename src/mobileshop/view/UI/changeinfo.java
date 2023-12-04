@@ -1,4 +1,4 @@
-package mobileshop.view.login;
+package mobileshop.view.UI;
 
 import java.awt.Color;
 import java.awt.Cursor;
@@ -38,17 +38,11 @@ public class changeinfo extends javax.swing.JFrame {
         info.setFont(new Font("sansserif", 1, 14));
         pass.setFont(new Font("sansserif", 1, 14));
         
-        info.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                change.showChange(false);
-            }
+        info.addActionListener((ActionEvent e) -> {
+            change.showChange(false);
         });
-        pass.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                change.showChange(true);
-            }
+        pass.addActionListener((ActionEvent e) -> {
+            change.showChange(true);
         });
         
         menu = new JMenuBar();
