@@ -5,6 +5,8 @@ import java.awt.Font;
 import java.awt.GradientPaint;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import javax.swing.Icon;
+import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import net.miginfocom.swing.MigLayout;
 
@@ -12,6 +14,7 @@ public class PanelCoverLogin extends javax.swing.JPanel {
 
     private MigLayout layout;
     private JLabel title;
+    private JLabel icon;
     
     public PanelCoverLogin() {
         initComponents();
@@ -25,6 +28,9 @@ public class PanelCoverLogin extends javax.swing.JPanel {
         title = new JLabel("Welcome Back!");
         title.setFont(new Font("sansserif", 1, 30));
         title.setForeground(new Color(245, 245, 245));
+        icon = new JLabel();
+        icon.setIcon(new ImageIcon(getClass().getResource("/mobileshop/assets/icon/user1.png")));
+        add(icon);
         add(title);
     }
     

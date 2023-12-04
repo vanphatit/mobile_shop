@@ -9,7 +9,7 @@ import mobileshop.dao.StaffDAO;
 
 import mobileshop.db.JDBCUtil;
 import mobileshop.model.Staff;
-import mobileshop.view.login.login;
+import mobileshop.view.UI.login;
 
 
 /**
