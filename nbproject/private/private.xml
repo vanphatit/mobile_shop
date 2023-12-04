@@ -3,10 +3,9 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/D:/OneDrive/Documents/myProject/MobileShop/src/mobileshop/MobileShop.java</file>
-            <file>file:/D:/OneDrive/Documents/myProject/MobileShop/src/mobileshop/dao/SuplierDAO.java</file>
-            <file>file:/D:/OneDrive/Documents/myProject/MobileShop/src/mobileshop/dao/ObjectDAO.java</file>
-            <file>file:/D:/OneDrive/Documents/myProject/MobileShop/src/mobileshop/dao/ReceptNoteDetailDAO.java</file>
+            <file>file:/D:/CSDL/mobile_shop/src/mobileshop/view/login/changeinfo.java</file>
+            <file>file:/D:/CSDL/mobile_shop/src/mobileshop/view/login/login.java</file>
+            <file>file:/D:/CSDL/mobile_shop/src/mobileshop/view/login/home.java</file>
         </group>
     </open-files>
 </project-private>

@@ -9,6 +9,7 @@ import mobileshop.dao.StaffDAO;
 
 import mobileshop.db.JDBCUtil;
 import mobileshop.model.Staff;
+import mobileshop.view.login.login;
 
 
 /**
@@ -29,5 +30,8 @@ public class MobileShop {
         }
         Staff staff = StaffDAO.getInstance().selectById("ST01");
         System.out.println(staff.getName() + " " + staff.getRole());
+        login login = new login();
+        login.setVisible(true);
+       
     }
 }
