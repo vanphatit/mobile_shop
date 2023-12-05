@@ -70,6 +70,15 @@ public class PanelLogin extends javax.swing.JLayeredPane {
                 }
             }
         });
+
+        btnForget.addActionListener(new ActionListener()
+        {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                LoginController.getInstance().updatePassword(txtUser.getText(),
+                        String.valueOf(txtPass.getPassword()));
+            }
+        });
     }
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents

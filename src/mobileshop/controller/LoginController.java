@@ -42,4 +42,23 @@ public class LoginController {
         }
         return false;
     }
+
+    public void updatePassword(String user, String password) {
+        if(user.equals("") || password.equals("")) {
+            JOptionPane.showMessageDialog(null,"Vui lòng nhập đầy đủ !", "Cảnh báo !", JOptionPane.WARNING_MESSAGE);
+        } else {
+            try {
+                Staff acc = StaffDAO.getInstance().selectById(user);
+                if (acc == null) {
+                    JOptionPane.showMessageDialog(null, "Tài khoản không tồn tại trên hệ thống !", "Cảnh báo !", JOptionPane.WARNING_MESSAGE);
+                } else {
+                    acc.setPassword(password);
+                    StaffDAO.getInstance().update(acc);
+                    JOptionPane.showMessageDialog(null, "Đổi mật khẩu thành công!");
+                }
+            } catch (Exception e) {
+                JOptionPane.showMessageDialog(null, "Sai mật khẩu !", "Cảnh báo !", JOptionPane.WARNING_MESSAGE);
+            }
+        }
+    }
 }
