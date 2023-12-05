@@ -7,9 +7,14 @@ import mobileshop.view.swing.MyTextField;
 import java.awt.Color;
 import java.awt.Cursor;
 import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
+import mobileshop.controller.LoginController;
+import mobileshop.view.UI.home;
+import mobileshop.view.UI.login;
 import net.miginfocom.swing.MigLayout;
 
 public class PanelLogin extends javax.swing.JLayeredPane {
@@ -38,19 +43,33 @@ public class PanelLogin extends javax.swing.JLayeredPane {
         txtPass.setHint("Password: ");
         login.add(txtPass, "wrap, width 60%");
         
-        JButton cmdForget = new JButton("Forgot your password ?");
-        cmdForget.setForeground(new Color(100, 100, 100));
-        cmdForget.setFont(new Font("sansserif", 1, 12));
-        cmdForget.setContentAreaFilled(false);
-        cmdForget.setBorderPainted(false);
-        cmdForget.setCursor(new Cursor(Cursor.HAND_CURSOR));
-        login.add(cmdForget);
+        JButton btnForget = new JButton("Forgot your password ?");
+        btnForget.setForeground(new Color(100, 100, 100));
+        btnForget.setFont(new Font("sansserif", 1, 12));
+        btnForget.setContentAreaFilled(false);
+        btnForget.setBorderPainted(false);
+        btnForget.setCursor(new Cursor(Cursor.HAND_CURSOR));
+        login.add(btnForget);
         
-        Button cmd = new Button();
-        cmd.setBackground(new Color(7, 164, 121));
-        cmd.setForeground(new Color(250, 250, 250));
-        cmd.setText("SIGN IN");
-        login.add(cmd, "w 40%, h 40");
+        Button btnLogin = new Button();
+        btnLogin.setBackground(new Color(7, 164, 121));
+        btnLogin.setForeground(new Color(250, 250, 250));
+        btnLogin.setText("SIGN IN");
+        login.add(btnLogin, "w 40%, h 40");
+        
+        btnLogin.addActionListener(new ActionListener()
+        {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if(LoginController.getInstance().checkLogin(txtUser.getText(), 
+                        String.valueOf(txtPass.getPassword())))
+                {
+                    login.setVisible(false);
+                    home mainLayout = new home();
+                    mainLayout.setVisible(true);
+                }
+            }
+        });
     }
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents

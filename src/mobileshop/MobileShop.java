@@ -28,10 +28,7 @@ public class MobileShop {
         } else {
             System.out.println("Connect failed!");
         }
-        Staff staff = StaffDAO.getInstance().selectById("ST01");
-        System.out.println(staff.getName() + " " + staff.getRole());
         login login = new login();
         login.setVisible(true);
-       
     }
 }
