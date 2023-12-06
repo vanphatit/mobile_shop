@@ -1,14 +1,21 @@
 package mobileshop.view.UI;
 
-import mobileshop.view.component.PanelChangeinfo;
+import com.raven.swing.Button;
+import com.raven.swing.MyPasswordField;
+import java.awt.Color;
+import java.awt.Font;
+import javax.swing.ImageIcon;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
 import mobileshop.view.component.PanelCoverChangeinfo;
+import mobileshop.view.swing.MyTextField;
 import net.miginfocom.swing.MigLayout;
 
 public class changeinfo extends javax.swing.JFrame {
 
     private MigLayout layout;
     private PanelCoverChangeinfo cover;
-    private PanelChangeinfo change;
+    private JPanel change;
     
     public changeinfo() {
         setTitle("Thay đổi mật khẩu");
@@ -20,7 +27,34 @@ public class changeinfo extends javax.swing.JFrame {
     {
         layout = new MigLayout("fill, insets 0");
         cover = new PanelCoverChangeinfo();
-        change = new PanelChangeinfo();
+        change = new JPanel();
+        change.setBackground(new Color(255, 255, 255));
+        
+        change.setLayout(new MigLayout("wrap", "push[center]push", "5[]25[]25[]20[]30"));
+
+        JLabel user = new JLabel("Nhập tên người dùng: ");
+        user.setForeground(new Color(100, 100, 100));
+        user.setFont(new Font("sansserif", 1, 14));
+        change.add(user, "w 60%");
+        MyTextField txtInfo = new MyTextField();
+        txtInfo.setPrefixIcon(new ImageIcon(getClass().getResource("/mobileshop/assets/icon/user.png")));
+        txtInfo.setHint("Username: ");
+        change.add(txtInfo, "wrap, width 60%");
+        
+        JLabel password = new JLabel("Nhập mật khẩu của bạn: ");
+        password.setForeground(new Color(100, 100, 100));
+        password.setFont(new Font("sansserif", 1, 14));
+        change.add(password, "w 60%");
+        MyPasswordField txtPass = new MyPasswordField();
+        txtPass.setPrefixIcon(new ImageIcon(getClass().getResource("/mobileshop/assets/icon/pass.png")));
+        txtPass.setHint("New Password: ");
+        change.add(txtPass, "wrap, width 60%");
+        
+        Button cmd = new Button();
+        cmd.setBackground(new Color(7, 164, 121));
+        cmd.setForeground(new Color(250, 250, 250));
+        cmd.setText("Lưu thay đổi");
+        change.add(cmd, "w 40%, h 40");
         
         bg.setLayout(layout);
         bg.add(cover, "height 20%, width 100%, wrap");
