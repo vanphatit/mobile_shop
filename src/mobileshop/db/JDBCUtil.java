@@ -14,7 +14,7 @@ public class JDBCUtil {
         Connection connection = null;
         final String url = "jdbc:mysql://localhost:3306/mobile_shop";
         final String user = "root";
-        final String password = "1492004";
+        final String password = "3110@duyHuynh";
         try {
             Class.forName("com.mysql.jdbc.Driver"); // load driver
             connection = DriverManager.getConnection(url, user, password);
