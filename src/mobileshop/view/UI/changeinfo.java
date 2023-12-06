@@ -7,6 +7,8 @@ import java.awt.Font;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+
+import mobileshop.controller.LoginController;
 import mobileshop.view.component.PanelCoverChangeinfo;
 import mobileshop.view.swing.MyTextField;
 import net.miginfocom.swing.MigLayout;
@@ -50,16 +52,23 @@ public class changeinfo extends javax.swing.JFrame {
         txtPass.setHint("New Password: ");
         change.add(txtPass, "wrap, width 60%");
         
-        Button cmd = new Button();
-        cmd.setBackground(new Color(7, 164, 121));
-        cmd.setForeground(new Color(250, 250, 250));
-        cmd.setText("Lưu thay đổi");
-        change.add(cmd, "w 40%, h 40");
+        Button btnReset = new Button();
+        btnReset.setBackground(new Color(7, 164, 121));
+        btnReset.setForeground(new Color(250, 250, 250));
+        btnReset.setText("Lưu thay đổi");
+        change.add(btnReset, "w 40%, h 40");
         
         bg.setLayout(layout);
         bg.add(cover, "height 20%, width 100%, wrap");
         bg.add(change, "height 80%, width 100%");
-        
+
+        btnReset.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                if(LoginController.getInstance().updatePassword(txtInfo.getText(), txtPass.getText())) {
+                    dispose();
+                }
+            }
+        });
     }
     
     
@@ -98,12 +107,6 @@ public class changeinfo extends javax.swing.JFrame {
         pack();
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
-
-    public static void main(String args[]) {
-        java.awt.EventQueue.invokeLater(() -> {
-            new changeinfo().setVisible(true);
-        });
-    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel bg;

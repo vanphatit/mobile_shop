@@ -7,6 +7,7 @@ import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Insets;
 import java.awt.Panel;
+<<<<<<< HEAD
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -15,6 +16,9 @@ import javax.swing.JMenuBar;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
+=======
+import javax.swing.*;
+>>>>>>> 39cd6cbabb2497306b112562b3819d230806725c
 import javax.swing.border.LineBorder;
 import mobileshop.view.component.PanelCoverHome;
 import mobileshop.view.component.PanelSuplier;
@@ -60,7 +64,12 @@ public class home extends javax.swing.JFrame {
 
         bg.add(cover, "width 20%, pos 0al 0 n 100%");
         bg.add(main, "width 78%, pos 1al 0 n 100%");
+<<<<<<< HEAD
 
+=======
+//        main.add(product, "w 100%, h 100%, wrap");
+        
+>>>>>>> 39cd6cbabb2497306b112562b3819d230806725c
         // <editor-fold defaultstate="collapsed" desc="Home">
         JButton object = new JButton();
         object.setFont(new Font("sansserif", 1, fontSize));
@@ -72,7 +81,11 @@ public class home extends javax.swing.JFrame {
         object.setIcon(new ImageIcon(getClass().getResource("/mobileshop/assets/icon/icons8_product_25px_2.png")));
         object.setHorizontalAlignment(SwingConstants.LEFT);
         cover.add(object, "w 100%");
+<<<<<<< HEAD
 
+=======
+        
+>>>>>>> 39cd6cbabb2497306b112562b3819d230806725c
         JButton suplier = new JButton();
         suplier.setFont(new Font("sansserif", 1, fontSize));
         suplier.setForeground(new Color(245, 245, 245));
@@ -83,7 +96,11 @@ public class home extends javax.swing.JFrame {
         suplier.setIcon(new ImageIcon(getClass().getResource("/mobileshop/assets/icon/icons8_supplier_25px.png")));
         suplier.setHorizontalAlignment(SwingConstants.LEFT);
         cover.add(suplier, "w 100%");
+<<<<<<< HEAD
 
+=======
+        
+>>>>>>> 39cd6cbabb2497306b112562b3819d230806725c
         JButton customer = new JButton();
         customer.setFont(new Font("sansserif", 1, fontSize));
         customer.setForeground(new Color(245, 245, 245));
@@ -94,7 +111,11 @@ public class home extends javax.swing.JFrame {
         customer.setIcon(new ImageIcon(getClass().getResource("/mobileshop/assets/icon/customer_25px.png")));
         customer.setHorizontalAlignment(SwingConstants.LEFT);
         cover.add(customer, "w 100%");
+<<<<<<< HEAD
 
+=======
+        
+>>>>>>> 39cd6cbabb2497306b112562b3819d230806725c
         JButton staff = new JButton();
         staff.setFont(new Font("sansserif", 1, fontSize));
         staff.setForeground(new Color(245, 245, 245));
@@ -105,7 +126,11 @@ public class home extends javax.swing.JFrame {
         staff.setIcon(new ImageIcon(getClass().getResource("/mobileshop/assets/icon/staff_25px.png")));
         staff.setHorizontalAlignment(SwingConstants.LEFT);
         cover.add(staff, "w 100%");
+<<<<<<< HEAD
 
+=======
+        
+>>>>>>> 39cd6cbabb2497306b112562b3819d230806725c
         JButton receipt_note = new JButton();
         receipt_note.setFont(new Font("sansserif", 1, fontSize));
         receipt_note.setForeground(new Color(245, 245, 245));
@@ -116,7 +141,11 @@ public class home extends javax.swing.JFrame {
         receipt_note.setIcon(new ImageIcon(getClass().getResource("/mobileshop/assets/icon/icons8_add_file_25px_2.png")));
         receipt_note.setHorizontalAlignment(SwingConstants.LEFT);
         cover.add(receipt_note, "w 100%");
+<<<<<<< HEAD
 
+=======
+        
+>>>>>>> 39cd6cbabb2497306b112562b3819d230806725c
         JButton bill = new JButton();
         bill.setFont(new Font("sansserif", 1, fontSize));
         bill.setForeground(new Color(245, 245, 245));
@@ -127,7 +156,11 @@ public class home extends javax.swing.JFrame {
         bill.setIcon(new ImageIcon(getClass().getResource("/mobileshop/assets/icon/bill_25px.png")));
         bill.setHorizontalAlignment(SwingConstants.LEFT);
         cover.add(bill, "w 100%");
+<<<<<<< HEAD
 
+=======
+        
+>>>>>>> 39cd6cbabb2497306b112562b3819d230806725c
         JButton statistics = new JButton();
         statistics.setFont(new Font("sansserif", 1, fontSize));
         statistics.setForeground(new Color(245, 245, 245));
@@ -138,7 +171,11 @@ public class home extends javax.swing.JFrame {
         statistics.setIcon(new ImageIcon(getClass().getResource("/mobileshop/assets/icon/statisticals.png")));
         statistics.setHorizontalAlignment(SwingConstants.LEFT);
         cover.add(statistics, "w 100%");
+<<<<<<< HEAD
 
+=======
+        
+>>>>>>> 39cd6cbabb2497306b112562b3819d230806725c
         JButton change_info = new JButton();
         change_info.setFont(new Font("sansserif", 1, fontSize));
         change_info.setForeground(new Color(245, 245, 245));
@@ -149,7 +186,11 @@ public class home extends javax.swing.JFrame {
         change_info.setIcon(new ImageIcon(getClass().getResource("/mobileshop/assets/icon/icons8-information-25.png")));
         change_info.setHorizontalAlignment(SwingConstants.LEFT);
         cover.add(change_info, "w 100%");
+<<<<<<< HEAD
 
+=======
+        
+>>>>>>> 39cd6cbabb2497306b112562b3819d230806725c
         JButton logout = new JButton();
         logout.setFont(new Font("sansserif", 1, fontSize));
         logout.setForeground(new Color(245, 245, 245));
@@ -168,6 +209,7 @@ public class home extends javax.swing.JFrame {
                 source.setBackground(new Color(0, 255, 213));
 
                 main.removeAll();
+<<<<<<< HEAD
                 main.add(Product, "w 100%, h 100% , wrap");
                 main.revalidate();
             }
@@ -222,6 +264,31 @@ public class home extends javax.swing.JFrame {
                 logout.setForeground(DEFAULT_FOREGROUND);
                 logout.setBackground(DEFAULT_BACKGROUND);
             }
+=======
+                main.add(product, "w 100%, h 100% , wrap");
+                main.revalidate();
+            }
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                object.setForeground(HOVER_FOREGROUND);
+                object.setBackground(HOVER_BACKGROUND);
+                suplier.setForeground(DEFAULT_FOREGROUND);
+                suplier.setBackground(DEFAULT_BACKGROUND);
+                customer.setForeground(DEFAULT_FOREGROUND);
+                customer.setBackground(DEFAULT_BACKGROUND);
+                staff.setForeground(DEFAULT_FOREGROUND);
+                staff.setBackground(DEFAULT_BACKGROUND);
+                receipt_note.setForeground(DEFAULT_FOREGROUND);
+                receipt_note.setBackground(DEFAULT_BACKGROUND);
+                bill.setForeground(DEFAULT_FOREGROUND);
+                bill.setBackground(DEFAULT_BACKGROUND);
+                statistics.setForeground(DEFAULT_FOREGROUND);
+                statistics.setBackground(DEFAULT_BACKGROUND);
+                change_info.setForeground(DEFAULT_FOREGROUND);
+                change_info.setBackground(DEFAULT_BACKGROUND);
+                logout.setForeground(DEFAULT_FOREGROUND);
+                logout.setBackground(DEFAULT_BACKGROUND);
+            }
+>>>>>>> 39cd6cbabb2497306b112562b3819d230806725c
         });
         // </editor-fold>
 
