@@ -20,7 +20,7 @@ import net.miginfocom.swing.MigLayout;
 public class PanelCoverFeature extends javax.swing.JPanel {
 
     private MigLayout layout;
-    private int fontSize = 10;
+    private int fontSize = 14;
     private JMenuBar feature;
     private JLabel title;
     

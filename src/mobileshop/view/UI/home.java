@@ -34,7 +34,6 @@ public class home extends javax.swing.JFrame {
         bg.add(cover, "width 20%, height 100%");
         bg.add(feature, "width 30%, height 14%, top");
         bg.add(search, "width 50%, height 14%, top");
-        bg.add(product, "dock south, pushy, growy, w 80%, h 100%");
     }
     
     @SuppressWarnings("unchecked")
@@ -73,15 +72,7 @@ public class home extends javax.swing.JFrame {
         pack();
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
-    
-    public static void main(String args[]) {
-        java.awt.EventQueue.invokeLater(() -> {
-            new home().setVisible(true);
-        });
-    }
 
-    
-    
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLayeredPane bg;
     // End of variables declaration//GEN-END:variables
