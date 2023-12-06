@@ -11,7 +11,6 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import mobileshop.view.component.PanelCoveEditItem;
-import mobileshop.view.component.PanelEditItem;
 import net.miginfocom.swing.MigLayout;
 
 public class editItem extends javax.swing.JFrame {
