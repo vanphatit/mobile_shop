@@ -4,7 +4,6 @@ import com.raven.swing.Button;
 import java.awt.Color;
 import java.awt.Cursor;
 import static java.awt.Cursor.HAND_CURSOR;
-import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.GradientPaint;
 import java.awt.Graphics;
@@ -12,30 +11,51 @@ import java.awt.Graphics2D;
 import java.awt.event.ActionEvent;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
-import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JMenuBar;
-import javax.swing.JTextField;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
 import javax.swing.SwingConstants;
-import javax.swing.border.LineBorder;
-import mobileshop.view.swing.MyTextField;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.JTableHeader;
 import net.miginfocom.swing.MigLayout;
 
-public class PanelCoverSearch extends javax.swing.JPanel {
+public class PanelCoverSuplier extends javax.swing.JPanel {
 
     private MigLayout layout;
-    private int fontSize = 14;
-    private JLabel title;
+    private JLabel title1;
+    private JLabel title2;
+    private int fontSize = 16;
+    private JTable suplier;
+    private JScrollPane scrollPane;
     
-    public PanelCoverSearch() {
+    public PanelCoverSuplier() {
         initComponents();
         setOpaque(false);
-        layout = new MigLayout("wrap 3", "[grow]10[grow]10[grow]", "push[center]push");
+        layout = new MigLayout("wrap");
         setLayout(layout);
         init();
+        setVisible(true);
     }
     
     private void init() {
+        Object[][] data = {
+                {"S001", "Apple", "0123456789", "Còn cung cấp"},
+                {"S001", "Apple", "0123456789", "Còn cung cấp"},
+                {"S001", "Apple", "0123456789", "Còn cung cấp"}
+        };
+        String[] columnNames = {"Mã nhà cung cấp", "Tên nhà cung cấp", "Số điện thoại", "Trạng thái"};
+        
+        DefaultTableModel model = new DefaultTableModel(data, columnNames);
+        suplier = new JTable(model);
+        scrollPane = new JScrollPane(suplier);
+        scrollPane.setViewportView(suplier);
+        scrollPane.setBackground(new Color(255, 255, 255));
+        scrollPane.setForeground(new Color(100, 100, 100));
+        scrollPane.setFont(new Font("sansserif", 1, fontSize));
+        suplier.setForeground(new Color(100, 100, 100));
+        suplier.setFont(new Font("sansserif", 1, fontSize));
+        add(scrollPane, "w 100%, h 100%");
         
     }
     

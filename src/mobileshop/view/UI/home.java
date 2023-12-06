@@ -5,15 +5,21 @@ import java.awt.Cursor;
 import static java.awt.Cursor.HAND_CURSOR;
 import java.awt.Dimension;
 import java.awt.Font;
+import java.awt.Insets;
 import java.awt.Panel;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JLabel;
+import javax.swing.JMenuBar;
+import javax.swing.JPanel;
 import javax.swing.SwingConstants;
+import javax.swing.border.LineBorder;
 import mobileshop.view.component.PanelCoverHome;
-import mobileshop.view.component.PanelCoverFeature;
-import mobileshop.view.component.PanelCoverSearch;
 import mobileshop.view.component.PanelCoverProduct;
+import mobileshop.view.component.PanelCoverSuplier;
+import mobileshop.view.component.PanelProduct;
+import mobileshop.view.swing.MyTextField;
 
 import net.miginfocom.swing.MigLayout;
 
@@ -22,15 +28,8 @@ public class home extends javax.swing.JFrame {
 
     private MigLayout layout;
     private PanelCoverHome cover;
-    private PanelCoverFeature feature;
-    private PanelCoverSearch search;
-    private PanelCoverProduct product;
-    private Panel panelProduct;
-    private Panel panelSuplier;
-    private Panel fsPanel;
-    private Panel producTable;
-    private Panel featurePanel;
-    private Panel searchPanel;
+    private PanelProduct product;
+    private JPanel main;
     private int fontSize = 16;
    
     
@@ -42,20 +41,13 @@ public class home extends javax.swing.JFrame {
 
     private void init()
     {
-        layout = new MigLayout("fill, insets 0");
+       layout = new MigLayout("fill, insets 0");
         cover = new PanelCoverHome();
-        feature = new PanelCoverFeature();
-        search = new PanelCoverSearch();
-        product = new PanelCoverProduct();
-        panelProduct = new Panel();
-        panelSuplier = new Panel();
-        panelProduct.setVisible(false);
-        panelSuplier.setVisible(false);
-        producTable = new Panel();
-        fsPanel = new Panel();
-        featurePanel = new Panel();
-        searchPanel = new Panel();
+        product = new PanelProduct();
+        main = new JPanel();
+        main.setBackground(new Color(255,255,255));
         
+        // <editor-fold defaultstate="collapsed" desc="Home"> 
         Dimension containerSize = bg.getSize();
         int newWidth = (int) (containerSize.width * 0.19);
         JButton object = new JButton();
@@ -192,7 +184,6 @@ public class home extends javax.swing.JFrame {
                 JButton source = (JButton) evt.getSource();
                 source.setForeground(new Color(0,0,0));
                 source.setBackground(new Color(0, 255, 213));
-                panelProduct.setVisible(true);
             }
         });
         object.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -214,6 +205,14 @@ public class home extends javax.swing.JFrame {
         });
         suplier.addMouseListener(new java.awt.event.MouseAdapter() {
             @Override
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                JButton source = (JButton) evt.getSource();
+                source.setForeground(new Color(0,0,0));
+                source.setBackground(new Color(0, 255, 213));
+            }
+        });
+        suplier.addMouseListener(new java.awt.event.MouseAdapter() {
+            @Override
             public void mouseExited(java.awt.event.MouseEvent evt) {
                 JButton source = (JButton) evt.getSource();
                 source.setForeground(new Color(245, 245, 245));
@@ -356,24 +355,14 @@ public class home extends javax.swing.JFrame {
                 source.setBackground(new Color(7, 164, 121));
             }
         });
+        // </editor-fold> 
         
         bg.setLayout(new MigLayout("wrap", "[Left]", "150[]10[]10[]10[]10[]10[]10[]10[]push[]10[]10[]push"));
-        panelProduct.setLayout(layout);
-        producTable.setLayout(new MigLayout("wrap", "push[center]push"));
-        fsPanel.setLayout(new MigLayout("wrap", "push[center]push"));
+        main.setLayout(layout);
         
-        bg.add(cover, "width 19%, pos 0al 0 n 100%");
-        bg.add(panelProduct, "width 80%, pos 1al 0 n 100%");
-        bg.add(panelSuplier, "width 80%, pos 1al 0 n 100%");
-        panelProduct.add(fsPanel, "height 15%, width 100%, wrap");
-        panelProduct.add(producTable, "height 85%, width 100%, wrap");
-        panelSuplier.add(fsPanel, "height 15%, width 100%, wrap");
-        panelSuplier.add(producTable, "height 85%, width 100%, wrap");
-        fsPanel.add(feature, "width 50%, pos 0al 0 n 100%");
-        fsPanel.add(search, "width 50%, pos 1al 0 n 100%");
-        producTable.add(product, "w 100%, h 100%, top");
-        panelSuplier.add(suplier, "w 100%, h 100%, top");
-        
+        bg.add(cover, "width 20%, pos 0al 0 n 100%");
+        bg.add(main, "width 80%, pos 1al 0 n 100%");
+        main.add(product, "w 100%, h 100%, wrap");
     }
     
     @SuppressWarnings("unchecked")
