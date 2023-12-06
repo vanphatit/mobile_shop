@@ -30,7 +30,7 @@ public class PanelCoverSearch extends javax.swing.JPanel {
     public PanelCoverSearch() {
         initComponents();
         setOpaque(false);
-        layout = new MigLayout("wrap 3", "[grow]10[grow]10[grow]");
+        layout = new MigLayout("wrap 3", "[grow]10[grow]10[grow]", "push[center]push");
         setLayout(layout);
         init();
     }
@@ -48,7 +48,7 @@ public class PanelCoverSearch extends javax.swing.JPanel {
         area.setCursor(Cursor.getPredefinedCursor(HAND_CURSOR));
         area.addItem("Tất cả");
         area.setBorder(null);
-        add(area, "w 30%, h 100%");
+        add(area, "w 30%, h 35%");
         
         MyTextField text = new MyTextField();
         text.setFont(new Font("sansserif", 1, fontSize));
@@ -56,7 +56,7 @@ public class PanelCoverSearch extends javax.swing.JPanel {
         text.setBackground(new Color(255, 255, 255));
         text.setCursor(Cursor.getPredefinedCursor(HAND_CURSOR));
         text.setBorder(new LineBorder(new Color(0, 0, 0)));
-        add(text, "w 50%, h 100%");
+        add(text, "w 50%, h 35%");
         
         JButton reload = new JButton();
         reload.setFont(new Font("sansserif", 1, fontSize));
@@ -66,7 +66,7 @@ public class PanelCoverSearch extends javax.swing.JPanel {
         reload.setText("Làm mới");
         reload.setBorder(new LineBorder(new Color(0,0,0)));
         reload.setIcon(new ImageIcon(getClass().getResource("/mobileshop/assets/icon/icons8_reset_25px_1.png")));
-        add(reload, "w 20%, h 100%");
+        add(reload, "w 20%, h 35%");
     }
     
     

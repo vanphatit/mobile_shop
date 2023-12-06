@@ -13,9 +13,11 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JMenuBar;
+import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.SwingConstants;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.JTableHeader;
 import net.miginfocom.swing.MigLayout;
 
 public class PanelCoverProduct extends javax.swing.JPanel {
@@ -25,6 +27,7 @@ public class PanelCoverProduct extends javax.swing.JPanel {
     private JLabel title2;
     private int fontSize = 16;
     private JTable product;
+    private JScrollPane scrollPane;
     
     public PanelCoverProduct() {
         initComponents();
@@ -32,20 +35,28 @@ public class PanelCoverProduct extends javax.swing.JPanel {
         layout = new MigLayout("wrap");
         setLayout(layout);
         init();
+        setVisible(true);
     }
     
     private void init() {
-        DefaultTableModel model = new DefaultTableModel();
+        Object[][] data = {
+                {"OJ01", "IPhone", "Còn hàng", "Apple", "32000000", "OJC01"},
+                {"OJ01", "IPhone", "Còn hàng", "Apple", "32000000", "OJC01"},
+                {"OJ01", "IPhone", "Còn hàng", "Apple", "32000000", "OJC01"},
+                {"OJ01", "IPhone", "Còn hàng", "Apple", "32000000", "OJC01"}
+        };
+        String[] columnNames = {"Mã sản phẩm", "Tên sản phẩm", "Trạng thái", "Nhà sản xuất", "Giá thành", "Mã loại sản phẩm"};
+        
+        DefaultTableModel model = new DefaultTableModel(data, columnNames);
         product = new JTable(model);
-        
-        model.addColumn("Mã sản phẩm");
-        model.addColumn("Tên sản phẩm");
-        model.addColumn("Trạng thái");
-        model.addColumn("Nhà sản xuất");
-        model.addColumn("Giá thành");
-        model.addColumn("Mã loại sản phẩm");
-        
-        add(product, "w 100%, h 100%");
+        scrollPane = new JScrollPane(product);
+        scrollPane.setViewportView(product);
+        scrollPane.setBackground(new Color(255, 255, 255));
+        scrollPane.setForeground(new Color(100, 100, 100));
+        scrollPane.setFont(new Font("sansserif", 1, fontSize));
+        product.setForeground(new Color(100, 100, 100));
+        product.setFont(new Font("sansserif", 1, fontSize));
+        add(scrollPane, "w 100%, h 100%");
         
     }
     
