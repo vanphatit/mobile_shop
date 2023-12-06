@@ -12,17 +12,17 @@ import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
-import mobileshop.view.component.PanelCoveAddItem;
+import mobileshop.view.component.PanelCoverAddItem;
 import net.miginfocom.swing.MigLayout;
 
 public class addItem extends javax.swing.JFrame {
 
     private MigLayout layout;
-    private PanelCoveAddItem cover;
+    private PanelCoverAddItem cover;
     private JPanel addPanel;
     private int fonsize = 14;
 
-    public addItem(MigLayout layout, PanelCoveAddItem cover, JPanel addPanel, JPanel bg) throws HeadlessException {
+    public addItem(MigLayout layout, PanelCoverAddItem cover, JPanel addPanel, JPanel bg) throws HeadlessException {
         this.layout = layout;
         this.cover = cover;
         this.addPanel = addPanel;
@@ -39,7 +39,7 @@ public class addItem extends javax.swing.JFrame {
     private void init()
     {
         layout = new MigLayout("fill, insets 0");
-        cover = new PanelCoveAddItem();
+        cover = new PanelCoverAddItem();
         addPanel = new JPanel();
         bg.setLayout(layout);
         addPanel.setLayout(new MigLayout("wrap", "push[center]push", "15[]5[]5[]5[]5[]5[]5[]5[]5[]5[]5[]5[]25"));

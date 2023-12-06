@@ -10,13 +10,13 @@ import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
-import mobileshop.view.component.PanelCoveEditItem;
+import mobileshop.view.component.PanelCoverEditItem;
 import net.miginfocom.swing.MigLayout;
 
 public class editItem extends javax.swing.JFrame {
 
     private MigLayout layout;
-    private PanelCoveEditItem cover;
+    private PanelCoverEditItem cover;
     private JPanel addPanel;
     private int fonsize = 14;
             
@@ -30,7 +30,7 @@ public class editItem extends javax.swing.JFrame {
     private void init()
     {
         layout = new MigLayout("fill, insets 0");
-        cover = new PanelCoveEditItem();
+        cover = new PanelCoverEditItem();
         addPanel = new JPanel();
         bg.setLayout(layout);
         addPanel.setBackground(new Color(255, 255, 255));

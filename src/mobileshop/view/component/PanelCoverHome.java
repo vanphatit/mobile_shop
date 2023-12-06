@@ -25,7 +25,7 @@ public class PanelCoverHome extends javax.swing.JPanel {
     public PanelCoverHome() {
         initComponents();
         setOpaque(false);
-        layout = new MigLayout("wrap", "push[Center]push", "25[]5[]push[]10[]10[]10[]10[]10[]10[]10[]10[]push[]10[]10[]push");
+        layout = new MigLayout("wrap", "push[Center]push", "25[]5[]push[]10[]10[]10[]10[]10[]10[]10[]push[]10[]10[]push");
         setLayout(layout);
         init();
     }

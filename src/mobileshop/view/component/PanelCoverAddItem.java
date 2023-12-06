@@ -8,12 +8,12 @@ import java.awt.Graphics2D;
 import javax.swing.JLabel;
 import net.miginfocom.swing.MigLayout;
 
-public class PanelCoveEditItem extends javax.swing.JPanel {
+public class PanelCoverAddItem extends javax.swing.JPanel {
 
     private MigLayout layout;
     private JLabel title;
     
-    public PanelCoveEditItem() {
+    public PanelCoverAddItem() {
         initComponents();
         setOpaque(false);
         layout = new MigLayout("wrap, fill", "[center]", "push[]push");
@@ -22,7 +22,7 @@ public class PanelCoveEditItem extends javax.swing.JPanel {
     }
     
     private void init() {
-        title = new JLabel("Sửa thông tin sản phẩm");
+        title = new JLabel("Thêm sản phẩm mới");
         title.setFont(new Font("sansserif", 1, 30));
         title.setForeground(new Color(245, 245, 245));
         add(title);

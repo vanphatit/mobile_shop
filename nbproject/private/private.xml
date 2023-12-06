@@ -3,9 +3,8 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/D:/CSDL/mobile_shop/src/mobileshop/view/component/PanelCoverHome.java</file>
-            <file>file:/D:/CSDL/mobile_shop/src/mobileshop/view/UI/addItem.java</file>
-            <file>file:/D:/CSDL/mobile_shop/src/mobileshop/view/component/PanelAddItem.java</file>
+            <file>file:/D:/CSDL/mobile_shop/src/mobileshop/view/component/PanelProduct.java</file>
+            <file>file:/D:/CSDL/mobile_shop/src/mobileshop/view/UI/home.java</file>
         </group>
     </open-files>
 </project-private>
