@@ -4,10 +4,8 @@
  */
 package mobileshop.controller;
 
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JOptionPane;
-import javax.swing.UnsupportedLookAndFeelException;
+
 import mobileshop.dao.StaffDAO;
 import mobileshop.model.Staff;
 
@@ -43,7 +41,7 @@ public class LoginController {
         return false;
     }
 
-    public void updatePassword(String user, String password) {
+    public boolean updatePassword(String user, String password) {
         if(user.equals("") || password.equals("")) {
             JOptionPane.showMessageDialog(null,"Vui lòng nhập đầy đủ !", "Cảnh báo !", JOptionPane.WARNING_MESSAGE);
         } else {
@@ -55,10 +53,12 @@ public class LoginController {
                     acc.setPassword(password);
                     StaffDAO.getInstance().update(acc);
                     JOptionPane.showMessageDialog(null, "Đổi mật khẩu thành công!");
+                    return true;
                 }
             } catch (Exception e) {
                 JOptionPane.showMessageDialog(null, "Sai mật khẩu !", "Cảnh báo !", JOptionPane.WARNING_MESSAGE);
             }
         }
+        return false;
     }
 }

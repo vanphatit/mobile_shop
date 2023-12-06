@@ -30,6 +30,5 @@ public class MobileShop {
         }
         login login = new login();
         login.setVisible(true);
-
     }
 }

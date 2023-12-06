@@ -7,13 +7,7 @@ import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Insets;
 import java.awt.Panel;
-import javax.swing.ImageIcon;
-import javax.swing.JButton;
-import javax.swing.JComboBox;
-import javax.swing.JLabel;
-import javax.swing.JMenuBar;
-import javax.swing.JPanel;
-import javax.swing.SwingConstants;
+import javax.swing.*;
 import javax.swing.border.LineBorder;
 import mobileshop.view.component.PanelCoverHome;
 import mobileshop.view.component.PanelCoverProduct;
@@ -31,10 +25,15 @@ public class home extends javax.swing.JFrame {
     private PanelProduct product;
     private JPanel main;
     private int fontSize = 16;
+
+    public static final Color DEFAULT_FOREGROUND = new Color(245,245,245);
+    public static final Color DEFAULT_BACKGROUND = new Color(7,164,121);
+    public static final Color HOVER_FOREGROUND = new Color(255,255,255);
+    public static final Color HOVER_BACKGROUND = new Color(0,255,213);
    
     
     public home() {
-        setTitle("Phần mềm quản lý mobile shop!");
+        setTitle("Phần mềm quản lý Mobile Shop!");
         initComponents();
         init();
     }
@@ -46,10 +45,15 @@ public class home extends javax.swing.JFrame {
         product = new PanelProduct();
         main = new JPanel();
         main.setBackground(new Color(255,255,255));
+
+        bg.setLayout(new MigLayout("wrap", "[Left]", "150[]10[]10[]10[]10[]10[]10[]10[]push[]10[]10[]push"));
+        main.setLayout(layout);
+
+        bg.add(cover, "width 20%, pos 0al 0 n 100%");
+        bg.add(main, "width 78%, pos 1al 0 n 100%");
+//        main.add(product, "w 100%, h 100%, wrap");
         
-        // <editor-fold defaultstate="collapsed" desc="Home"> 
-        Dimension containerSize = bg.getSize();
-        int newWidth = (int) (containerSize.width * 0.19);
+        // <editor-fold defaultstate="collapsed" desc="Home">
         JButton object = new JButton();
         object.setFont(new Font("sansserif", 1, fontSize));
         object.setForeground(new Color(245, 245, 245));
@@ -59,8 +63,7 @@ public class home extends javax.swing.JFrame {
         object.setText("Sản phẩm");
         object.setIcon(new ImageIcon(getClass().getResource("/mobileshop/assets/icon/icons8_product_25px_2.png")));
         object.setHorizontalAlignment(SwingConstants.LEFT);
-        object.setPreferredSize(new Dimension(newWidth, object.getPreferredSize().height));
-        bg.add(object);
+        cover.add(object, "w 100%");
         
         JButton suplier = new JButton();
         suplier.setFont(new Font("sansserif", 1, fontSize));
@@ -71,8 +74,7 @@ public class home extends javax.swing.JFrame {
         suplier.setText("Nhà cung cấp");
         suplier.setIcon(new ImageIcon(getClass().getResource("/mobileshop/assets/icon/icons8_supplier_25px.png")));
         suplier.setHorizontalAlignment(SwingConstants.LEFT);
-        suplier.setPreferredSize(new Dimension(newWidth, suplier.getPreferredSize().height));
-        bg.add(suplier, "w 100%");
+        cover.add(suplier, "w 100%");
         
         JButton customer = new JButton();
         customer.setFont(new Font("sansserif", 1, fontSize));
@@ -83,8 +85,7 @@ public class home extends javax.swing.JFrame {
         customer.setText("Khách hàng");
         customer.setIcon(new ImageIcon(getClass().getResource("/mobileshop/assets/icon/customer_25px.png")));
         customer.setHorizontalAlignment(SwingConstants.LEFT);
-        customer.setPreferredSize(new Dimension(newWidth, customer.getPreferredSize().height));
-        bg.add(customer, "w 100%");
+        cover.add(customer, "w 100%");
         
         JButton staff = new JButton();
         staff.setFont(new Font("sansserif", 1, fontSize));
@@ -95,8 +96,7 @@ public class home extends javax.swing.JFrame {
         staff.setText("Nhân viên");
         staff.setIcon(new ImageIcon(getClass().getResource("/mobileshop/assets/icon/staff_25px.png")));
         staff.setHorizontalAlignment(SwingConstants.LEFT);
-        staff.setPreferredSize(new Dimension(newWidth, staff.getPreferredSize().height));
-        bg.add(staff, "w 100%");
+        cover.add(staff, "w 100%");
         
         JButton receipt_note = new JButton();
         receipt_note.setFont(new Font("sansserif", 1, fontSize));
@@ -107,8 +107,7 @@ public class home extends javax.swing.JFrame {
         receipt_note.setText("Phiếu nhập hàng");
         receipt_note.setIcon(new ImageIcon(getClass().getResource("/mobileshop/assets/icon/icons8_add_file_25px_2.png")));
         receipt_note.setHorizontalAlignment(SwingConstants.LEFT);
-        receipt_note.setPreferredSize(new Dimension(newWidth, receipt_note.getPreferredSize().height));
-        bg.add(receipt_note, "w 100%");
+        cover.add(receipt_note, "w 100%");
         
         JButton bill = new JButton();
         bill.setFont(new Font("sansserif", 1, fontSize));
@@ -119,20 +118,7 @@ public class home extends javax.swing.JFrame {
         bill.setText("Hóa đơn");
         bill.setIcon(new ImageIcon(getClass().getResource("/mobileshop/assets/icon/bill_25px.png")));
         bill.setHorizontalAlignment(SwingConstants.LEFT);
-        bill.setPreferredSize(new Dimension(newWidth, bill.getPreferredSize().height));
-        bg.add(bill, "w 100%");
-        
-        JButton account = new JButton();
-        account.setFont(new Font("sansserif", 1, fontSize));
-        account.setForeground(new Color(245, 245, 245));
-        account.setBackground(new Color(7, 164, 121));
-        account.setBorderPainted(false);
-        account.setCursor(Cursor.getPredefinedCursor(HAND_CURSOR));
-        account.setText("Tài khoản");
-        account.setIcon(new ImageIcon(getClass().getResource("/mobileshop/assets/icon/icons8_test_account_25px.png")));
-        account.setHorizontalAlignment(SwingConstants.LEFT);
-        account.setPreferredSize(new Dimension(newWidth, account.getPreferredSize().height));
-        bg.add(account, "w 100%");
+        cover.add(bill, "w 100%");
         
         JButton statistics = new JButton();
         statistics.setFont(new Font("sansserif", 1, fontSize));
@@ -143,8 +129,7 @@ public class home extends javax.swing.JFrame {
         statistics.setText("Thống kê");
         statistics.setIcon(new ImageIcon(getClass().getResource("/mobileshop/assets/icon/statisticals.png")));
         statistics.setHorizontalAlignment(SwingConstants.LEFT);
-        statistics.setPreferredSize(new Dimension(newWidth, statistics.getPreferredSize().height));
-        bg.add(statistics, "w 100%");
+        cover.add(statistics, "w 100%");
         
         JButton change_info = new JButton();
         change_info.setFont(new Font("sansserif", 1, fontSize));
@@ -155,8 +140,7 @@ public class home extends javax.swing.JFrame {
         change_info.setText("Thay đổi thông tin");
         change_info.setIcon(new ImageIcon(getClass().getResource("/mobileshop/assets/icon/icons8-information-25.png")));
         change_info.setHorizontalAlignment(SwingConstants.LEFT);
-        change_info.setPreferredSize(new Dimension(newWidth, change_info.getPreferredSize().height));
-        bg.add(change_info, "w 100%");
+        cover.add(change_info, "w 100%");
         
         JButton logout = new JButton();
         logout.setFont(new Font("sansserif", 1, fontSize));
@@ -167,202 +151,41 @@ public class home extends javax.swing.JFrame {
         logout.setText("Đăng xuất");
         logout.setIcon(new ImageIcon(getClass().getResource("/mobileshop/assets/icon/icons8_shutdown_25px.png")));
         logout.setHorizontalAlignment(SwingConstants.LEFT);
-        logout.setPreferredSize(new Dimension(newWidth, logout.getPreferredSize().height));
-        bg.add(logout, "w 100%");
-        
+        cover.add(logout, "w 100%");
+
         object.addMouseListener(new java.awt.event.MouseAdapter() {
-            @Override
-            public void mouseEntered(java.awt.event.MouseEvent evt) {
-                JButton source = (JButton) evt.getSource();
-                source.setForeground(new Color(0,0,0));
-                source.setBackground(new Color(0, 255, 213));
-            }
-        });
-        object.addMouseListener(new java.awt.event.MouseAdapter() {
-            @Override
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 JButton source = (JButton) evt.getSource();
                 source.setForeground(new Color(0,0,0));
                 source.setBackground(new Color(0, 255, 213));
+
+                main.removeAll();
+                main.add(product, "w 100%, h 100% , wrap");
+                main.revalidate();
+            }
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                object.setForeground(HOVER_FOREGROUND);
+                object.setBackground(HOVER_BACKGROUND);
+                suplier.setForeground(DEFAULT_FOREGROUND);
+                suplier.setBackground(DEFAULT_BACKGROUND);
+                customer.setForeground(DEFAULT_FOREGROUND);
+                customer.setBackground(DEFAULT_BACKGROUND);
+                staff.setForeground(DEFAULT_FOREGROUND);
+                staff.setBackground(DEFAULT_BACKGROUND);
+                receipt_note.setForeground(DEFAULT_FOREGROUND);
+                receipt_note.setBackground(DEFAULT_BACKGROUND);
+                bill.setForeground(DEFAULT_FOREGROUND);
+                bill.setBackground(DEFAULT_BACKGROUND);
+                statistics.setForeground(DEFAULT_FOREGROUND);
+                statistics.setBackground(DEFAULT_BACKGROUND);
+                change_info.setForeground(DEFAULT_FOREGROUND);
+                change_info.setBackground(DEFAULT_BACKGROUND);
+                logout.setForeground(DEFAULT_FOREGROUND);
+                logout.setBackground(DEFAULT_BACKGROUND);
             }
         });
-        object.addMouseListener(new java.awt.event.MouseAdapter() {
-            @Override
-            public void mouseExited(java.awt.event.MouseEvent evt) {
-                JButton source = (JButton) evt.getSource();
-                source.setForeground(new Color(245, 245, 245));
-                source.setBackground(new Color(7, 164, 121));
-            }
-        });
-        
-        suplier.addMouseListener(new java.awt.event.MouseAdapter() {
-            @Override
-            public void mouseEntered(java.awt.event.MouseEvent evt) {
-                JButton source = (JButton) evt.getSource();
-                source.setForeground(new Color(0,0,0));
-                source.setBackground(new Color(0, 255, 213));
-            }
-        });
-        suplier.addMouseListener(new java.awt.event.MouseAdapter() {
-            @Override
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                JButton source = (JButton) evt.getSource();
-                source.setForeground(new Color(0,0,0));
-                source.setBackground(new Color(0, 255, 213));
-            }
-        });
-        suplier.addMouseListener(new java.awt.event.MouseAdapter() {
-            @Override
-            public void mouseExited(java.awt.event.MouseEvent evt) {
-                JButton source = (JButton) evt.getSource();
-                source.setForeground(new Color(245, 245, 245));
-                source.setBackground(new Color(7, 164, 121));
-            }
-        });
-        
-        customer.addMouseListener(new java.awt.event.MouseAdapter() {
-            @Override
-            public void mouseEntered(java.awt.event.MouseEvent evt) {
-                JButton source = (JButton) evt.getSource();
-                source.setForeground(new Color(0,0,0));
-                source.setBackground(new Color(0, 255, 213));
-            }
-        });
-        customer.addMouseListener(new java.awt.event.MouseAdapter() {
-            @Override
-            public void mouseExited(java.awt.event.MouseEvent evt) {
-                JButton source = (JButton) evt.getSource();
-                source.setForeground(new Color(245, 245, 245));
-                source.setBackground(new Color(7, 164, 121));
-            }
-        });
-        
-        staff.addMouseListener(new java.awt.event.MouseAdapter() {
-            @Override
-            public void mouseEntered(java.awt.event.MouseEvent evt) {
-                JButton source = (JButton) evt.getSource();
-                source.setForeground(new Color(0,0,0));
-                source.setBackground(new Color(0, 255, 213));
-            }
-        });
-        staff.addMouseListener(new java.awt.event.MouseAdapter() {
-            @Override
-            public void mouseExited(java.awt.event.MouseEvent evt) {
-                JButton source = (JButton) evt.getSource();
-                source.setForeground(new Color(245, 245, 245));
-                source.setBackground(new Color(7, 164, 121));
-            }
-        });
-        
-        receipt_note.addMouseListener(new java.awt.event.MouseAdapter() {
-            @Override
-            public void mouseEntered(java.awt.event.MouseEvent evt) {
-                JButton source = (JButton) evt.getSource();
-                source.setForeground(new Color(0,0,0));
-                source.setBackground(new Color(0, 255, 213));
-            }
-        });
-        receipt_note.addMouseListener(new java.awt.event.MouseAdapter() {
-            @Override
-            public void mouseExited(java.awt.event.MouseEvent evt) {
-                JButton source = (JButton) evt.getSource();
-                source.setForeground(new Color(245, 245, 245));
-                source.setBackground(new Color(7, 164, 121));
-            }
-        });
-        
-        bill.addMouseListener(new java.awt.event.MouseAdapter() {
-            @Override
-            public void mouseEntered(java.awt.event.MouseEvent evt) {
-                JButton source = (JButton) evt.getSource();
-                source.setForeground(new Color(0,0,0));
-                source.setBackground(new Color(0, 255, 213));
-            }
-        });
-        bill.addMouseListener(new java.awt.event.MouseAdapter() {
-            @Override
-            public void mouseExited(java.awt.event.MouseEvent evt) {
-                JButton source = (JButton) evt.getSource();
-                source.setForeground(new Color(245, 245, 245));
-                source.setBackground(new Color(7, 164, 121));
-            }
-        });
-        
-        account.addMouseListener(new java.awt.event.MouseAdapter() {
-            @Override
-            public void mouseEntered(java.awt.event.MouseEvent evt) {
-                JButton source = (JButton) evt.getSource();
-                source.setForeground(new Color(0,0,0));
-                source.setBackground(new Color(0, 255, 213));
-            }
-        });
-        account.addMouseListener(new java.awt.event.MouseAdapter() {
-            @Override
-            public void mouseExited(java.awt.event.MouseEvent evt) {
-                JButton source = (JButton) evt.getSource();
-                source.setForeground(new Color(245, 245, 245));
-                source.setBackground(new Color(7, 164, 121));
-            }
-        });
-        
-        statistics.addMouseListener(new java.awt.event.MouseAdapter() {
-            @Override
-            public void mouseEntered(java.awt.event.MouseEvent evt) {
-                JButton source = (JButton) evt.getSource();
-                source.setForeground(new Color(0,0,0));
-                source.setBackground(new Color(0, 255, 213));
-            }
-        });
-        statistics.addMouseListener(new java.awt.event.MouseAdapter() {
-            @Override
-            public void mouseExited(java.awt.event.MouseEvent evt) {
-                JButton source = (JButton) evt.getSource();
-                source.setForeground(new Color(245, 245, 245));
-                source.setBackground(new Color(7, 164, 121));
-            }
-        });
-        
-        logout.addMouseListener(new java.awt.event.MouseAdapter() {
-            @Override
-            public void mouseEntered(java.awt.event.MouseEvent evt) {
-                JButton source = (JButton) evt.getSource();
-                source.setForeground(new Color(0,0,0));
-                source.setBackground(new Color(0, 255, 213));
-            }
-        });
-        logout.addMouseListener(new java.awt.event.MouseAdapter() {
-            @Override
-            public void mouseExited(java.awt.event.MouseEvent evt) {
-                JButton source = (JButton) evt.getSource();
-                source.setForeground(new Color(245, 245, 245));
-                source.setBackground(new Color(7, 164, 121));
-            }
-        });
-        
-        change_info.addMouseListener(new java.awt.event.MouseAdapter() {
-            @Override
-            public void mouseEntered(java.awt.event.MouseEvent evt) {
-                JButton source = (JButton) evt.getSource();
-                source.setForeground(new Color(0,0,0));
-                source.setBackground(new Color(0, 255, 213));
-            }
-        });
-        change_info.addMouseListener(new java.awt.event.MouseAdapter() {
-            @Override
-            public void mouseExited(java.awt.event.MouseEvent evt) {
-                JButton source = (JButton) evt.getSource();
-                source.setForeground(new Color(245, 245, 245));
-                source.setBackground(new Color(7, 164, 121));
-            }
-        });
-        // </editor-fold> 
-        
-        bg.setLayout(new MigLayout("wrap", "[Left]", "150[]10[]10[]10[]10[]10[]10[]10[]push[]10[]10[]push"));
-        main.setLayout(layout);
-        
-        bg.add(cover, "width 20%, pos 0al 0 n 100%");
-        bg.add(main, "width 80%, pos 1al 0 n 100%");
-        main.add(product, "w 100%, h 100%, wrap");
+        // </editor-fold>
+
     }
     
     @SuppressWarnings("unchecked")
