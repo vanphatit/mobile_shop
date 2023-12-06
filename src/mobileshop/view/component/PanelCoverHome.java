@@ -107,17 +107,6 @@ public class PanelCoverHome extends javax.swing.JPanel {
         bill.setHorizontalAlignment(SwingConstants.LEFT);
         add(bill, "w 100%");
         
-        JButton inventory = new JButton();
-        inventory.setFont(new Font("sansserif", 1, fontSize));
-        inventory.setForeground(new Color(245, 245, 245));
-        inventory.setBackground(new Color(7, 164, 121));
-        inventory.setBorderPainted(false);
-        inventory.setCursor(Cursor.getPredefinedCursor(HAND_CURSOR));
-        inventory.setText("Tồn kho");
-        inventory.setIcon(new ImageIcon(getClass().getResource("/mobileshop/assets/icon/icons8-warehouse-25.png")));
-        inventory.setHorizontalAlignment(SwingConstants.LEFT);
-        add(inventory, "w 100%");
-        
         JButton account = new JButton();
         account.setFont(new Font("sansserif", 1, fontSize));
         account.setForeground(new Color(245, 245, 245));
@@ -166,6 +155,7 @@ public class PanelCoverHome extends javax.swing.JPanel {
             @Override
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 JButton source = (JButton) evt.getSource();
+                source.setForeground(new Color(0,0,0));
                 source.setBackground(new Color(0, 255, 213));
             }
         });
@@ -173,6 +163,7 @@ public class PanelCoverHome extends javax.swing.JPanel {
             @Override
             public void mouseExited(java.awt.event.MouseEvent evt) {
                 JButton source = (JButton) evt.getSource();
+                source.setForeground(new Color(245, 245, 245));
                 source.setBackground(new Color(7, 164, 121));
             }
         });
@@ -181,6 +172,7 @@ public class PanelCoverHome extends javax.swing.JPanel {
             @Override
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 JButton source = (JButton) evt.getSource();
+                source.setForeground(new Color(0,0,0));
                 source.setBackground(new Color(0, 255, 213));
             }
         });
@@ -188,6 +180,7 @@ public class PanelCoverHome extends javax.swing.JPanel {
             @Override
             public void mouseExited(java.awt.event.MouseEvent evt) {
                 JButton source = (JButton) evt.getSource();
+                source.setForeground(new Color(245, 245, 245));
                 source.setBackground(new Color(7, 164, 121));
             }
         });
@@ -196,6 +189,7 @@ public class PanelCoverHome extends javax.swing.JPanel {
             @Override
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 JButton source = (JButton) evt.getSource();
+                source.setForeground(new Color(0,0,0));
                 source.setBackground(new Color(0, 255, 213));
             }
         });
@@ -203,6 +197,7 @@ public class PanelCoverHome extends javax.swing.JPanel {
             @Override
             public void mouseExited(java.awt.event.MouseEvent evt) {
                 JButton source = (JButton) evt.getSource();
+                source.setForeground(new Color(245, 245, 245));
                 source.setBackground(new Color(7, 164, 121));
             }
         });
@@ -211,6 +206,7 @@ public class PanelCoverHome extends javax.swing.JPanel {
             @Override
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 JButton source = (JButton) evt.getSource();
+                source.setForeground(new Color(0,0,0));
                 source.setBackground(new Color(0, 255, 213));
             }
         });
@@ -218,6 +214,7 @@ public class PanelCoverHome extends javax.swing.JPanel {
             @Override
             public void mouseExited(java.awt.event.MouseEvent evt) {
                 JButton source = (JButton) evt.getSource();
+                source.setForeground(new Color(245, 245, 245));
                 source.setBackground(new Color(7, 164, 121));
             }
         });
@@ -226,6 +223,7 @@ public class PanelCoverHome extends javax.swing.JPanel {
             @Override
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 JButton source = (JButton) evt.getSource();
+                source.setForeground(new Color(0,0,0));
                 source.setBackground(new Color(0, 255, 213));
             }
         });
@@ -233,6 +231,7 @@ public class PanelCoverHome extends javax.swing.JPanel {
             @Override
             public void mouseExited(java.awt.event.MouseEvent evt) {
                 JButton source = (JButton) evt.getSource();
+                source.setForeground(new Color(245, 245, 245));
                 source.setBackground(new Color(7, 164, 121));
             }
         });
@@ -241,6 +240,7 @@ public class PanelCoverHome extends javax.swing.JPanel {
             @Override
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 JButton source = (JButton) evt.getSource();
+                source.setForeground(new Color(0,0,0));
                 source.setBackground(new Color(0, 255, 213));
             }
         });
@@ -248,21 +248,7 @@ public class PanelCoverHome extends javax.swing.JPanel {
             @Override
             public void mouseExited(java.awt.event.MouseEvent evt) {
                 JButton source = (JButton) evt.getSource();
-                source.setBackground(new Color(7, 164, 121));
-            }
-        });
-        
-        inventory.addMouseListener(new java.awt.event.MouseAdapter() {
-            @Override
-            public void mouseEntered(java.awt.event.MouseEvent evt) {
-                JButton source = (JButton) evt.getSource();
-                source.setBackground(new Color(0, 255, 213));
-            }
-        });
-        inventory.addMouseListener(new java.awt.event.MouseAdapter() {
-            @Override
-            public void mouseExited(java.awt.event.MouseEvent evt) {
-                JButton source = (JButton) evt.getSource();
+                source.setForeground(new Color(245, 245, 245));
                 source.setBackground(new Color(7, 164, 121));
             }
         });
@@ -271,6 +257,7 @@ public class PanelCoverHome extends javax.swing.JPanel {
             @Override
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 JButton source = (JButton) evt.getSource();
+                source.setForeground(new Color(0,0,0));
                 source.setBackground(new Color(0, 255, 213));
             }
         });
@@ -278,6 +265,7 @@ public class PanelCoverHome extends javax.swing.JPanel {
             @Override
             public void mouseExited(java.awt.event.MouseEvent evt) {
                 JButton source = (JButton) evt.getSource();
+                source.setForeground(new Color(245, 245, 245));
                 source.setBackground(new Color(7, 164, 121));
             }
         });
@@ -286,6 +274,7 @@ public class PanelCoverHome extends javax.swing.JPanel {
             @Override
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 JButton source = (JButton) evt.getSource();
+                source.setForeground(new Color(0,0,0));
                 source.setBackground(new Color(0, 255, 213));
             }
         });
@@ -293,6 +282,7 @@ public class PanelCoverHome extends javax.swing.JPanel {
             @Override
             public void mouseExited(java.awt.event.MouseEvent evt) {
                 JButton source = (JButton) evt.getSource();
+                source.setForeground(new Color(245, 245, 245));
                 source.setBackground(new Color(7, 164, 121));
             }
         });
@@ -301,6 +291,7 @@ public class PanelCoverHome extends javax.swing.JPanel {
             @Override
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 JButton source = (JButton) evt.getSource();
+                source.setForeground(new Color(0,0,0));
                 source.setBackground(new Color(0, 255, 213));
             }
         });
@@ -308,6 +299,7 @@ public class PanelCoverHome extends javax.swing.JPanel {
             @Override
             public void mouseExited(java.awt.event.MouseEvent evt) {
                 JButton source = (JButton) evt.getSource();
+                source.setForeground(new Color(245, 245, 245));
                 source.setBackground(new Color(7, 164, 121));
             }
         });
@@ -316,6 +308,7 @@ public class PanelCoverHome extends javax.swing.JPanel {
             @Override
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 JButton source = (JButton) evt.getSource();
+                source.setForeground(new Color(0,0,0));
                 source.setBackground(new Color(0, 255, 213));
             }
         });
@@ -323,6 +316,7 @@ public class PanelCoverHome extends javax.swing.JPanel {
             @Override
             public void mouseExited(java.awt.event.MouseEvent evt) {
                 JButton source = (JButton) evt.getSource();
+                source.setForeground(new Color(245, 245, 245));
                 source.setBackground(new Color(7, 164, 121));
             }
         });

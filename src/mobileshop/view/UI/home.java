@@ -33,8 +33,7 @@ public class home extends javax.swing.JFrame {
         bg.setLayout(layout);
         bg.add(cover, "width 20%, height 100%");
         bg.add(feature, "width 30%, height 14%, top");
-        bg.add(search, "width 50%, height 14%, top");
-        bg.add(product, "dock south, pushy, growy, w 80%, h 100%");
+        bg.add(search, "width 50%, height 10%, top");
     }
     
     @SuppressWarnings("unchecked")

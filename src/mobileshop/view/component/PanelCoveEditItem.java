@@ -8,12 +8,12 @@ import java.awt.Graphics2D;
 import javax.swing.JLabel;
 import net.miginfocom.swing.MigLayout;
 
-public class PanelCoverChangeinfo extends javax.swing.JPanel {
+public class PanelCoveEditItem extends javax.swing.JPanel {
 
     private MigLayout layout;
     private JLabel title;
     
-    public PanelCoverChangeinfo() {
+    public PanelCoveEditItem() {
         initComponents();
         setOpaque(false);
         layout = new MigLayout("wrap, fill", "[center]", "push[]push");
@@ -22,7 +22,7 @@ public class PanelCoverChangeinfo extends javax.swing.JPanel {
     }
     
     private void init() {
-        title = new JLabel("Thay đổi mật khẩu");
+        title = new JLabel("Sửa thông tin sản phẩm");
         title.setFont(new Font("sansserif", 1, 30));
         title.setForeground(new Color(245, 245, 245));
         add(title);
@@ -31,6 +31,9 @@ public class PanelCoverChangeinfo extends javax.swing.JPanel {
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
+
+        setBackground(new java.awt.Color(255, 255, 255));
+        setOpaque(false);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);

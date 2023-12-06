@@ -20,7 +20,7 @@ import net.miginfocom.swing.MigLayout;
 public class PanelCoverFeature extends javax.swing.JPanel {
 
     private MigLayout layout;
-    private int fontSize = 10;
+    private int fontSize = 14;
     private JMenuBar feature;
     private JLabel title;
     
@@ -82,19 +82,6 @@ public class PanelCoverFeature extends javax.swing.JPanel {
         fix.setHorizontalAlignment(SwingConstants.LEFT);
         feature.add(fix);
         
-        JButton detail = new JButton();
-        detail.setFont(new Font("sansserif", 1, fontSize));
-        detail.setForeground(new Color(0, 0, 0));
-        detail.setBackground(new Color(255, 255, 255));
-        detail.setBorderPainted(false);
-        detail.setCursor(Cursor.getPredefinedCursor(HAND_CURSOR));
-        detail.setText("Sửa");
-        detail.setIcon(new ImageIcon(getClass().getResource("/mobileshop/assets/icon/icons8_eye_40px.png")));
-        detail.setVerticalTextPosition(SwingConstants.BOTTOM);
-        detail.setHorizontalTextPosition(SwingConstants.CENTER);
-        detail.setHorizontalAlignment(SwingConstants.LEFT);
-        feature.add(detail);
-        
         JButton addExcel = new JButton();
         addExcel.setFont(new Font("sansserif", 1, fontSize));
         addExcel.setForeground(new Color(0, 0, 0));
@@ -120,6 +107,8 @@ public class PanelCoverFeature extends javax.swing.JPanel {
         ExportExcel.setHorizontalTextPosition(SwingConstants.CENTER);
         ExportExcel.setHorizontalAlignment(SwingConstants.LEFT);
         feature.add(ExportExcel);
+        
+        
     }
     
     
