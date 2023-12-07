@@ -28,11 +28,7 @@
     <orderEntry type="module-library" exported="">
       <library>
         <CLASSES>
-<<<<<<< HEAD
-          <root url="jar://$MODULE_DIR$/../mysql-connector-j-8.2.0/mysql-connector-j-8.2.0/mysql-connector-j-8.2.0/mysql-connector-j-8.2.0.jar!/" />
-=======
           <root url="jar://$MODULE_DIR$/../mysql-connector-j-8.2.0/mysql-connector-j-8.2.0/mysql-connector-j-8.2.0.jar!/" />
->>>>>>> 39cd6cbabb2497306b112562b3819d230806725c
         </CLASSES>
         <JAVADOC />
         <SOURCES />

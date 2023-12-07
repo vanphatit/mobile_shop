@@ -7,11 +7,14 @@ import java.awt.Font;
 import java.awt.HeadlessException;
 import java.awt.Insets;
 import java.awt.Panel;
-import javax.swing.JButton;
-import javax.swing.JComboBox;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.JTextField;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.ArrayList;
+import javax.swing.*;
+
+import mobileshop.controller.ProductController;
+import mobileshop.dao.ObjectCategoryDAO;
+import mobileshop.model.ObjectCategory;
 import mobileshop.view.component.PanelCoverAddItem;
 import net.miginfocom.swing.MigLayout;
 
@@ -21,13 +24,7 @@ public class addItem extends javax.swing.JFrame {
     private PanelCoverAddItem cover;
     private JPanel addPanel;
     private int fonsize = 14;
-
-    public addItem(MigLayout layout, PanelCoverAddItem cover, JPanel addPanel, JPanel bg) throws HeadlessException {
-        this.layout = layout;
-        this.cover = cover;
-        this.addPanel = addPanel;
-        this.bg = bg;
-    }
+    private ArrayList<ObjectCategory> listCate;
             
     public addItem() {
         initComponents();
@@ -49,11 +46,11 @@ public class addItem extends javax.swing.JFrame {
         id.setForeground(new Color(100, 100, 100));
         id.setFont(new Font("sansserif", 1, fonsize));
         addPanel.add(id, "w 60%");
-        JTextField txtInfo = new JTextField();
-        txtInfo.setFont(new Font("sansserif", 1, fonsize));
-        addPanel.add(txtInfo, "wrap, width 60%");
+        JTextField txtID = new JTextField();
+        txtID.setFont(new Font("sansserif", 1, fonsize));
+        addPanel.add(txtID, "wrap, width 60%");
         
-       JLabel name = new JLabel("Nhập tên sản phẩm: ");
+        JLabel name = new JLabel("Nhập tên sản phẩm: ");
         name.setForeground(new Color(100, 100, 100));
         name.setFont(new Font("sansserif", 1, fonsize));
         addPanel.add(name, "w 60%");
@@ -73,9 +70,9 @@ public class addItem extends javax.swing.JFrame {
         sx.setForeground(new Color(100, 100, 100));
         sx.setFont(new Font("sansserif", 1, fonsize));
         addPanel.add(sx, "w 60%");
-        JTextField txtSx = new JTextField();
-        txtSx.setFont(new Font("sansserif", 1, fonsize));
-        addPanel.add(txtSx, "wrap, width 60%");
+        JTextField txtManufacturer = new JTextField();
+        txtManufacturer.setFont(new Font("sansserif", 1, fonsize));
+        addPanel.add(txtManufacturer, "wrap, width 60%");
         
         JLabel price = new JLabel("Nhập giá tiền: ");
         price.setForeground(new Color(100, 100, 100));
@@ -93,21 +90,26 @@ public class addItem extends javax.swing.JFrame {
         cbbCate.setFont(new Font("sansserif", 1, fonsize));
         cbbCate.setCursor(Cursor.getPredefinedCursor(HAND_CURSOR));
         cbbCate.setBackground(new Color(255, 255, 255));
-        cbbCate.addItem("id1");
-        cbbCate.addItem("id2");
-        cbbCate.addItem("id3");
+        listCate = ObjectCategoryDAO.getInstance().selectAll();
+        try {
+            for (ObjectCategory objectCategory : listCate) {
+                cbbCate.addItem(objectCategory.getName());
+            }
+        } catch (Exception e) {
+            System.out.println(e);
+        }
         addPanel.add(cbbCate, "wrap, width 60%");
         
-        JButton addBtn = new JButton();
-        addBtn.setText("Thêm sản phẩm");
-        addBtn.setFont(new Font("sansserif", 1, fonsize));
-        addBtn.setCursor(Cursor.getPredefinedCursor(HAND_CURSOR));
-        addBtn.setForeground(new Color(255, 255, 255));
-        addBtn.setBackground(new Color(7, 164, 121));
-        addBtn.setMargin(new Insets(10,20,10,20));
-        addPanel.add(addBtn);
+        JButton btnAdd = new JButton();
+        btnAdd.setText("Thêm sản phẩm");
+        btnAdd.setFont(new Font("sansserif", 1, fonsize));
+        btnAdd.setCursor(Cursor.getPredefinedCursor(HAND_CURSOR));
+        btnAdd.setForeground(new Color(255, 255, 255));
+        btnAdd.setBackground(new Color(7, 164, 121));
+        btnAdd.setMargin(new Insets(10,20,10,20));
+        addPanel.add(btnAdd);
         
-        addBtn.addMouseListener(new java.awt.event.MouseAdapter() {
+        btnAdd.addMouseListener(new java.awt.event.MouseAdapter() {
             @Override
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 JButton source = (JButton) evt.getSource();
@@ -115,7 +117,7 @@ public class addItem extends javax.swing.JFrame {
                 source.setBackground(new Color(0, 255, 213));
             }
         });
-        addBtn.addMouseListener(new java.awt.event.MouseAdapter() {
+        btnAdd.addMouseListener(new java.awt.event.MouseAdapter() {
             @Override
             public void mouseExited(java.awt.event.MouseEvent evt) {
                 JButton source = (JButton) evt.getSource();
@@ -123,11 +125,44 @@ public class addItem extends javax.swing.JFrame {
                 source.setBackground(new Color(7, 164, 121));
             }
         });
-        
-        
+
         bg.add(cover, "height 20%, width 100%, wrap");
         bg.add(addPanel, "height 80%, width 100%");
-        
+
+        btnAdd.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                try {
+                    String id = txtID.getText();
+                    String name = txtName.getText();
+                    String status = txtStatus.getText();
+                    String manufacturer = txtManufacturer.getText();
+                    String price = txtPrice.getText();
+                    String cate = cbbCate.getSelectedItem().toString();
+                    for (ObjectCategory objectCategory : listCate) {
+                        if (objectCategory.getName().equals(cate))
+                        {
+                            cate = objectCategory.getId();
+                            break;
+                        }
+                    }
+                    if (ProductController.getInstance().addProduct(id, name, status, manufacturer, price, cate))
+                    {
+                        JOptionPane.showMessageDialog(null,
+                                "Thêm sản phẩm thành công!", "Success", JOptionPane.INFORMATION_MESSAGE);
+                        dispose();
+                    }
+                    else
+                    {
+                        JOptionPane.showMessageDialog(null,
+                                "Thêm sản phẩm thất bại!", "Error", JOptionPane.ERROR_MESSAGE);
+                    }
+                } catch (HeadlessException ex) {
+                    System.out.println(ex);
+                }
+            }
+        });
+
     }
     
     @SuppressWarnings("unchecked")

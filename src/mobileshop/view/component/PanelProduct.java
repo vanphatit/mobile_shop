@@ -5,6 +5,9 @@ import java.awt.Cursor;
 import java.awt.Font;
 import static java.awt.Frame.HAND_CURSOR;
 import java.awt.Insets;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.ArrayList;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -16,8 +19,13 @@ import javax.swing.JTable;
 import javax.swing.SwingConstants;
 import javax.swing.border.LineBorder;
 import javax.swing.table.DefaultTableModel;
+
+import mobileshop.controller.ProductController;
+import mobileshop.dao.ObjectDAO;
+import mobileshop.model.Object;
 import mobileshop.view.swing.MyTextField;
 import net.miginfocom.swing.MigLayout;
+import mobileshop.view.UI.addItem;
 
 public class PanelProduct extends javax.swing.JPanel {
 
@@ -32,6 +40,9 @@ public class PanelProduct extends javax.swing.JPanel {
     private JLabel title1;
     private JLabel title2;
     private JMenuBar featureMenu;
+    private addItem AddItem;
+
+    private ArrayList<Object> products;
     
     public PanelProduct() {
         initComponents();
@@ -66,72 +77,75 @@ public class PanelProduct extends javax.swing.JPanel {
         feature.add(featureMenu);
         
         featureMenu.setBorder(new LineBorder(new Color(0,0,0)));
+
+        //<editor-fold defaultstate="collapsed" desc="Menu">
+        JButton btnAdd = new JButton();
+        btnAdd.setFont(new Font("sansserif", 1, 14));
+        btnAdd.setForeground(new Color(0, 0, 0));
+        btnAdd.setBackground(new Color(255, 255, 255));
+        btnAdd.setBorderPainted(false);
+        btnAdd.setCursor(Cursor.getPredefinedCursor(HAND_CURSOR));
+        btnAdd.setText("Thêm");
+        btnAdd.setIcon(new ImageIcon(getClass().getResource("/mobileshop/assets/icon/icons8_add_40px.png")));
+        btnAdd.setVerticalTextPosition(SwingConstants.BOTTOM);
+        btnAdd.setHorizontalTextPosition(SwingConstants.CENTER);
+        btnAdd.setHorizontalAlignment(SwingConstants.LEFT);
+        featureMenu.add(btnAdd);
         
-        JButton addF = new JButton();
-        addF.setFont(new Font("sansserif", 1, 14));
-        addF.setForeground(new Color(0, 0, 0));
-        addF.setBackground(new Color(255, 255, 255));
-        addF.setBorderPainted(false);
-        addF.setCursor(Cursor.getPredefinedCursor(HAND_CURSOR));
-        addF.setText("Thêm");
-        addF.setIcon(new ImageIcon(getClass().getResource("/mobileshop/assets/icon/icons8_add_40px.png")));
-        addF.setVerticalTextPosition(SwingConstants.BOTTOM);
-        addF.setHorizontalTextPosition(SwingConstants.CENTER);
-        addF.setHorizontalAlignment(SwingConstants.LEFT);
-        featureMenu.add(addF);
+        JButton btnDel = new JButton();
+        btnDel.setFont(new Font("sansserif", 1, 14));
+        btnDel.setForeground(new Color(0, 0, 0));
+        btnDel.setBackground(new Color(255, 255, 255));
+        btnDel.setBorderPainted(false);
+        btnDel.setCursor(Cursor.getPredefinedCursor(HAND_CURSOR));
+        btnDel.setText("Xóa");
+        btnDel.setIcon(new ImageIcon(getClass().getResource("/mobileshop/assets/icon/icons8_delete_40px.png")));
+        btnDel.setVerticalTextPosition(SwingConstants.BOTTOM);
+        btnDel.setHorizontalTextPosition(SwingConstants.CENTER);
+        btnDel.setHorizontalAlignment(SwingConstants.LEFT);
+        featureMenu.add(btnDel);
         
-        JButton delete = new JButton();
-        delete.setFont(new Font("sansserif", 1, 14));
-        delete.setForeground(new Color(0, 0, 0));
-        delete.setBackground(new Color(255, 255, 255));
-        delete.setBorderPainted(false);
-        delete.setCursor(Cursor.getPredefinedCursor(HAND_CURSOR));
-        delete.setText("Xóa");
-        delete.setIcon(new ImageIcon(getClass().getResource("/mobileshop/assets/icon/icons8_delete_40px.png")));
-        delete.setVerticalTextPosition(SwingConstants.BOTTOM);
-        delete.setHorizontalTextPosition(SwingConstants.CENTER);
-        delete.setHorizontalAlignment(SwingConstants.LEFT);
-        featureMenu.add(delete);
+        JButton btnEdit = new JButton();
+        btnEdit.setFont(new Font("sansserif", 1, 14));
+        btnEdit.setForeground(new Color(0, 0, 0));
+        btnEdit.setBackground(new Color(255, 255, 255));
+        btnEdit.setBorderPainted(false);
+        btnEdit.setCursor(Cursor.getPredefinedCursor(HAND_CURSOR));
+        btnEdit.setText("Sửa");
+        btnEdit.setIcon(new ImageIcon(getClass().getResource("/mobileshop/assets/icon/icons8_edit_40px.png")));
+        btnEdit.setVerticalTextPosition(SwingConstants.BOTTOM);
+        btnEdit.setHorizontalTextPosition(SwingConstants.CENTER);
+        btnEdit.setHorizontalAlignment(SwingConstants.LEFT);
+        featureMenu.add(btnEdit);
         
-        JButton fix = new JButton();
-        fix.setFont(new Font("sansserif", 1, 14));
-        fix.setForeground(new Color(0, 0, 0));
-        fix.setBackground(new Color(255, 255, 255));
-        fix.setBorderPainted(false);
-        fix.setCursor(Cursor.getPredefinedCursor(HAND_CURSOR));
-        fix.setText("Sửa");
-        fix.setIcon(new ImageIcon(getClass().getResource("/mobileshop/assets/icon/icons8_edit_40px.png")));
-        fix.setVerticalTextPosition(SwingConstants.BOTTOM);
-        fix.setHorizontalTextPosition(SwingConstants.CENTER);
-        fix.setHorizontalAlignment(SwingConstants.LEFT);
-        featureMenu.add(fix);
+        JButton btnImportExcel = new JButton();
+        btnImportExcel.setFont(new Font("sansserif", 1, 14));
+        btnImportExcel.setForeground(new Color(0, 0, 0));
+        btnImportExcel.setBackground(new Color(255, 255, 255));
+        btnImportExcel.setBorderPainted(false);
+        btnImportExcel.setCursor(Cursor.getPredefinedCursor(HAND_CURSOR));
+        btnImportExcel.setText("Nhập Excel");
+        btnImportExcel.setIcon(new ImageIcon(getClass().getResource("/mobileshop/assets/icon/icons8_spreadsheet_file_40px.png")));
+        btnImportExcel.setVerticalTextPosition(SwingConstants.BOTTOM);
+        btnImportExcel.setHorizontalTextPosition(SwingConstants.CENTER);
+        btnImportExcel.setHorizontalAlignment(SwingConstants.LEFT);
+        featureMenu.add(btnImportExcel);
         
-        JButton addExcel = new JButton();
-        addExcel.setFont(new Font("sansserif", 1, 14));
-        addExcel.setForeground(new Color(0, 0, 0));
-        addExcel.setBackground(new Color(255, 255, 255));
-        addExcel.setBorderPainted(false);
-        addExcel.setCursor(Cursor.getPredefinedCursor(HAND_CURSOR));
-        addExcel.setText("Nhập Excel");
-        addExcel.setIcon(new ImageIcon(getClass().getResource("/mobileshop/assets/icon/icons8_spreadsheet_file_40px.png")));
-        addExcel.setVerticalTextPosition(SwingConstants.BOTTOM);
-        addExcel.setHorizontalTextPosition(SwingConstants.CENTER);
-        addExcel.setHorizontalAlignment(SwingConstants.LEFT);
-        featureMenu.add(addExcel);
-        
-        JButton ExportExcel = new JButton();
-        ExportExcel.setFont(new Font("sansserif", 1, 14));
-        ExportExcel.setForeground(new Color(0, 0, 0));
-        ExportExcel.setBackground(new Color(255, 255, 255));
-        ExportExcel.setBorderPainted(false);
-        ExportExcel.setCursor(Cursor.getPredefinedCursor(HAND_CURSOR));
-        ExportExcel.setText("Xuất Excel");
-        ExportExcel.setIcon(new ImageIcon(getClass().getResource("/mobileshop/assets/icon/icons8_xls_40px.png")));
-        ExportExcel.setVerticalTextPosition(SwingConstants.BOTTOM);
-        ExportExcel.setHorizontalTextPosition(SwingConstants.CENTER);
-        ExportExcel.setHorizontalAlignment(SwingConstants.LEFT);
-        featureMenu.add(ExportExcel);
-        
+        JButton btnExportExcel = new JButton();
+        btnExportExcel.setFont(new Font("sansserif", 1, 14));
+        btnExportExcel.setForeground(new Color(0, 0, 0));
+        btnExportExcel.setBackground(new Color(255, 255, 255));
+        btnExportExcel.setBorderPainted(false);
+        btnExportExcel.setCursor(Cursor.getPredefinedCursor(HAND_CURSOR));
+        btnExportExcel.setText("Xuất Excel");
+        btnExportExcel.setIcon(new ImageIcon(getClass().getResource("/mobileshop/assets/icon/icons8_xls_40px.png")));
+        btnExportExcel.setVerticalTextPosition(SwingConstants.BOTTOM);
+        btnExportExcel.setHorizontalTextPosition(SwingConstants.CENTER);
+        btnExportExcel.setHorizontalAlignment(SwingConstants.LEFT);
+        featureMenu.add(btnExportExcel);
+        //</editor-fold>
+
+        //<editor-fold defaultstate="collapsed" desc="Search">
         title2 = new JLabel("Tìm kiếm: ");
         title2.setFont(new Font("sansserif", 1, 14));
         title2.setForeground(new Color(0, 0, 0));
@@ -164,15 +178,29 @@ public class PanelProduct extends javax.swing.JPanel {
         reload.setIcon(new ImageIcon(getClass().getResource("/mobileshop/assets/icon/icons8_reset_25px_1.png")));
         reload.setMargin(new Insets(10,20,10,20));
         search.add(reload, "w 30%, h 35%");
-        
-        Object[][] data = {
-                {"OJ01", "IPhone", "Còn hàng", "Apple", "32000000", "OJC01"},
-                {"OJ01", "IPhone", "Còn hàng", "Apple", "32000000", "OJC01"},
-                {"OJ01", "IPhone", "Còn hàng", "Apple", "32000000", "OJC01"},
-                {"OJ01", "IPhone", "Còn hàng", "Apple", "32000000", "OJC01"}
-        };
+        //</editor-fold>
+
+        //<editor-fold defaultstate="collapsed" desc="Table">
         String[] columnNames = {"Mã sản phẩm", "Tên sản phẩm", "Trạng thái", "Nhà sản xuất", "Giá thành", "Mã loại sản phẩm"};
-        DefaultTableModel model = new DefaultTableModel(data, columnNames);
+        DefaultTableModel model = new DefaultTableModel(new java.lang.Object[][]{}, columnNames);
+
+        products = ObjectDAO.getInstance().selectAll();
+
+        try {
+            model.setRowCount(0);
+            for (Object product : products) {
+                model.addRow(new java.lang.Object[]{
+                        product.getId(),
+                        product.getName(),
+                        product.getStatus(),
+                        product.getManufacturer(),
+                        product.getUnitPrice(),
+                        product.getIdCategory()
+                });
+            }
+        } catch (Exception e) {
+            System.out.println(e);
+        }
         product = new JTable(model);
         scrollPane = new JScrollPane(product);
         scrollPane.setViewportView(product);
@@ -182,11 +210,21 @@ public class PanelProduct extends javax.swing.JPanel {
         product.setForeground(new Color(100, 100, 100));
         product.setFont(new Font("sansserif", 1, fontSize));
         mainPanel.add(scrollPane, "w 100%, h 100%");
+        //</editor-fold>
+
         add(fsPanel, "width 100%, height 20%, wrap");
         add(mainPanel, "width 100%, height 80%, wrap");
         fsPanel.add(feature, "width 50%, pos 0al 0 n 100%");
         fsPanel.add(search, "width 48%, pos 1al 0 n 100%");
-        
+
+        //<editor-fold defaultstate="collapsed" desc="Event">
+        btnAdd.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                AddItem = new addItem();
+                AddItem.show();
+            }
+        });
     }
     
     
