@@ -21,4 +21,16 @@ public class ProductController {
         }
         return false;
     }
+
+    public boolean delProduct(String id) {
+        try {
+            Object object = ObjectDAO.getInstance().selectById(id);
+            if(ObjectDAO.getInstance().delete(object) == 1) {
+                return true;
+            }
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "Lỗi truy vấn!", "Error", JOptionPane.ERROR_MESSAGE);
+        }
+        return false;
+    }
 }

@@ -2,11 +2,9 @@ package mobileshop.view.UI;
 
 import java.awt.Color;
 import java.awt.Cursor;
-import static java.awt.Cursor.HAND_CURSOR;
 import java.awt.Font;
 import java.awt.HeadlessException;
 import java.awt.Insets;
-import java.awt.Panel;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
@@ -18,7 +16,7 @@ import mobileshop.model.ObjectCategory;
 import mobileshop.view.component.PanelCoverAddItem;
 import net.miginfocom.swing.MigLayout;
 
-public class addItem extends javax.swing.JFrame {
+public class AddItem extends javax.swing.JFrame {
 
     private MigLayout layout;
     private PanelCoverAddItem cover;
@@ -26,7 +24,7 @@ public class addItem extends javax.swing.JFrame {
     private int fonsize = 14;
     private ArrayList<ObjectCategory> listCate;
             
-    public addItem() {
+    public AddItem() {
         initComponents();
         setTitle("Thêm sản phẩm mới");
         initComponents();
@@ -216,20 +214,20 @@ public class addItem extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(addItem.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(AddItem.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(addItem.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(AddItem.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(addItem.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(AddItem.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(addItem.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(AddItem.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new addItem().setVisible(true);
+                new AddItem().setVisible(true);
             }
         });
     }

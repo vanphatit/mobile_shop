@@ -26,7 +26,6 @@ import net.miginfocom.swing.MigLayout;
 
 public class home extends javax.swing.JFrame {
 
-        
     private MigLayout layout;
     private PanelCoverHome cover;
     private PanelProduct Product;
@@ -268,8 +267,6 @@ public class home extends javax.swing.JFrame {
             new home().setVisible(true);
         });
     }
-
-    
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLayeredPane bg;

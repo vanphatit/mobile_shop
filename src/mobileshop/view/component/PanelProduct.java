@@ -8,24 +8,17 @@ import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
-import javax.swing.ImageIcon;
-import javax.swing.JButton;
-import javax.swing.JComboBox;
-import javax.swing.JLabel;
-import javax.swing.JMenuBar;
-import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-import javax.swing.JTable;
-import javax.swing.SwingConstants;
+import javax.swing.*;
 import javax.swing.border.LineBorder;
 import javax.swing.table.DefaultTableModel;
 
 import mobileshop.controller.ProductController;
 import mobileshop.dao.ObjectDAO;
 import mobileshop.model.Object;
+import mobileshop.view.UI.editItem;
 import mobileshop.view.swing.MyTextField;
 import net.miginfocom.swing.MigLayout;
-import mobileshop.view.UI.addItem;
+import mobileshop.view.UI.AddItem;
 
 public class PanelProduct extends javax.swing.JPanel {
 
@@ -40,7 +33,8 @@ public class PanelProduct extends javax.swing.JPanel {
     private JLabel title1;
     private JLabel title2;
     private JMenuBar featureMenu;
-    private addItem AddItem;
+    private mobileshop.view.UI.AddItem AddItem;
+    private mobileshop.view.UI.editItem EditItem;
 
     private ArrayList<Object> products;
     
@@ -168,16 +162,16 @@ public class PanelProduct extends javax.swing.JPanel {
         text.setBorder(new LineBorder(new Color(0, 0, 0)));
         search.add(text, "w 40%, h 35%");
         
-        JButton reload = new JButton();
-        reload.setFont(new Font("sansserif", 1, 14));
-        reload.setForeground(new Color(0, 0, 0));
-        reload.setBackground(new Color(255, 255, 255));
-        reload.setCursor(Cursor.getPredefinedCursor(HAND_CURSOR));
-        reload.setText("Làm mới");
-        reload.setBorder(new LineBorder(new Color(0,0,0)));
-        reload.setIcon(new ImageIcon(getClass().getResource("/mobileshop/assets/icon/icons8_reset_25px_1.png")));
-        reload.setMargin(new Insets(10,20,10,20));
-        search.add(reload, "w 30%, h 35%");
+        JButton btnReload = new JButton();
+        btnReload.setFont(new Font("sansserif", 1, 14));
+        btnReload.setForeground(new Color(0, 0, 0));
+        btnReload.setBackground(new Color(255, 255, 255));
+        btnReload.setCursor(Cursor.getPredefinedCursor(HAND_CURSOR));
+        btnReload.setText("Làm mới");
+        btnReload.setBorder(new LineBorder(new Color(0,0,0)));
+        btnReload.setIcon(new ImageIcon(getClass().getResource("/mobileshop/assets/icon/icons8_reset_25px_1.png")));
+        btnReload.setMargin(new Insets(10,20,10,20));
+        search.add(btnReload, "w 30%, h 35%");
         //</editor-fold>
 
         //<editor-fold defaultstate="collapsed" desc="Table">
@@ -221,8 +215,62 @@ public class PanelProduct extends javax.swing.JPanel {
         btnAdd.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                AddItem = new addItem();
+                AddItem = new AddItem();
                 AddItem.show();
+            }
+        });
+
+        btnEdit.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                int row = product.getSelectedRow();
+                if(row == -1) {
+                    JOptionPane.showMessageDialog(null, "Vui lòng chọn sản phẩm cần sửa!", "Error", JOptionPane.ERROR_MESSAGE);
+                } else {
+                    String id = (String) product.getValueAt(row, 0);
+                    EditItem = new editItem(id);
+                    EditItem.show();
+                }
+            }
+        });
+
+        btnDel.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                int row = product.getSelectedRow();
+                if(row == -1) {
+                    JOptionPane.showMessageDialog(null, "Vui lòng chọn sản phẩm cần xóa!", "Error", JOptionPane.ERROR_MESSAGE);
+                } else {
+                    String id = (String) product.getValueAt(row, 0);
+                    if(ProductController.getInstance().delProduct(id)) {
+                        JOptionPane.showMessageDialog(null, "Xóa thành công!", "Success", JOptionPane.INFORMATION_MESSAGE);
+
+                    } else {
+                        JOptionPane.showMessageDialog(null, "Xóa thất bại!", "Error", JOptionPane.ERROR_MESSAGE);
+                    }
+                }
+            }
+        });
+
+        btnReload.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                products = ObjectDAO.getInstance().selectAll();
+                try {
+                    model.setRowCount(0);
+                    for (Object product : products) {
+                        model.addRow(new java.lang.Object[]{
+                                product.getId(),
+                                product.getName(),
+                                product.getStatus(),
+                                product.getManufacturer(),
+                                product.getUnitPrice(),
+                                product.getIdCategory()
+                        });
+                    }
+                } catch (Exception ex) {
+                    System.out.println(ex);
+                }
             }
         });
     }
