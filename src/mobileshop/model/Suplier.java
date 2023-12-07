@@ -5,9 +5,9 @@ public class Suplier {
     private String name;
     private String address;
     private String phone;
-    private String status;
+    private boolean status;
 
-    public Suplier(String id, String name, String address, String phone, String status) {
+    public Suplier(String id, String name, String address, String phone, boolean status) {
         this.id = id;
         this.name = name;
         this.address = address;
@@ -28,7 +28,7 @@ public class Suplier {
     public String getPhoneNumber() {
         return phone;
     }
-    public String getStatus() {
+    public boolean getStatus() {
         return status;
     }
     public void setId(String id) {
@@ -43,7 +43,7 @@ public class Suplier {
     public void setPhoneNumber(String phone) {
         this.phone = phone;
     }
-    public void setStatus(String status) {
+    public void setStatus(boolean status) {
         this.status = status;
     }
 }

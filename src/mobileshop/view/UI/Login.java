@@ -16,7 +16,7 @@ import mobileshop.view.component.PanelCoverLogin;
 import mobileshop.view.swing.MyTextField;
 import net.miginfocom.swing.MigLayout;
 
-public class login extends javax.swing.JFrame {
+public class Login extends javax.swing.JFrame {
 
     private MigLayout layout;
     private PanelCoverLogin cover;
@@ -24,7 +24,7 @@ public class login extends javax.swing.JFrame {
     private final double coverSize = 40;
     private final double loginSize = 60;
     
-    public login() {
+    public Login() {
         setTitle("Đăng nhập vào phần mềm!");
         initComponents();
         init();
@@ -76,7 +76,7 @@ public class login extends javax.swing.JFrame {
                         String.valueOf(txtPass.getPassword())))
                 {
                     dispose();
-                    home mainLayout = new home();
+                    Home mainLayout = new Home();
                     mainLayout.setVisible(true);
                 }
             }

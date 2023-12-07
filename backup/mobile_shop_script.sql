@@ -146,7 +146,7 @@ INSERT INTO customer_category (id, name, discount) VALUES ('CC01', 'Category 1',
 INSERT INTO customer_category (id, name, discount) VALUES ('CC02', 'Category 2', 0.2);
 INSERT INTO customer_category (id, name, discount) VALUES ('CC03', 'Category 3', 0.3);
 
--- Inserting into customer table
+-- Inserting into Customer table
 INSERT INTO customer (id, name, address, gender, birthday, phone, id_category) VALUES ('C0001', 'Customer 1', 'Address 1', true, '1990-01-01', 1234567890, 'CC01');
 INSERT INTO customer (id, name, address, gender, birthday, phone, id_category) VALUES ('C0002', 'Customer 2', 'Address 2', false, '1995-05-05', 9876543210, 'CC02');
 INSERT INTO customer (id, name, address, gender, birthday, phone, id_category) VALUES ('C0003', 'Customer 3', 'Address 3', true, '2000-10-10', 5555555555, 'CC03');

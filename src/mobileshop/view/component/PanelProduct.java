@@ -15,7 +15,7 @@ import javax.swing.table.DefaultTableModel;
 import mobileshop.controller.ProductController;
 import mobileshop.dao.ObjectDAO;
 import mobileshop.model.Object;
-import mobileshop.view.UI.editItem;
+import mobileshop.view.UI.EditItem;
 import mobileshop.view.swing.MyTextField;
 import net.miginfocom.swing.MigLayout;
 import mobileshop.view.UI.AddItem;
@@ -34,7 +34,7 @@ public class PanelProduct extends javax.swing.JPanel {
     private JLabel title2;
     private JMenuBar featureMenu;
     private mobileshop.view.UI.AddItem AddItem;
-    private mobileshop.view.UI.editItem EditItem;
+    private EditItem EditItem;
 
     private ArrayList<Object> products;
     
@@ -186,7 +186,7 @@ public class PanelProduct extends javax.swing.JPanel {
                 model.addRow(new java.lang.Object[]{
                         product.getId(),
                         product.getName(),
-                        product.getStatus(),
+                        product.getStatus() == "Còn hàng" ? "Còn hàng" : "Hết hàng",
                         product.getManufacturer(),
                         product.getUnitPrice(),
                         product.getIdCategory()
@@ -225,12 +225,11 @@ public class PanelProduct extends javax.swing.JPanel {
             public void actionPerformed(ActionEvent e) {
                 int row = product.getSelectedRow();
                 if(row == -1) {
-                    JOptionPane.showMessageDialog(null, "Vui lòng chọn sản phẩm cần sửa!", "Error", JOptionPane.ERROR_MESSAGE);
-                } else {
-                    String id = (String) product.getValueAt(row, 0);
-                    EditItem = new editItem(id);
-                    EditItem.show();
+                    return;
                 }
+                String id = (String) product.getValueAt(row, 0);
+                EditItem = new EditItem(id);
+                EditItem.show();
             }
         });
 
@@ -239,15 +238,13 @@ public class PanelProduct extends javax.swing.JPanel {
             public void actionPerformed(ActionEvent e) {
                 int row = product.getSelectedRow();
                 if(row == -1) {
-                    JOptionPane.showMessageDialog(null, "Vui lòng chọn sản phẩm cần xóa!", "Error", JOptionPane.ERROR_MESSAGE);
-                } else {
-                    String id = (String) product.getValueAt(row, 0);
-                    if(ProductController.getInstance().delProduct(id)) {
-                        JOptionPane.showMessageDialog(null, "Xóa thành công!", "Success", JOptionPane.INFORMATION_MESSAGE);
-
-                    } else {
-                        JOptionPane.showMessageDialog(null, "Xóa thất bại!", "Error", JOptionPane.ERROR_MESSAGE);
-                    }
+                    return;
+                }
+                String id = (String) product.getValueAt(row, 0);
+                if(ProductController.getInstance().delProduct(id)) {
+                    model.removeRow(row);
+                    JOptionPane.showMessageDialog(null, "Xóa thành công!",
+                            "Success", JOptionPane.INFORMATION_MESSAGE);
                 }
             }
         });

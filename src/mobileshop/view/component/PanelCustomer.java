@@ -1,46 +1,42 @@
 package mobileshop.view.component;
 
-import java.awt.Color;
-import java.awt.Cursor;
-import java.awt.Font;
-import static java.awt.Frame.HAND_CURSOR;
-import java.awt.Insets;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.util.ArrayList;
+import mobileshop.controller.CustomerController;
+import mobileshop.dao.CustomerDAO;
+import mobileshop.model.Customer;
+import mobileshop.view.UI.AddCustomer;
+import mobileshop.view.UI.EditCustomer;
+import mobileshop.view.swing.MyTextField;
+import net.miginfocom.swing.MigLayout;
+
 import javax.swing.*;
 import javax.swing.border.LineBorder;
 import javax.swing.table.DefaultTableModel;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.ArrayList;
 
-import mobileshop.controller.SuplierController;
-import mobileshop.dao.StaffDAO;
-import mobileshop.dao.SuplierDAO;
-import mobileshop.model.Staff;
-import mobileshop.model.Suplier;
-import mobileshop.view.UI.AddItem;
-import mobileshop.view.UI.EditSuplier;
-import mobileshop.view.swing.MyTextField;
-import net.miginfocom.swing.MigLayout;
-import mobileshop.view.UI.AddSuplier;
+import static java.awt.Frame.HAND_CURSOR;
 
-public class PanelSuplier extends javax.swing.JPanel {
+public class PanelCustomer extends JPanel {
 
     private MigLayout layout;
     private int fontSize = 16;
     private JPanel fsPanel;
     private JPanel mainPanel;
-    private JTable suplier;
+    private JTable customer;
     private JScrollPane scrollPane;
     private JPanel feature;
     private JPanel search;
     private JLabel title1;
     private JLabel title2;
     private JMenuBar featureMenu;
-    private EditSuplier editSuplier;
-    private AddSuplier addSuplier;
-    private ArrayList<Suplier> supliers;
-    
-    public PanelSuplier() {
+    private mobileshop.view.UI.AddCustomer addCustomer;
+    private mobileshop.view.UI.EditCustomer editCustomer;
+
+    private ArrayList<Customer> Customers;
+
+    public PanelCustomer() {
         initComponents();
         setOpaque(false);
         layout = new MigLayout("wrap");
@@ -73,7 +69,8 @@ public class PanelSuplier extends javax.swing.JPanel {
         feature.add(featureMenu);
         
         featureMenu.setBorder(new LineBorder(new Color(0,0,0)));
-        
+
+        //<editor-fold defaultstate="collapsed" desc="Menu">
         JButton btnAdd = new JButton();
         btnAdd.setFont(new Font("sansserif", 1, 14));
         btnAdd.setForeground(new Color(0, 0, 0));
@@ -113,32 +110,34 @@ public class PanelSuplier extends javax.swing.JPanel {
         btnEdit.setHorizontalAlignment(SwingConstants.LEFT);
         featureMenu.add(btnEdit);
         
-        JButton addExcel = new JButton();
-        addExcel.setFont(new Font("sansserif", 1, 14));
-        addExcel.setForeground(new Color(0, 0, 0));
-        addExcel.setBackground(new Color(255, 255, 255));
-        addExcel.setBorderPainted(false);
-        addExcel.setCursor(Cursor.getPredefinedCursor(HAND_CURSOR));
-        addExcel.setText("Nhập Excel");
-        addExcel.setIcon(new ImageIcon(getClass().getResource("/mobileshop/assets/icon/icons8_spreadsheet_file_40px.png")));
-        addExcel.setVerticalTextPosition(SwingConstants.BOTTOM);
-        addExcel.setHorizontalTextPosition(SwingConstants.CENTER);
-        addExcel.setHorizontalAlignment(SwingConstants.LEFT);
-        featureMenu.add(addExcel);
+        JButton btnImportExcel = new JButton();
+        btnImportExcel.setFont(new Font("sansserif", 1, 14));
+        btnImportExcel.setForeground(new Color(0, 0, 0));
+        btnImportExcel.setBackground(new Color(255, 255, 255));
+        btnImportExcel.setBorderPainted(false);
+        btnImportExcel.setCursor(Cursor.getPredefinedCursor(HAND_CURSOR));
+        btnImportExcel.setText("Nhập Excel");
+        btnImportExcel.setIcon(new ImageIcon(getClass().getResource("/mobileshop/assets/icon/icons8_spreadsheet_file_40px.png")));
+        btnImportExcel.setVerticalTextPosition(SwingConstants.BOTTOM);
+        btnImportExcel.setHorizontalTextPosition(SwingConstants.CENTER);
+        btnImportExcel.setHorizontalAlignment(SwingConstants.LEFT);
+        featureMenu.add(btnImportExcel);
         
-        JButton ExportExcel = new JButton();
-        ExportExcel.setFont(new Font("sansserif", 1, 14));
-        ExportExcel.setForeground(new Color(0, 0, 0));
-        ExportExcel.setBackground(new Color(255, 255, 255));
-        ExportExcel.setBorderPainted(false);
-        ExportExcel.setCursor(Cursor.getPredefinedCursor(HAND_CURSOR));
-        ExportExcel.setText("Xuất Excel");
-        ExportExcel.setIcon(new ImageIcon(getClass().getResource("/mobileshop/assets/icon/icons8_xls_40px.png")));
-        ExportExcel.setVerticalTextPosition(SwingConstants.BOTTOM);
-        ExportExcel.setHorizontalTextPosition(SwingConstants.CENTER);
-        ExportExcel.setHorizontalAlignment(SwingConstants.LEFT);
-        featureMenu.add(ExportExcel);
-        
+        JButton btnExportExcel = new JButton();
+        btnExportExcel.setFont(new Font("sansserif", 1, 14));
+        btnExportExcel.setForeground(new Color(0, 0, 0));
+        btnExportExcel.setBackground(new Color(255, 255, 255));
+        btnExportExcel.setBorderPainted(false);
+        btnExportExcel.setCursor(Cursor.getPredefinedCursor(HAND_CURSOR));
+        btnExportExcel.setText("Xuất Excel");
+        btnExportExcel.setIcon(new ImageIcon(getClass().getResource("/mobileshop/assets/icon/icons8_xls_40px.png")));
+        btnExportExcel.setVerticalTextPosition(SwingConstants.BOTTOM);
+        btnExportExcel.setHorizontalTextPosition(SwingConstants.CENTER);
+        btnExportExcel.setHorizontalAlignment(SwingConstants.LEFT);
+        featureMenu.add(btnExportExcel);
+        //</editor-fold>
+
+        //<editor-fold defaultstate="collapsed" desc="Search">
         title2 = new JLabel("Tìm kiếm: ");
         title2.setFont(new Font("sansserif", 1, 14));
         title2.setForeground(new Color(0, 0, 0));
@@ -171,73 +170,94 @@ public class PanelSuplier extends javax.swing.JPanel {
         btnReload.setIcon(new ImageIcon(getClass().getResource("/mobileshop/assets/icon/icons8_reset_25px_1.png")));
         btnReload.setMargin(new Insets(10,20,10,20));
         search.add(btnReload, "w 30%, h 35%");
+        //</editor-fold>
 
-        String[] columnNames = {"Mã nhà cung cấp", "Tên nhà cung cấp", "Địa chỉ", "Số điện thoại", "Trạng thái"};
+        //<editor-fold defaultstate="collapsed" desc="Table">
+        String[] columnNames = {"Mã khách hàng", "Tên khách hàng", "Địa chỉ", "Giới tính", "Ngày sinh", "Số điện thoại", "Mã loại khách hàng"};
         DefaultTableModel model = new DefaultTableModel(new java.lang.Object[][]{}, columnNames);
 
-        supliers = SuplierDAO.getInstance().selectAll();
+        Customers = CustomerDAO.getInstance().selectAll();
 
         try {
             model.setRowCount(0);
-            for (Suplier suplier : supliers) {
+            for (Customer customer : Customers) {
                 model.addRow(new java.lang.Object[]{
-                        suplier.getId(),
-                        suplier.getName(),
-                        suplier.getAddress(),
-                        suplier.getPhoneNumber(),
-                        suplier.getStatus() ? "Còn hoạt động" : "Hết hoạt động"
+                        customer.getId(),
+                        customer.getName(),
+                        customer.getAddress(),
+                        customer.getGender() ? "Nam" : "Nữ",
+                        customer.getBirthday(),
+                        customer.getPhone(),
+                        customer.getIdCategory()
                 });
             }
         } catch (Exception e) {
             System.out.println(e);
         }
-        suplier = new JTable(model);
-        scrollPane = new JScrollPane(suplier);
-        scrollPane.setViewportView(suplier);
+        customer = new JTable(model);
+        scrollPane = new JScrollPane(customer);
+        scrollPane.setViewportView(customer);
         scrollPane.setBackground(new Color(255, 255, 255));
         scrollPane.setForeground(new Color(100, 100, 100));
         scrollPane.setFont(new Font("sansserif", 1, fontSize));
-        suplier.setForeground(new Color(100, 100, 100));
-        suplier.setFont(new Font("sansserif", 1, fontSize));
+        customer.setForeground(new Color(100, 100, 100));
+        customer.setFont(new Font("sansserif", 1, fontSize));
         mainPanel.add(scrollPane, "w 100%, h 100%");
+        //</editor-fold>
+
         add(fsPanel, "width 100%, height 20%, wrap");
         add(mainPanel, "width 100%, height 80%, wrap");
         fsPanel.add(feature, "width 50%, pos 0al 0 n 100%");
         fsPanel.add(search, "width 48%, pos 1al 0 n 100%");
 
+        //<editor-fold defaultstate="collapsed" desc="Event">
         btnAdd.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                addSuplier = new AddSuplier();
-                addSuplier.show();
+                addCustomer = new AddCustomer();
+                addCustomer.show();
             }
         });
 
         btnEdit.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                int row = suplier.getSelectedRow();
+                int row = customer.getSelectedRow();
                 if(row == -1) {
                     return;
                 }
-                String id = suplier.getValueAt(row, 0).toString();
-                editSuplier = new EditSuplier(id);
-                editSuplier.show();
+                String id = customer.getValueAt(row, 0).toString();
+                editCustomer = new EditCustomer(id);
+                editCustomer.show();
             }
         });
 
         btnDel.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                int row = suplier.getSelectedRow();
+                int row = customer.getSelectedRow();
                 if(row == -1) {
-                    return;
-                }
-                String id = suplier.getValueAt(row, 0).toString();
-                if(SuplierController.getInstance().delSuplier(id)) {
-                    model.removeRow(row);
-                    JOptionPane.showMessageDialog(null, "Xóa thành công!",
-                            "Success", JOptionPane.INFORMATION_MESSAGE);
+                    JOptionPane.showMessageDialog(null, "Vui lòng chọn khách hàng cần xóa!", "Error", JOptionPane.ERROR_MESSAGE);
+                } else {
+                    String id = (String) customer.getValueAt(row, 0);
+                    if(CustomerController.getInstance().delCustomer(id)) {
+                        JOptionPane.showMessageDialog(null, "Xóa thành công!", "Success", JOptionPane.INFORMATION_MESSAGE);
+                        Customers = CustomerDAO.getInstance().selectAll();
+                        model.setRowCount(0);
+                        for (Customer customer : Customers) {
+                            model.addRow(new java.lang.Object[]{
+                                    customer.getId(),
+                                    customer.getName(),
+                                    customer.getAddress(),
+                                    customer.getGender() ? "Nam" : "Nữ",
+                                    customer.getBirthday(),
+                                    customer.getPhone(),
+                                    customer.getIdCategory()
+                            });
+                        }
+                    } else {
+                        JOptionPane.showMessageDialog(null, "Xóa thất bại!", "Error", JOptionPane.ERROR_MESSAGE);
+                    }
                 }
             }
         });
@@ -245,21 +265,18 @@ public class PanelSuplier extends javax.swing.JPanel {
         btnReload.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                supliers = SuplierDAO.getInstance().selectAll();
-
-                try {
-                    model.setRowCount(0);
-                    for (Suplier suplier : supliers) {
-                        model.addRow(new java.lang.Object[]{
-                                suplier.getId(),
-                                suplier.getName(),
-                                suplier.getAddress(),
-                                suplier.getPhoneNumber(),
-                                suplier.getStatus() ? "Còn hoạt động" : "Hết hoạt động"
-                        });
-                    }
-                } catch (Exception ex) {
-                    System.out.println(ex);
+                Customers = CustomerDAO.getInstance().selectAll();
+                model.setRowCount(0);
+                for (Customer customer : Customers) {
+                    model.addRow(new java.lang.Object[]{
+                            customer.getId(),
+                            customer.getName(),
+                            customer.getAddress(),
+                            customer.getGender() ? "Nam" : "Nữ",
+                            customer.getBirthday(),
+                            customer.getPhone(),
+                            customer.getIdCategory()
+                    });
                 }
             }
         });
@@ -269,14 +286,14 @@ public class PanelSuplier extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
+        GroupLayout layout = new GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            layout.createParallelGroup(GroupLayout.Alignment.LEADING)
             .addGap(0, 400, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            layout.createParallelGroup(GroupLayout.Alignment.LEADING)
             .addGap(0, 298, Short.MAX_VALUE)
         );
     }// </editor-fold>//GEN-END:initComponents

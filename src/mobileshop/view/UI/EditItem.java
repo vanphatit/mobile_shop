@@ -17,7 +17,7 @@ import mobileshop.model.ObjectCategory;
 import mobileshop.view.component.PanelCoverEditItem;
 import net.miginfocom.swing.MigLayout;
 
-public class editItem extends javax.swing.JFrame {
+public class EditItem extends javax.swing.JFrame {
 
     private MigLayout layout;
     private PanelCoverEditItem cover;
@@ -27,7 +27,7 @@ public class editItem extends javax.swing.JFrame {
     private Object object;
     private ArrayList<ObjectCategory> listCate;
             
-    public editItem(String id) {
+    public EditItem(String id) {
         initComponents();
         setTitle("Sửa thông tin sản  phẩm");
         initComponents();
@@ -56,7 +56,7 @@ public class editItem extends javax.swing.JFrame {
         JTextField txtInfo = new JTextField();
         txtInfo.setFont(new Font("sansserif", 1, fonsize));
         txtInfo.setText(object.getId());
-        txtInfo.setEnabled(false);
+        txtInfo.setEditable(false);
         addPanel.add(txtInfo, "wrap, width 60%");
         
         JLabel name = new JLabel("Tên sản phẩm: ");
