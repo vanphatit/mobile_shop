@@ -1,12 +1,12 @@
 package mobileshop.model;
 
-public class ReceptNoteDetail {
+public class ReceiptNoteDetail {
     private int unitPrice;
     private int count;
     private String idObject;
     private String idRecept;
 
-    public ReceptNoteDetail(int unitPrice, int count, String idObject, String idRecept) {
+    public ReceiptNoteDetail(int unitPrice, int count, String idObject, String idRecept) {
         this.unitPrice = unitPrice;
         this.count = count;
         this.idObject = idObject;

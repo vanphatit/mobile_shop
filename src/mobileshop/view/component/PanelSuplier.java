@@ -10,6 +10,7 @@ import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import javax.swing.*;
 import javax.swing.border.LineBorder;
+import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 
 import mobileshop.controller.SuplierController;
@@ -194,11 +195,19 @@ public class PanelSuplier extends javax.swing.JPanel {
         suplier = new JTable(model);
         scrollPane = new JScrollPane(suplier);
         scrollPane.setViewportView(suplier);
-        scrollPane.setBackground(new Color(255, 255, 255));
-        scrollPane.setForeground(new Color(100, 100, 100));
-        scrollPane.setFont(new Font("sansserif", 1, fontSize));
+
         suplier.setForeground(new Color(100, 100, 100));
         suplier.setFont(new Font("sansserif", 1, fontSize));
+        suplier.setRowHeight(30);
+        suplier.setFillsViewportHeight(true);
+        suplier.setBackground(new Color(255, 255, 255));
+        suplier.getTableHeader().setBackground(new Color(255, 255, 255));
+        suplier.getTableHeader().setForeground(new Color(100, 100, 100));
+        suplier.getTableHeader().setFont(new Font("sansserif", 1, fontSize));
+        DefaultTableCellRenderer renderer = (DefaultTableCellRenderer) suplier.getTableHeader().getDefaultRenderer();
+        renderer.setHorizontalAlignment(SwingConstants.LEFT);
+        suplier.getTableHeader().setDefaultRenderer(renderer);
+        
         mainPanel.add(scrollPane, "w 100%, h 100%");
         add(fsPanel, "width 100%, height 20%, wrap");
         add(mainPanel, "width 100%, height 80%, wrap");
