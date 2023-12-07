@@ -8,6 +8,7 @@ import net.miginfocom.swing.MigLayout;
 
 import javax.swing.*;
 import javax.swing.border.LineBorder;
+import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -195,11 +196,19 @@ public class PanelStaff extends JPanel {
         staff = new JTable(model);
         scrollPane = new JScrollPane(staff);
         scrollPane.setViewportView(staff);
-        scrollPane.setBackground(new Color(255, 255, 255));
-        scrollPane.setForeground(new Color(100, 100, 100));
-        scrollPane.setFont(new Font("sansserif", 1, fontSize));
+
         staff.setForeground(new Color(100, 100, 100));
         staff.setFont(new Font("sansserif", 1, fontSize));
+        staff.setRowHeight(30);
+        staff.setFillsViewportHeight(true);
+        staff.setBackground(new Color(255, 255, 255));
+        staff.getTableHeader().setBackground(new Color(255, 255, 255));
+        staff.getTableHeader().setForeground(new Color(100, 100, 100));
+        staff.getTableHeader().setFont(new Font("sansserif", 1, fontSize));
+        DefaultTableCellRenderer renderer = (DefaultTableCellRenderer) staff.getTableHeader().getDefaultRenderer();
+        renderer.setHorizontalAlignment(SwingConstants.LEFT);
+        staff.getTableHeader().setDefaultRenderer(renderer);
+
         mainPanel.add(scrollPane, "w 100%, h 100%");
         //</editor-fold>
 

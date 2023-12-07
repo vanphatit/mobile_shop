@@ -26,7 +26,7 @@ public class BillDAO implements IDAO<Bill> {
         int ketqua = 0;
         try {
             Connection con = JDBCUtil.getConnection();
-            String sql = "INSERT INTO bill (id, birthday, status, id_customer, id_staff) VALUES (?,?,?,?,?,?)";
+            String sql = "INSERT INTO bill (id, date, status, id_customer, id_staff) VALUES (?,?,?,?,?,?)";
             PreparedStatement pst = con.prepareStatement(sql);
             pst.setString(1, bill.getId());
             pst.setDate(2, bill.getDate());
@@ -87,11 +87,11 @@ public class BillDAO implements IDAO<Bill> {
             var rs = pst.executeQuery();
             while (rs.next()) {
                 String idBill = rs.getString("id");
-                java.sql.Date birthday = rs.getDate("birthday");
-                String status = rs.getString("satus");
+                java.sql.Date date = rs.getDate("date");
+                String status = rs.getString("status");
                 String idCustomer = rs.getString("id_customer");
                 String idStaff = rs.getString("id_staff");
-                Bill bill = new Bill(idBill, birthday, status, idCustomer, idStaff);
+                Bill bill = new Bill(idBill, date, status, idCustomer, idStaff);
                 list.add(bill);
             }
         } catch (SQLException e) {
@@ -111,11 +111,11 @@ public class BillDAO implements IDAO<Bill> {
             var rs = pst.executeQuery();
             while (rs.next()) {
                 String idBill = rs.getString("id");
-                java.sql.Date birthday = rs.getDate("birthday");
-                String status = rs.getString("satus");
+                java.sql.Date date = rs.getDate("date");
+                String status = rs.getString("status");
                 String idCustomer = rs.getString("id_customer");
                 String idStaff = rs.getString("id_staff");
-                bill = new Bill(idBill, birthday, status, idCustomer, idStaff);
+                bill = new Bill(idBill, date, status, idCustomer, idStaff);
             }
             
         } catch (SQLException e) {

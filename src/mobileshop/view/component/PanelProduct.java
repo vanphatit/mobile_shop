@@ -18,6 +18,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.SwingConstants;
 import javax.swing.border.LineBorder;
+import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 
 import mobileshop.dao.ObjectDAO;
@@ -202,12 +203,20 @@ public class PanelProduct extends javax.swing.JPanel {
         }
         product = new JTable(model);
         scrollPane = new JScrollPane(product);
-        scrollPane.setViewportView(product);
-        scrollPane.setBackground(new Color(255, 255, 255));
-        scrollPane.setForeground(new Color(100, 100, 100));
-        scrollPane.setFont(new Font("sansserif", 1, fontSize));
+
         product.setForeground(new Color(100, 100, 100));
         product.setFont(new Font("sansserif", 1, fontSize));
+        product.setRowHeight(30);
+        product.setFillsViewportHeight(true);
+        product.setBackground(new Color(255, 255, 255));
+        product.getTableHeader().setBackground(new Color(255, 255, 255));
+        product.getTableHeader().setForeground(new Color(100, 100, 100));
+        product.getTableHeader().setFont(new Font("sansserif", 1, fontSize));
+        DefaultTableCellRenderer renderer = (DefaultTableCellRenderer) product.getTableHeader().getDefaultRenderer();
+        renderer.setHorizontalAlignment(SwingConstants.LEFT);
+        product.getTableHeader().setDefaultRenderer(renderer);
+
+        scrollPane.setViewportView(product);
         mainPanel.add(scrollPane, "w 100%, h 100%");
         //</editor-fold>
 

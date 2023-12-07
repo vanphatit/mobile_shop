@@ -10,29 +10,28 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import javax.swing.JOptionPane;
 import mobileshop.db.JDBCUtil;
-import mobileshop.model.ReceptNote;
+import mobileshop.model.ReceiptNoteDetail;
 
 /**
  *
  * @author phatlee
  */
-public class ReceptNoteDAO implements IDAO<ReceptNote> {
-    public static ReceptNoteDAO getInstance() {
-        return new ReceptNoteDAO();
+public class ReceiptNoteDetailDAO implements IDAO<ReceiptNoteDetail> {
+    public static ReceiptNoteDetailDAO getInstance() {
+        return new ReceiptNoteDetailDAO();
     }
 
     @Override
-    public int insert(ReceptNote receptNote) {
+    public int insert(ReceiptNoteDetail receiptNoteDetail) {
         int ketqua = 0;
         try {
             Connection con = JDBCUtil.getConnection();
-            String sql = "INSERT INTO recept_note (id, date, more_info, id_suplierr, id_staff) VALUES (?,?,?,?,?,?)";
+            String sql = "INSERT INTO rn_detail (unit_price, count, id_object, id_receipt) VALUES (?,?,?,?";
             PreparedStatement pst = con.prepareStatement(sql);
-            pst.setString(1, receptNote.getId());
-            pst.setDate(2, receptNote.getDate());
-            pst.setString(3, receptNote.getMoreInfo());
-            pst.setString(4, receptNote.getIdSuplier());
-            pst.setString(5, receptNote.getIdStaff());
+            pst.setInt(1, receiptNoteDetail.getUnitPrice());
+            pst.setInt(2, receiptNoteDetail.getCount());
+            pst.setString(3, receiptNoteDetail.getIdObject());
+            pst.setString(4, receiptNoteDetail.getIdRecept());
             ketqua = pst.executeUpdate();
             JDBCUtil.closeConnection(con);
         } catch (SQLException e) {
@@ -42,18 +41,16 @@ public class ReceptNoteDAO implements IDAO<ReceptNote> {
     }
 
     @Override
-    public int update(ReceptNote receptNote) {
+    public int update(ReceiptNoteDetail receiptNoteDetail) {
         int ketqua = 0;
         try {
             Connection con = JDBCUtil.getConnection();
-            String sql = "UPDATE recept_note SET date = ?, more_info = ?, id_suplier = ?, id_staff = ? WHERE id = ?";
+            String sql = "UPDATE rn_detail SET unit_price = ?, count = ? WHERE id_object = ? AND id_receipt = ?";
             PreparedStatement pst = con.prepareStatement(sql);
-            
-            pst.setDate(1, receptNote.getDate());
-            pst.setString(2, receptNote.getMoreInfo());
-            pst.setString(3, receptNote.getIdSuplier());
-            pst.setString(4, receptNote.getIdStaff());
-            pst.setString(5, receptNote.getId());
+            pst.setInt(1, receiptNoteDetail.getUnitPrice());
+            pst.setInt(2, receiptNoteDetail.getCount());
+            pst.setString(3, receiptNoteDetail.getIdObject());
+            pst.setString(4, receiptNoteDetail.getIdRecept());
             ketqua = pst.executeUpdate();
             JDBCUtil.closeConnection(con);
         } catch (SQLException e) {
@@ -63,13 +60,14 @@ public class ReceptNoteDAO implements IDAO<ReceptNote> {
     }
 
     @Override
-    public int delete(ReceptNote receptNote) {
+    public int delete(ReceiptNoteDetail receiptNoteDetail) {
         int ketqua = 0;
         try {
             Connection con = JDBCUtil.getConnection();
-            String sql = "DELETE FROM recept_note WHERE id = ?";
+            String sql = "DELETE FROM rn_detail WHERE id_object = ? and id_receipt = ?";
             PreparedStatement pst = con.prepareStatement(sql);
-            pst.setString(1, receptNote.getId());
+            pst.setString(1, receiptNoteDetail.getIdObject());
+            pst.setString(2, receiptNoteDetail.getIdRecept());
             ketqua = pst.executeUpdate();
             JDBCUtil.closeConnection(con);
         } catch (SQLException e) {
@@ -79,21 +77,20 @@ public class ReceptNoteDAO implements IDAO<ReceptNote> {
     }
 
     @Override
-    public ArrayList<ReceptNote> selectAll() {
-        ArrayList<ReceptNote> list = new ArrayList<>();
+    public ArrayList<ReceiptNoteDetail> selectAll() {
+        ArrayList<ReceiptNoteDetail> list = new ArrayList<>();
         try {
             Connection con = JDBCUtil.getConnection();
-            String sql = "SELECT * FROM recept_note";
+            String sql = "SELECT * FROM rn_detail";
             PreparedStatement pst = con.prepareStatement(sql);
             var rs = pst.executeQuery();
             while (rs.next()) {
-                String idReceptNote = rs.getString("id");
-                java.sql.Date date = rs.getDate("date");
-                String moreInfo = rs.getString("more_info");
-                String idSuplier = rs.getString("id_suplier");
-                String idStaff = rs.getString("id_staff");
-                ReceptNote receptNote = new ReceptNote(idReceptNote, date, moreInfo, idSuplier, idStaff);
-                list.add(receptNote);
+                int unitPrice = rs.getInt("unit_price");
+                int count = rs.getInt("count");
+                String idObject = rs.getString("id_object");
+                String idReceptNote = rs.getString("id_receipt");
+                ReceiptNoteDetail receiptNoteDetail = new ReceiptNoteDetail(unitPrice, count, idObject, idReceptNote);
+                list.add(receiptNoteDetail);
             }
         } catch (SQLException e) {
             JOptionPane.showMessageDialog(null, "Lỗi truy vấn!", "Error", JOptionPane.ERROR_MESSAGE);
@@ -102,31 +99,31 @@ public class ReceptNoteDAO implements IDAO<ReceptNote> {
     }
 
     @Override
-    public ReceptNote selectById(String t) {
-        ReceptNote receptNote = null;
+    public ReceiptNoteDetail selectById(String t) {
+        return null;
+    }
+
+    @Override
+    public ReceiptNoteDetail selectbyId(String t, String tt) {
+        ReceiptNoteDetail receiptNoteDetail = null;
         try {
             Connection con = JDBCUtil.getConnection();
-            String sql = "SELECT * FROM recept_note WHERE id = ?";
+            String sql = "SELECT * FROM receptNote_detail WHERE id_object = ? AND id_recept = ?";
             PreparedStatement pst = con.prepareStatement(sql);
             pst.setString(1, t);
+            pst.setString(2, tt);
             var rs = pst.executeQuery();
             while (rs.next()) {
-                String idReceptNote = rs.getString("id");
-                java.sql.Date date = rs.getDate("date");
-                String moreInfo = rs.getString("more_info");
-                String idSuplier = rs.getString("id_suplier");
-                String idStaff = rs.getString("id_staff");
-                receptNote = new ReceptNote(idReceptNote, date, moreInfo, idSuplier, idStaff);
+                int unitPrice = rs.getInt("unit_price");
+                int count = rs.getInt("count");
+                String idObject = rs.getString("id_object");
+                String idReceptNote = rs.getString("id_receipt");
+                receiptNoteDetail = new ReceiptNoteDetail(unitPrice, count, idObject, idReceptNote);
             }
             
         } catch (SQLException e) {
             JOptionPane.showMessageDialog(null, "Lỗi truy vấn!", "Error", JOptionPane.ERROR_MESSAGE);
         }
-        return receptNote;
-    }
-
-    @Override
-    public ReceptNote selectbyId(String t, String tt) {
-        return null;
+        return receiptNoteDetail;
     }
 }

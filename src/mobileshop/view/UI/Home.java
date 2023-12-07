@@ -22,6 +22,11 @@ public class Home extends javax.swing.JFrame {
     private PanelSuplier Suplier;
     private PanelStaff Staff;
     private PanelCustomer Customer;
+    private PanelReceiptNote ReceiptNote;
+    private PanelReceiptNoteDetail ReceiptNoteDetail;
+    private PanelBill Bill;
+    private PanelBillDetail BillDetail;
+    private PanelStatistics Statistics;
     public  JPanel main;
     private int fontSize = 16;
 
@@ -45,11 +50,16 @@ public class Home extends javax.swing.JFrame {
         Suplier = new PanelSuplier();
         Staff = new PanelStaff();
         Customer = new PanelCustomer();
+        ReceiptNote = new PanelReceiptNote();
+        ReceiptNoteDetail = new PanelReceiptNoteDetail();
+        Bill = new PanelBill();
+        BillDetail = new PanelBillDetail();
+        Statistics = new PanelStatistics();
         main = new JPanel();
         main.setBackground(new Color(255,255,255));
 
         bg.setLayout(new MigLayout("wrap", "[Left]", "150[]10[]10[]10[]10[]10[]10[]10[]push[]10[]10[]push"));
-        main.setLayout(layout);
+        main.setLayout(new MigLayout("wrap", "[grow]", "[grow]"));
 
         bg.add(cover, "width 20%, pos 0al 0 n 100%");
         bg.add(main, "width 78%, pos 1al 0 n 100%");
@@ -161,6 +171,7 @@ public class Home extends javax.swing.JFrame {
                 source.setBackground(new Color(0, 255, 213));
 
                 main.removeAll();
+                main.repaint();
                 main.add(Product, "w 100%, h 100% , wrap");
                 main.revalidate();
             }
@@ -192,6 +203,7 @@ public class Home extends javax.swing.JFrame {
                 source.setBackground(new Color(0, 255, 213));
 
                 main.removeAll();
+                main.repaint();
                 main.add(Suplier, "w 100%, h 100% , wrap");
                 main.revalidate();
             }
@@ -223,6 +235,7 @@ public class Home extends javax.swing.JFrame {
                 source.setBackground(new Color(0, 255, 213));
 
                 main.removeAll();
+                main.repaint();
                 main.add(Staff, "w 100%, h 100% , wrap");
                 main.revalidate();
             }
@@ -254,6 +267,7 @@ public class Home extends javax.swing.JFrame {
                 source.setBackground(new Color(0, 255, 213));
 
                 main.removeAll();
+                main.repaint();
                 main.add(Customer, "w 100%, h 100% , wrap");
                 main.revalidate();
             }
@@ -272,6 +286,104 @@ public class Home extends javax.swing.JFrame {
                 bill.setBackground(DEFAULT_BACKGROUND);
                 statistics.setForeground(DEFAULT_FOREGROUND);
                 statistics.setBackground(DEFAULT_BACKGROUND);
+                change_info.setForeground(DEFAULT_FOREGROUND);
+                change_info.setBackground(DEFAULT_BACKGROUND);
+                logout.setForeground(DEFAULT_FOREGROUND);
+                logout.setBackground(DEFAULT_BACKGROUND);
+            }
+        });
+        receipt_note.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                JButton source = (JButton) evt.getSource();
+                source.setForeground(new Color(0,0,0));
+                source.setBackground(new Color(0, 255, 213));
+
+                main.removeAll();
+                main.repaint();
+                main.add(ReceiptNote, "width 50%, pos 0al 0 n 100%");
+                main.add(ReceiptNoteDetail, "width 50%, pos 1al 0 n 100%");
+                main.revalidate();
+            }
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                receipt_note.setForeground(HOVER_FOREGROUND);
+                receipt_note.setBackground(HOVER_BACKGROUND);
+                object.setForeground(DEFAULT_FOREGROUND);
+                object.setBackground(DEFAULT_BACKGROUND);
+                suplier.setForeground(DEFAULT_FOREGROUND);
+                suplier.setBackground(DEFAULT_BACKGROUND);
+                staff.setForeground(DEFAULT_FOREGROUND);
+                staff.setBackground(DEFAULT_BACKGROUND);
+                customer.setForeground(DEFAULT_FOREGROUND);
+                customer.setBackground(DEFAULT_BACKGROUND);
+                bill.setForeground(DEFAULT_FOREGROUND);
+                bill.setBackground(DEFAULT_BACKGROUND);
+                statistics.setForeground(DEFAULT_FOREGROUND);
+                statistics.setBackground(DEFAULT_BACKGROUND);
+                change_info.setForeground(DEFAULT_FOREGROUND);
+                change_info.setBackground(DEFAULT_BACKGROUND);
+                logout.setForeground(DEFAULT_FOREGROUND);
+                logout.setBackground(DEFAULT_BACKGROUND);
+            }
+        });
+        bill.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                JButton source = (JButton) evt.getSource();
+                source.setForeground(new Color(0,0,0));
+                source.setBackground(new Color(0, 255, 213));
+
+                main.removeAll();
+                main.repaint();
+                main.add(Bill, "width 50%, pos 0al 0 n 100%");
+                main.add(BillDetail, "width 50%, pos 1al 0 n 100%");
+                main.revalidate();
+            }
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                bill.setForeground(HOVER_FOREGROUND);
+                bill.setBackground(HOVER_BACKGROUND);
+                object.setForeground(DEFAULT_FOREGROUND);
+                object.setBackground(DEFAULT_BACKGROUND);
+                suplier.setForeground(DEFAULT_FOREGROUND);
+                suplier.setBackground(DEFAULT_BACKGROUND);
+                staff.setForeground(DEFAULT_FOREGROUND);
+                staff.setBackground(DEFAULT_BACKGROUND);
+                customer.setForeground(DEFAULT_FOREGROUND);
+                customer.setBackground(DEFAULT_BACKGROUND);
+                receipt_note.setForeground(DEFAULT_FOREGROUND);
+                receipt_note.setBackground(DEFAULT_BACKGROUND);
+                statistics.setForeground(DEFAULT_FOREGROUND);
+                statistics.setBackground(DEFAULT_BACKGROUND);
+                change_info.setForeground(DEFAULT_FOREGROUND);
+                change_info.setBackground(DEFAULT_BACKGROUND);
+                logout.setForeground(DEFAULT_FOREGROUND);
+                logout.setBackground(DEFAULT_BACKGROUND);
+            }
+        });
+        statistics.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                JButton source = (JButton) evt.getSource();
+                source.setForeground(new Color(0,0,0));
+                source.setBackground(new Color(0, 255, 213));
+
+                main.removeAll();
+                main.repaint();
+                main.add(Statistics, "w 100%, h 100% , wrap");
+                main.revalidate();
+            }
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                statistics.setForeground(HOVER_FOREGROUND);
+                statistics.setBackground(HOVER_BACKGROUND);
+                object.setForeground(DEFAULT_FOREGROUND);
+                object.setBackground(DEFAULT_BACKGROUND);
+                suplier.setForeground(DEFAULT_FOREGROUND);
+                suplier.setBackground(DEFAULT_BACKGROUND);
+                staff.setForeground(DEFAULT_FOREGROUND);
+                staff.setBackground(DEFAULT_BACKGROUND);
+                customer.setForeground(DEFAULT_FOREGROUND);
+                customer.setBackground(DEFAULT_BACKGROUND);
+                receipt_note.setForeground(DEFAULT_FOREGROUND);
+                receipt_note.setBackground(DEFAULT_BACKGROUND);
+                bill.setForeground(DEFAULT_FOREGROUND);
+                bill.setBackground(DEFAULT_BACKGROUND);
                 change_info.setForeground(DEFAULT_FOREGROUND);
                 change_info.setBackground(DEFAULT_BACKGROUND);
                 logout.setForeground(DEFAULT_FOREGROUND);

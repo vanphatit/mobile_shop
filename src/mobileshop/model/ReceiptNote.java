@@ -2,14 +2,14 @@ package mobileshop.model;
 
 import java.sql.Date;
 
-public class ReceptNote {
+public class ReceiptNote {
     private String id;
     private java.sql.Date date;
     private String moreInfo;
     private String idSuplier;
     private String idStaff;
 
-    public ReceptNote(String id, Date date, String moreInfo, String idSuplier, String idStaff) {
+    public ReceiptNote(String id, Date date, String moreInfo, String idSuplier, String idStaff) {
         this.id = id;
         this.date = date;
         this.moreInfo = moreInfo;
