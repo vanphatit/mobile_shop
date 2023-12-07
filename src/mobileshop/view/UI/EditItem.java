@@ -2,7 +2,6 @@ package mobileshop.view.UI;
 
 import java.awt.Color;
 import java.awt.Cursor;
-import static java.awt.Cursor.HAND_CURSOR;
 import java.awt.Font;
 import java.awt.Insets;
 import javax.swing.JButton;
@@ -13,14 +12,14 @@ import javax.swing.JTextField;
 import mobileshop.view.component.PanelCoverEditItem;
 import net.miginfocom.swing.MigLayout;
 
-public class editItem extends javax.swing.JFrame {
+public class EditItem extends javax.swing.JFrame {
 
     private MigLayout layout;
     private PanelCoverEditItem cover;
     private JPanel addPanel;
     private int fonsize = 14;
             
-    public editItem() {
+    public EditItem() {
         initComponents();
         setTitle("Sửa thông tin sản  phẩm");
         initComponents();
@@ -173,13 +172,13 @@ public class editItem extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(editItem.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(EditItem.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(editItem.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(EditItem.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(editItem.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(EditItem.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(editItem.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(EditItem.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
         //</editor-fold>
@@ -187,7 +186,7 @@ public class editItem extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new editItem().setVisible(true);
+                new EditItem().setVisible(true);
             }
         });
     }

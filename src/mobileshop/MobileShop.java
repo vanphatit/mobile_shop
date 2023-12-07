@@ -5,11 +5,9 @@
 package mobileshop;
 
 import java.sql.Connection;
-import mobileshop.dao.StaffDAO;
 
 import mobileshop.db.JDBCUtil;
-import mobileshop.model.Staff;
-import mobileshop.view.UI.login;
+import mobileshop.view.UI.Login;
 
 
 /**
@@ -28,7 +26,7 @@ public class MobileShop {
         } else {
             System.out.println("Connect failed!");
         }
-        login login = new login();
+        Login login = new Login();
         login.setVisible(true);
     }
 }

@@ -18,7 +18,7 @@ import mobileshop.model.Customer;
  */
 public class CustomerDAO implements IDAO<Customer> {
     
-    public static CustomerDAO getIntance(){
+    public static CustomerDAO getInstance(){
         return new CustomerDAO();
     }
 

@@ -13,13 +13,13 @@ import mobileshop.view.component.PanelCoverChangeinfo;
 import mobileshop.view.swing.MyTextField;
 import net.miginfocom.swing.MigLayout;
 
-public class changeinfo extends javax.swing.JFrame {
+public class ChangeInfo extends javax.swing.JFrame {
 
     private MigLayout layout;
     private PanelCoverChangeinfo cover;
     private JPanel change;
     
-    public changeinfo() {
+    public ChangeInfo() {
         setTitle("Thay đổi mật khẩu");
         initComponents();
         init();

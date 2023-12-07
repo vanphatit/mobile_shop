@@ -16,6 +16,9 @@ import mobileshop.db.JDBCUtil;
  * @author phatlee
  */
 public class SuplierDAO implements IDAO<mobileshop.model.Suplier>{
+    public static SuplierDAO getInstance() {
+        return new SuplierDAO();
+    }
     @Override
     public int insert(mobileshop.model.Suplier o) {
         int ketqua = 0;
@@ -27,7 +30,7 @@ public class SuplierDAO implements IDAO<mobileshop.model.Suplier>{
             pst.setString(2, o.getName());
             pst.setString(3, o.getAddress());
             pst.setString(4, o.getPhoneNumber());
-            pst.setString(6, o.getStatus());
+            pst.setBoolean(5, o.getStatus());
             ketqua = pst.executeUpdate();
             JDBCUtil.closeConnection(con);
         } catch (SQLException e) {
@@ -47,7 +50,7 @@ public class SuplierDAO implements IDAO<mobileshop.model.Suplier>{
             pst.setString(1, o.getName());
             pst.setString(2, o.getAddress());
             pst.setString(3, o.getPhoneNumber());
-            pst.setString(4, o.getStatus());
+            pst.setBoolean(4, o.getStatus());
             pst.setString(5, o.getId());
             ketqua = pst.executeUpdate();
             JDBCUtil.closeConnection(con);
@@ -86,7 +89,7 @@ public class SuplierDAO implements IDAO<mobileshop.model.Suplier>{
                 String name = rs.getString("name");
                 String address = rs.getString("address");
                 String phone = rs.getString("phone");
-                String status = rs.getString("status");
+                Boolean status = rs.getBoolean("status");
                 mobileshop.model.Suplier sup = new mobileshop.model.Suplier(id, name, address, phone, status);
                 list.add(sup);
             }
@@ -110,7 +113,7 @@ public class SuplierDAO implements IDAO<mobileshop.model.Suplier>{
                 String name = rs.getString("name");
                 String address = rs.getString("address");
                 String phone = rs.getString("phone");
-                String status = rs.getString("status");
+                Boolean status = rs.getBoolean("status");
                 sup = new mobileshop.model.Suplier(id, name, address, phone, status);
             }
         } catch (SQLException e) {

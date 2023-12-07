@@ -20,12 +20,11 @@ import javax.swing.SwingConstants;
 import javax.swing.border.LineBorder;
 import javax.swing.table.DefaultTableModel;
 
-import mobileshop.controller.ProductController;
 import mobileshop.dao.ObjectDAO;
 import mobileshop.model.Object;
 import mobileshop.view.swing.MyTextField;
 import net.miginfocom.swing.MigLayout;
-import mobileshop.view.UI.addItem;
+import mobileshop.view.UI.AddItem;
 
 public class PanelProduct extends javax.swing.JPanel {
 
@@ -40,7 +39,7 @@ public class PanelProduct extends javax.swing.JPanel {
     private JLabel title1;
     private JLabel title2;
     private JMenuBar featureMenu;
-    private addItem AddItem;
+    private mobileshop.view.UI.AddItem AddItem;
 
     private ArrayList<Object> products;
     
@@ -221,7 +220,7 @@ public class PanelProduct extends javax.swing.JPanel {
         btnAdd.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                AddItem = new addItem();
+                AddItem = new AddItem();
                 AddItem.show();
             }
         });

@@ -2,35 +2,26 @@ package mobileshop.view.UI;
 
 import java.awt.Color;
 import java.awt.Cursor;
-import static java.awt.Cursor.HAND_CURSOR;
-import java.awt.Dimension;
 import java.awt.Font;
-import java.awt.Insets;
-import java.awt.Panel;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
-import javax.swing.JComboBox;
-import javax.swing.JLabel;
-import javax.swing.JMenuBar;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
-import javax.swing.border.LineBorder;
-import mobileshop.view.component.PanelCoverHome;
-import mobileshop.view.component.PanelSuplier;
-import mobileshop.view.component.PanelProduct;
-import mobileshop.view.swing.MyTextField;
+
+import mobileshop.view.component.*;
 
 import net.miginfocom.swing.MigLayout;
 
 
-public class home extends javax.swing.JFrame {
+public class Home extends javax.swing.JFrame {
 
         
     private MigLayout layout;
     private PanelCoverHome cover;
     private PanelProduct Product;
     private PanelSuplier Suplier;
+    private PanelStaff Staff;
+    private PanelCustomer Customer;
     public  JPanel main;
     private int fontSize = 16;
 
@@ -40,7 +31,7 @@ public class home extends javax.swing.JFrame {
     public static final Color HOVER_BACKGROUND = new Color(0,255,213);
    
     
-    public home() {
+    public Home() {
         setTitle("Phần mềm quản lý Mobile Shop!");
         initComponents();
         init();
@@ -52,6 +43,8 @@ public class home extends javax.swing.JFrame {
         cover = new PanelCoverHome();
         Product = new PanelProduct();
         Suplier = new PanelSuplier();
+        Staff = new PanelStaff();
+        Customer = new PanelCustomer();
         main = new JPanel();
         main.setBackground(new Color(255,255,255));
 
@@ -223,6 +216,68 @@ public class home extends javax.swing.JFrame {
                 logout.setBackground(DEFAULT_BACKGROUND);
             }
         });
+        staff.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                JButton source = (JButton) evt.getSource();
+                source.setForeground(new Color(0,0,0));
+                source.setBackground(new Color(0, 255, 213));
+
+                main.removeAll();
+                main.add(Staff, "w 100%, h 100% , wrap");
+                main.revalidate();
+            }
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                staff.setForeground(HOVER_FOREGROUND);
+                staff.setBackground(HOVER_BACKGROUND);
+                object.setForeground(DEFAULT_FOREGROUND);
+                object.setBackground(DEFAULT_BACKGROUND);
+                suplier.setForeground(DEFAULT_FOREGROUND);
+                suplier.setBackground(DEFAULT_BACKGROUND);
+                customer.setForeground(DEFAULT_FOREGROUND);
+                customer.setBackground(DEFAULT_BACKGROUND);
+                receipt_note.setForeground(DEFAULT_FOREGROUND);
+                receipt_note.setBackground(DEFAULT_BACKGROUND);
+                bill.setForeground(DEFAULT_FOREGROUND);
+                bill.setBackground(DEFAULT_BACKGROUND);
+                statistics.setForeground(DEFAULT_FOREGROUND);
+                statistics.setBackground(DEFAULT_BACKGROUND);
+                change_info.setForeground(DEFAULT_FOREGROUND);
+                change_info.setBackground(DEFAULT_BACKGROUND);
+                logout.setForeground(DEFAULT_FOREGROUND);
+                logout.setBackground(DEFAULT_BACKGROUND);
+            }
+        });
+        customer.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                JButton source = (JButton) evt.getSource();
+                source.setForeground(new Color(0,0,0));
+                source.setBackground(new Color(0, 255, 213));
+
+                main.removeAll();
+                main.add(Customer, "w 100%, h 100% , wrap");
+                main.revalidate();
+            }
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                customer.setForeground(HOVER_FOREGROUND);
+                customer.setBackground(HOVER_BACKGROUND);
+                object.setForeground(DEFAULT_FOREGROUND);
+                object.setBackground(DEFAULT_BACKGROUND);
+                suplier.setForeground(DEFAULT_FOREGROUND);
+                suplier.setBackground(DEFAULT_BACKGROUND);
+                staff.setForeground(DEFAULT_FOREGROUND);
+                staff.setBackground(DEFAULT_BACKGROUND);
+                receipt_note.setForeground(DEFAULT_FOREGROUND);
+                receipt_note.setBackground(DEFAULT_BACKGROUND);
+                bill.setForeground(DEFAULT_FOREGROUND);
+                bill.setBackground(DEFAULT_BACKGROUND);
+                statistics.setForeground(DEFAULT_FOREGROUND);
+                statistics.setBackground(DEFAULT_BACKGROUND);
+                change_info.setForeground(DEFAULT_FOREGROUND);
+                change_info.setBackground(DEFAULT_BACKGROUND);
+                logout.setForeground(DEFAULT_FOREGROUND);
+                logout.setBackground(DEFAULT_BACKGROUND);
+            }
+        });
         // </editor-fold>
 
     }
@@ -265,7 +320,7 @@ public class home extends javax.swing.JFrame {
     
     public static void main(String args[]) {
         java.awt.EventQueue.invokeLater(() -> {
-            new home().setVisible(true);
+            new Home().setVisible(true);
         });
     }
 
