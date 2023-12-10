@@ -26,12 +26,12 @@ public class ReceiptNoteDetailDAO implements IDAO<ReceiptNoteDetail> {
         int ketqua = 0;
         try {
             Connection con = JDBCUtil.getConnection();
-            String sql = "INSERT INTO rn_detail (unit_price, count, id_object, id_receipt) VALUES (?,?,?,?";
+            String sql = "INSERT INTO rn_detail (unit_price, count, id_receipt, id_object) VALUES (?,?,?,?)";
             PreparedStatement pst = con.prepareStatement(sql);
             pst.setInt(1, receiptNoteDetail.getUnitPrice());
             pst.setInt(2, receiptNoteDetail.getCount());
-            pst.setString(3, receiptNoteDetail.getIdObject());
-            pst.setString(4, receiptNoteDetail.getIdRecept());
+            pst.setString(3, receiptNoteDetail.getIdRecept());
+            pst.setString(4, receiptNoteDetail.getIdObject());
             ketqua = pst.executeUpdate();
             JDBCUtil.closeConnection(con);
         } catch (SQLException e) {
@@ -45,12 +45,12 @@ public class ReceiptNoteDetailDAO implements IDAO<ReceiptNoteDetail> {
         int ketqua = 0;
         try {
             Connection con = JDBCUtil.getConnection();
-            String sql = "UPDATE rn_detail SET unit_price = ?, count = ? WHERE id_object = ? AND id_receipt = ?";
+            String sql = "UPDATE rn_detail SET unit_price = ?, count = ? WHERE id_receipt = ? AND id_object = ?";
             PreparedStatement pst = con.prepareStatement(sql);
             pst.setInt(1, receiptNoteDetail.getUnitPrice());
             pst.setInt(2, receiptNoteDetail.getCount());
-            pst.setString(3, receiptNoteDetail.getIdObject());
-            pst.setString(4, receiptNoteDetail.getIdRecept());
+            pst.setString(3, receiptNoteDetail.getIdRecept());
+            pst.setString(4, receiptNoteDetail.getIdObject());
             ketqua = pst.executeUpdate();
             JDBCUtil.closeConnection(con);
         } catch (SQLException e) {
@@ -64,10 +64,10 @@ public class ReceiptNoteDetailDAO implements IDAO<ReceiptNoteDetail> {
         int ketqua = 0;
         try {
             Connection con = JDBCUtil.getConnection();
-            String sql = "DELETE FROM rn_detail WHERE id_object = ? and id_receipt = ?";
+            String sql = "DELETE FROM rn_detail WHERE id_receipt = ? and id_object = ?";
             PreparedStatement pst = con.prepareStatement(sql);
-            pst.setString(1, receiptNoteDetail.getIdObject());
-            pst.setString(2, receiptNoteDetail.getIdRecept());
+            pst.setString(1, receiptNoteDetail.getIdRecept());
+            pst.setString(2, receiptNoteDetail.getIdObject());
             ketqua = pst.executeUpdate();
             JDBCUtil.closeConnection(con);
         } catch (SQLException e) {
@@ -108,7 +108,7 @@ public class ReceiptNoteDetailDAO implements IDAO<ReceiptNoteDetail> {
         ReceiptNoteDetail receiptNoteDetail = null;
         try {
             Connection con = JDBCUtil.getConnection();
-            String sql = "SELECT * FROM receptNote_detail WHERE id_object = ? AND id_recept = ?";
+            String sql = "SELECT * FROM rn_detail WHERE id_receipt = ? AND id_object = ?";
             PreparedStatement pst = con.prepareStatement(sql);
             pst.setString(1, t);
             pst.setString(2, tt);

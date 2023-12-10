@@ -3,3 +3,12 @@
 /dist/
 /src/mobileshop/db/JDBCUtil.java
 /nbproject/private/private.xml
+/out/
+/out/production/MobileShop/mobileshop/view/UI/AddItem$4.class
+/out/production/MobileShop/mobileshop/view/UI/changeinfo$1.class
+/out/production/MobileShop/mobileshop/dao/ObjectCategoryDAO.class
+/out/production/MobileShop/mobileshop/view/component/PanelProduct$1.class
+/out/production/MobileShop/mobileshop/view/component/PanelProduct$2.class
+/out/production/MobileShop/mobileshop/view/component/PanelProduct$3.class
+/out/production/MobileShop/mobileshop/view/component/PanelProduct$4.class
+/out/production/MobileShop/mobileshop/controller/ProductController.class

@@ -18,7 +18,6 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.SwingConstants;
 import javax.swing.border.LineBorder;
-import javax.swing.border.TitledBorder;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 
@@ -39,8 +38,11 @@ public class PanelSuplier extends javax.swing.JPanel {
     private JPanel mainPanel;
     private JTable suplier;
     private JScrollPane scrollPane;
+    private JPanel feature;
     private JPanel search;
-    private JPanel featureMenu;
+    private JLabel title1;
+    private JLabel title2;
+    private JMenuBar featureMenu;
     private AddSuplier addSuplier;
     private ArrayList<Suplier> supliers;
     
@@ -56,26 +58,30 @@ public class PanelSuplier extends javax.swing.JPanel {
     private void init() {
         mainPanel = new JPanel();
         fsPanel = new JPanel();
+        feature = new JPanel();
         search = new JPanel();
-
-        search.setLayout(new MigLayout("fill, wrap", "[200][500][150]", "[50]"));
+        
+        feature.setLayout(new MigLayout("wrap"));
+        feature.setBackground(new Color(255,255,255));
+        search.setLayout(new MigLayout("wrap 3", "[grow]10[grow]10[grow]", "[center]"));
         search.setBackground(new Color(255,255,255));
-        search.setBorder(new TitledBorder(new LineBorder(new Color(0,0,0)), "Tìm kiếm", TitledBorder.LEADING, TitledBorder.TOP, new Font("sansserif", 1, 14), new Color(0,0,0)));
-
         mainPanel.setLayout(new MigLayout("wrap"));
         mainPanel.setBackground(new Color(255,255,255));
-        fsPanel.setLayout(new MigLayout("wrap", "[100%]10[100%]", "[100%]"));
+        fsPanel.setLayout(new MigLayout("wrap", "[Left]"));
         fsPanel.setBackground(new Color(255,255,255));
-
-        featureMenu = new JPanel();
-        featureMenu.setBackground(new Color(255,255,255));
-        featureMenu.setLayout(new MigLayout("wrap 3", "[100][100][100]", "[50]"));
-
-        featureMenu.setBorder(new TitledBorder(new LineBorder(new Color(0,0,0)), "Chức năng", TitledBorder.LEADING, TitledBorder.TOP, new Font("sansserif", 1, 14), new Color(0,0,0)));
-
-        //<editor-fold defaultstate="collapsed" desc="Menu">
+        
+        title1 = new JLabel("Chức năng: ");
+        title1.setFont(new Font("sansserif", 1, 14));
+        title1.setForeground(new Color(0, 0, 0));
+        feature.add(title1);
+        
+        featureMenu = new JMenuBar();
+        feature.add(featureMenu);
+        
+        featureMenu.setBorder(new LineBorder(new Color(0,0,0)));
+        
         JButton btnAdd = new JButton();
-        btnAdd.setFont(new Font("sansserif", 1, 12));
+        btnAdd.setFont(new Font("sansserif", 1, 14));
         btnAdd.setForeground(new Color(0, 0, 0));
         btnAdd.setBackground(new Color(255, 255, 255));
         btnAdd.setBorderPainted(false);
@@ -85,37 +91,65 @@ public class PanelSuplier extends javax.swing.JPanel {
         btnAdd.setVerticalTextPosition(SwingConstants.BOTTOM);
         btnAdd.setHorizontalTextPosition(SwingConstants.CENTER);
         btnAdd.setHorizontalAlignment(SwingConstants.LEFT);
-        featureMenu.add(btnAdd,"grow");
-
-        JButton btnDel = new JButton();
-        btnDel.setFont(new Font("sansserif", 1, 12));
-        btnDel.setForeground(new Color(0, 0, 0));
-        btnDel.setBackground(new Color(255, 255, 255));
-        btnDel.setBorderPainted(false);
-        btnDel.setCursor(Cursor.getPredefinedCursor(HAND_CURSOR));
-        btnDel.setText("Xóa");
-        btnDel.setIcon(new ImageIcon(getClass().getResource("/mobileshop/assets/icon/icons8_delete_40px.png")));
-        btnDel.setVerticalTextPosition(SwingConstants.BOTTOM);
-        btnDel.setHorizontalTextPosition(SwingConstants.CENTER);
-        btnDel.setHorizontalAlignment(SwingConstants.LEFT);
-        featureMenu.add(btnDel,"grow");
-
-        JButton btnEdit = new JButton();
-        btnEdit.setFont(new Font("sansserif", 1, 12));
-        btnEdit.setForeground(new Color(0, 0, 0));
-        btnEdit.setBackground(new Color(255, 255, 255));
-        btnEdit.setBorderPainted(false);
-        btnEdit.setCursor(Cursor.getPredefinedCursor(HAND_CURSOR));
-        btnEdit.setText("Sửa");
-        btnEdit.setIcon(new ImageIcon(getClass().getResource("/mobileshop/assets/icon/icons8_edit_40px.png")));
-        btnEdit.setVerticalTextPosition(SwingConstants.BOTTOM);
-        btnEdit.setHorizontalTextPosition(SwingConstants.CENTER);
-        btnEdit.setHorizontalAlignment(SwingConstants.LEFT);
-        featureMenu.add(btnEdit,"grow");
-        //</editor-fold>
-
-        //<editor-fold defaultstate="collapsed" desc="Search">
-
+        featureMenu.add(btnAdd);
+        
+        JButton delete = new JButton();
+        delete.setFont(new Font("sansserif", 1, 14));
+        delete.setForeground(new Color(0, 0, 0));
+        delete.setBackground(new Color(255, 255, 255));
+        delete.setBorderPainted(false);
+        delete.setCursor(Cursor.getPredefinedCursor(HAND_CURSOR));
+        delete.setText("Xóa");
+        delete.setIcon(new ImageIcon(getClass().getResource("/mobileshop/assets/icon/icons8_delete_40px.png")));
+        delete.setVerticalTextPosition(SwingConstants.BOTTOM);
+        delete.setHorizontalTextPosition(SwingConstants.CENTER);
+        delete.setHorizontalAlignment(SwingConstants.LEFT);
+        featureMenu.add(delete);
+        
+        JButton fix = new JButton();
+        fix.setFont(new Font("sansserif", 1, 14));
+        fix.setForeground(new Color(0, 0, 0));
+        fix.setBackground(new Color(255, 255, 255));
+        fix.setBorderPainted(false);
+        fix.setCursor(Cursor.getPredefinedCursor(HAND_CURSOR));
+        fix.setText("Sửa");
+        fix.setIcon(new ImageIcon(getClass().getResource("/mobileshop/assets/icon/icons8_edit_40px.png")));
+        fix.setVerticalTextPosition(SwingConstants.BOTTOM);
+        fix.setHorizontalTextPosition(SwingConstants.CENTER);
+        fix.setHorizontalAlignment(SwingConstants.LEFT);
+        featureMenu.add(fix);
+        
+        JButton addExcel = new JButton();
+        addExcel.setFont(new Font("sansserif", 1, 14));
+        addExcel.setForeground(new Color(0, 0, 0));
+        addExcel.setBackground(new Color(255, 255, 255));
+        addExcel.setBorderPainted(false);
+        addExcel.setCursor(Cursor.getPredefinedCursor(HAND_CURSOR));
+        addExcel.setText("Nhập Excel");
+        addExcel.setIcon(new ImageIcon(getClass().getResource("/mobileshop/assets/icon/icons8_spreadsheet_file_40px.png")));
+        addExcel.setVerticalTextPosition(SwingConstants.BOTTOM);
+        addExcel.setHorizontalTextPosition(SwingConstants.CENTER);
+        addExcel.setHorizontalAlignment(SwingConstants.LEFT);
+        featureMenu.add(addExcel);
+        
+        JButton ExportExcel = new JButton();
+        ExportExcel.setFont(new Font("sansserif", 1, 14));
+        ExportExcel.setForeground(new Color(0, 0, 0));
+        ExportExcel.setBackground(new Color(255, 255, 255));
+        ExportExcel.setBorderPainted(false);
+        ExportExcel.setCursor(Cursor.getPredefinedCursor(HAND_CURSOR));
+        ExportExcel.setText("Xuất Excel");
+        ExportExcel.setIcon(new ImageIcon(getClass().getResource("/mobileshop/assets/icon/icons8_xls_40px.png")));
+        ExportExcel.setVerticalTextPosition(SwingConstants.BOTTOM);
+        ExportExcel.setHorizontalTextPosition(SwingConstants.CENTER);
+        ExportExcel.setHorizontalAlignment(SwingConstants.LEFT);
+        featureMenu.add(ExportExcel);
+        
+        title2 = new JLabel("Tìm kiếm: ");
+        title2.setFont(new Font("sansserif", 1, 14));
+        title2.setForeground(new Color(0, 0, 0));
+        search.add(title2, "span 3, align left, wrap");
+        
         JComboBox area = new JComboBox();
         area.setFont(new Font("sansserif", 1, 14));
         area.setForeground(new Color(0, 0, 0));
@@ -123,16 +157,16 @@ public class PanelSuplier extends javax.swing.JPanel {
         area.setCursor(Cursor.getPredefinedCursor(HAND_CURSOR));
         area.addItem("Tất cả");
         area.setBorder(null);
-        search.add(area,"grow");
-
+        search.add(area, "w 30%, h 35%");
+        
         MyTextField text = new MyTextField();
         text.setFont(new Font("sansserif", 1, 14));
         text.setForeground(new Color(0, 0, 0));
         text.setBackground(new Color(255, 255, 255));
         text.setCursor(Cursor.getPredefinedCursor(HAND_CURSOR));
         text.setBorder(new LineBorder(new Color(0, 0, 0)));
-        search.add(text,"grow");
-
+        search.add(text, "w 40%, h 35%");
+        
         JButton reload = new JButton();
         reload.setFont(new Font("sansserif", 1, 14));
         reload.setForeground(new Color(0, 0, 0));
@@ -142,10 +176,8 @@ public class PanelSuplier extends javax.swing.JPanel {
         reload.setBorder(new LineBorder(new Color(0,0,0)));
         reload.setIcon(new ImageIcon(getClass().getResource("/mobileshop/assets/icon/icons8_reset_25px_1.png")));
         reload.setMargin(new Insets(10,20,10,20));
-        search.add(reload,"grow");
-        //</editor-fold>
+        search.add(reload, "w 30%, h 35%");
 
-        //<editor-fold defaultstate="collapsed" desc="Table">
         String[] columnNames = {"Mã nhà cung cấp", "Tên nhà cung cấp", "Địa chỉ", "Số điện thoại", "Trạng thái"};
         DefaultTableModel model = new DefaultTableModel(new java.lang.Object[][]{}, columnNames);
 
@@ -180,15 +212,12 @@ public class PanelSuplier extends javax.swing.JPanel {
         DefaultTableCellRenderer renderer = (DefaultTableCellRenderer) suplier.getTableHeader().getDefaultRenderer();
         renderer.setHorizontalAlignment(SwingConstants.LEFT);
         suplier.getTableHeader().setDefaultRenderer(renderer);
-        suplier.getTableHeader().setReorderingAllowed(false);
-        suplier.getTableHeader().setResizingAllowed(false);
+        
         mainPanel.add(scrollPane, "w 100%, h 100%");
-        //</editor-fold>
-
-        add(fsPanel, "width 100%, height 10%, wrap");
+        add(fsPanel, "width 100%, height 20%, wrap");
         add(mainPanel, "width 100%, height 80%, wrap");
-        fsPanel.add(featureMenu, "width 30%, pos 0al 0 n 75%");
-        fsPanel.add(search, "width 68%, pos 1al 0 n 75%");
+        fsPanel.add(feature, "width 50%, pos 0al 0 n 100%");
+        fsPanel.add(search, "width 48%, pos 1al 0 n 100%");
 
         btnAdd.addActionListener(new ActionListener() {
             @Override

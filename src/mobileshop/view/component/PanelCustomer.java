@@ -1,8 +1,10 @@
 package mobileshop.view.component;
 
+import mobileshop.controller.CustomerController;
 import mobileshop.dao.CustomerDAO;
 import mobileshop.model.Customer;
-import mobileshop.view.UI.AddItem;
+import mobileshop.view.UI.AddCustomer;
+import mobileshop.view.UI.EditCustomer;
 import mobileshop.view.swing.MyTextField;
 import net.miginfocom.swing.MigLayout;
 
@@ -30,9 +32,10 @@ public class PanelCustomer extends JPanel {
     private JLabel title1;
     private JLabel title2;
     private JMenuBar featureMenu;
-    private mobileshop.view.UI.AddItem AddItem;
+    private mobileshop.view.UI.AddCustomer addCustomer;
+    private mobileshop.view.UI.EditCustomer editCustomer;
 
-    private ArrayList<Customer> customers;
+    private ArrayList<Customer> Customers;
 
     public PanelCustomer() {
         initComponents();
@@ -158,27 +161,27 @@ public class PanelCustomer extends JPanel {
         text.setBorder(new LineBorder(new Color(0, 0, 0)));
         search.add(text, "w 40%, h 35%");
         
-        JButton reload = new JButton();
-        reload.setFont(new Font("sansserif", 1, 14));
-        reload.setForeground(new Color(0, 0, 0));
-        reload.setBackground(new Color(255, 255, 255));
-        reload.setCursor(Cursor.getPredefinedCursor(HAND_CURSOR));
-        reload.setText("Làm mới");
-        reload.setBorder(new LineBorder(new Color(0,0,0)));
-        reload.setIcon(new ImageIcon(getClass().getResource("/mobileshop/assets/icon/icons8_reset_25px_1.png")));
-        reload.setMargin(new Insets(10,20,10,20));
-        search.add(reload, "w 30%, h 35%");
+        JButton btnReload = new JButton();
+        btnReload.setFont(new Font("sansserif", 1, 14));
+        btnReload.setForeground(new Color(0, 0, 0));
+        btnReload.setBackground(new Color(255, 255, 255));
+        btnReload.setCursor(Cursor.getPredefinedCursor(HAND_CURSOR));
+        btnReload.setText("Làm mới");
+        btnReload.setBorder(new LineBorder(new Color(0,0,0)));
+        btnReload.setIcon(new ImageIcon(getClass().getResource("/mobileshop/assets/icon/icons8_reset_25px_1.png")));
+        btnReload.setMargin(new Insets(10,20,10,20));
+        search.add(btnReload, "w 30%, h 35%");
         //</editor-fold>
 
         //<editor-fold defaultstate="collapsed" desc="Table">
         String[] columnNames = {"Mã khách hàng", "Tên khách hàng", "Địa chỉ", "Giới tính", "Ngày sinh", "Số điện thoại", "Mã loại khách hàng"};
         DefaultTableModel model = new DefaultTableModel(new java.lang.Object[][]{}, columnNames);
 
-        customers = CustomerDAO.getInstance().selectAll();
+        Customers = CustomerDAO.getInstance().selectAll();
 
         try {
             model.setRowCount(0);
-            for (Customer customer : customers) {
+            for (Customer customer : Customers) {
                 model.addRow(new java.lang.Object[]{
                         customer.getId(),
                         customer.getName(),
@@ -220,8 +223,70 @@ public class PanelCustomer extends JPanel {
         btnAdd.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                AddItem = new AddItem();
-                AddItem.show();
+                addCustomer = new AddCustomer();
+                addCustomer.show();
+            }
+        });
+
+        btnEdit.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                int row = customer.getSelectedRow();
+                if(row == -1) {
+                    return;
+                }
+                String id = customer.getValueAt(row, 0).toString();
+                editCustomer = new EditCustomer(id);
+                editCustomer.show();
+            }
+        });
+
+        btnDel.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                int row = customer.getSelectedRow();
+                if(row == -1) {
+                    JOptionPane.showMessageDialog(null, "Vui lòng chọn khách hàng cần xóa!", "Error", JOptionPane.ERROR_MESSAGE);
+                } else {
+                    String id = (String) customer.getValueAt(row, 0);
+                    if(CustomerController.getInstance().delCustomer(id)) {
+                        JOptionPane.showMessageDialog(null, "Xóa thành công!", "Success", JOptionPane.INFORMATION_MESSAGE);
+                        Customers = CustomerDAO.getInstance().selectAll();
+                        model.setRowCount(0);
+                        for (Customer customer : Customers) {
+                            model.addRow(new java.lang.Object[]{
+                                    customer.getId(),
+                                    customer.getName(),
+                                    customer.getAddress(),
+                                    customer.getGender() ? "Nam" : "Nữ",
+                                    customer.getBirthday(),
+                                    customer.getPhone(),
+                                    customer.getIdCategory()
+                            });
+                        }
+                    } else {
+                        JOptionPane.showMessageDialog(null, "Xóa thất bại!", "Error", JOptionPane.ERROR_MESSAGE);
+                    }
+                }
+            }
+        });
+
+        btnReload.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                Customers = CustomerDAO.getInstance().selectAll();
+                model.setRowCount(0);
+                for (Customer customer : Customers) {
+                    model.addRow(new java.lang.Object[]{
+                            customer.getId(),
+                            customer.getName(),
+                            customer.getAddress(),
+                            customer.getGender() ? "Nam" : "Nữ",
+                            customer.getBirthday(),
+                            customer.getPhone(),
+                            customer.getIdCategory()
+                    });
+                }
             }
         });
     }

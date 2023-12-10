@@ -1,63 +1,77 @@
 package mobileshop.view.UI;
 
-import mobileshop.controller.SuplierController;
+import mobileshop.dao.ObjectDAO;
 import mobileshop.dao.SuplierDAO;
+import mobileshop.model.ObjectCategory;
 import mobileshop.model.Suplier;
-import mobileshop.view.component.PanelCoverAddSuplier;
+import mobileshop.view.component.PanelCoverEditItem;
 import net.miginfocom.swing.MigLayout;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 
-public class AddSuplier extends JFrame {
+public class EditSuplier extends JFrame {
 
     private MigLayout layout;
-    private PanelCoverAddSuplier cover;
+    private PanelCoverEditItem cover;
     private JPanel addPanel;
-    private int fonsize = 14;
     private JPanel panelBtn;
+    private int fonsize = 14;
+    private String idSuplier;
+    private Suplier suplier;
+    private ArrayList<ObjectCategory> listCate;
 
-    public AddSuplier() {
+    public EditSuplier(String id) {
         initComponents();
-        setTitle("Thêm nhà cung cấp mới");
-        setLocationRelativeTo(null);
+        setTitle("Sửa thông tin nhà cung cấp");
         initComponents();
+
+        this.idSuplier = id;
         init();
+
     }
     
     private void init()
     {
+        suplier = SuplierDAO.getInstance().selectById(idSuplier);
+
         layout = new MigLayout("fill, insets 0");
-        cover = new PanelCoverAddSuplier();
+        cover = new PanelCoverEditItem();
         addPanel = new JPanel();
         bg.setLayout(layout);
-        addPanel.setLayout(new MigLayout("wrap", "push[center]push", "15[]5[]5[]5[]5[]5[]5[]5[]5[]5[]25"));
         addPanel.setBackground(new Color(255, 255, 255));
+        
+        addPanel.setLayout(new MigLayout("wrap", "push[center]push", "15[]5[]5[]5[]5[]5[]5[]5[]5[]5[]5[]5[]25"));
 
-        JLabel id = new JLabel("Nhập mã nhà cung cấp: ");
+        JLabel id = new JLabel("Mã nhà cung cấp: ");
         id.setForeground(new Color(100, 100, 100));
         id.setFont(new Font("sansserif", 1, fonsize));
         addPanel.add(id, "w 60%");
-        JTextField txtID = new JTextField();
-        txtID.setFont(new Font("sansserif", 1, fonsize));
-        addPanel.add(txtID, "wrap, width 60%");
+        JTextField txtInfo = new JTextField();
+        txtInfo.setFont(new Font("sansserif", 1, fonsize));
+        txtInfo.setText(suplier.getId());
+        txtInfo.setEditable(false);
+        addPanel.add(txtInfo, "wrap, width 60%");
         
-        JLabel name = new JLabel("Nhập tên nhà cung cấp: ");
+        JLabel name = new JLabel("Tên nhà cung cấp: ");
         name.setForeground(new Color(100, 100, 100));
         name.setFont(new Font("sansserif", 1, fonsize));
         addPanel.add(name, "w 60%");
         JTextField txtName = new JTextField();
         txtName.setFont(new Font("sansserif", 1, fonsize));
+        txtName.setText(suplier.getName());
         addPanel.add(txtName, "wrap, width 60%");
 
-        JLabel address = new JLabel("Nhập địa chỉ: ");
+        JLabel address = new JLabel("Địa chỉ nhà cung cấp: ");
         address.setForeground(new Color(100, 100, 100));
         address.setFont(new Font("sansserif", 1, fonsize));
         addPanel.add(address, "w 60%");
         JTextField txtAddress = new JTextField();
         txtAddress.setFont(new Font("sansserif", 1, fonsize));
+        txtAddress.setText(suplier.getAddress());
         addPanel.add(txtAddress, "wrap, width 60%");
         
         JLabel phone = new JLabel("Nhập số điện thoại: ");
@@ -66,6 +80,7 @@ public class AddSuplier extends JFrame {
         addPanel.add(phone, "w 60%");
         JTextField txtPhone = new JTextField();
         txtPhone.setFont(new Font("sansserif", 1, fonsize));
+        txtPhone.setText(suplier.getPhoneNumber());
         addPanel.add(txtPhone, "wrap, width 60%");
 
         JLabel status = new JLabel("Nhập trạng thái: ");
@@ -77,8 +92,13 @@ public class AddSuplier extends JFrame {
         cbbStatus.setFont(new Font("sansserif", 1, fonsize));
         cbbStatus.setCursor(Cursor.getPredefinedCursor(HAND_CURSOR));
         cbbStatus.setBackground(new Color(255, 255, 255));
+
         cbbStatus.addItem("Còn hoạt động");
-        cbbStatus.addItem("Không hoạt động");
+        cbbStatus.addItem("Hết hoạt động");
+        if(suplier.getStatus())
+            cbbStatus.setSelectedItem("Còn hoạt động".toString());
+        else
+            cbbStatus.setSelectedItem("Hết hoạt động");
         addPanel.add(cbbStatus, "w 60%");
 
         panelBtn = new JPanel();
@@ -86,14 +106,14 @@ public class AddSuplier extends JFrame {
         panelBtn.setLayout(new MigLayout("wrap", "push[center]10[center]push"));
         addPanel.add(panelBtn, "width 60%, wrap");
 
-        JButton btnAdd = new JButton();
-        btnAdd.setText("Thêm nhà cung cấp");
-        btnAdd.setFont(new Font("sansserif", 1, fonsize));
-        btnAdd.setCursor(Cursor.getPredefinedCursor(HAND_CURSOR));
-        btnAdd.setForeground(new Color(255, 255, 255));
-        btnAdd.setBackground(new Color(7, 164, 121));
-        btnAdd.setMargin(new Insets(10,20,10,20));
-        panelBtn.add(btnAdd);
+        JButton btnEdit = new JButton();
+        btnEdit.setText("Sửa thông tin");
+        btnEdit.setFont(new Font("sansserif", 1, fonsize));
+        btnEdit.setCursor(Cursor.getPredefinedCursor(HAND_CURSOR));
+        btnEdit.setForeground(new Color(255, 255, 255));
+        btnEdit.setBackground(new Color(7, 164, 121));
+        btnEdit.setMargin(new Insets(10,20,10,20));
+        panelBtn.add(btnEdit);
 
         JButton btnCancel = new JButton();
         btnCancel.setText("Hủy");
@@ -104,7 +124,7 @@ public class AddSuplier extends JFrame {
         btnCancel.setMargin(new Insets(10,20,10,20));
         panelBtn.add(btnCancel);
         
-        btnAdd.addMouseListener(new java.awt.event.MouseAdapter() {
+        btnEdit.addMouseListener(new java.awt.event.MouseAdapter() {
             @Override
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 JButton source = (JButton) evt.getSource();
@@ -112,7 +132,7 @@ public class AddSuplier extends JFrame {
                 source.setBackground(new Color(0, 255, 213));
             }
         });
-        btnAdd.addMouseListener(new java.awt.event.MouseAdapter() {
+        btnEdit.addMouseListener(new java.awt.event.MouseAdapter() {
             @Override
             public void mouseExited(java.awt.event.MouseEvent evt) {
                 JButton source = (JButton) evt.getSource();
@@ -120,6 +140,32 @@ public class AddSuplier extends JFrame {
                 source.setBackground(new Color(7, 164, 121));
             }
         });
+        
+        
+        bg.add(cover, "height 20%, width 100%, wrap");
+        bg.add(addPanel, "height 80%, width 100%");
+
+        btnEdit.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                suplier.setName(txtName.getText());
+                if(cbbStatus.getSelectedItem().toString() == "Còn hoạt động")
+                    suplier.setStatus(true);
+                else
+                    suplier.setStatus(false);
+                suplier.setAddress(txtAddress.getText());
+                suplier.setPhoneNumber(txtPhone.getText());
+                if(SuplierDAO.getInstance().update(suplier) == 1) {
+                    JOptionPane.showMessageDialog(null,
+                            "Sửa thông tin sản phẩm thành công!", "Success", JOptionPane.INFORMATION_MESSAGE);
+                    dispose();
+                } else {
+                    JOptionPane.showMessageDialog(null,
+                            "Sửa thông tin sản phẩm thất bại!", "Error", JOptionPane.ERROR_MESSAGE);
+                }
+            }
+        });
+
         btnCancel.addMouseListener(new java.awt.event.MouseAdapter() {
             @Override
             public void mouseEntered(java.awt.event.MouseEvent evt) {
@@ -137,48 +183,12 @@ public class AddSuplier extends JFrame {
             }
         });
 
-        bg.add(cover, "height 20%, width 100%, wrap");
-        bg.add(addPanel, "height 80%, width 100%");
-
-        btnAdd.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                try {
-                    String id = txtID.getText();
-                    String name = txtName.getText();
-                    String address = txtAddress.getText();
-                    String phone = txtPhone.getText();
-                    String status = cbbStatus.getSelectedItem().toString();
-                    boolean statusBool = false;
-                    if (status.equals("Còn hoạt động"))
-                        statusBool = true;
-                    else
-                        statusBool = false;
-
-                    if (SuplierController.getInstance().addSuplier(id, name, address, phone, statusBool))
-                    {
-                        JOptionPane.showMessageDialog(null,
-                                "Thêm sản phẩm thành công!", "Success", JOptionPane.INFORMATION_MESSAGE);
-
-                        dispose();
-                    }
-                    else
-                    {
-                        JOptionPane.showMessageDialog(null,
-                                "Thêm sản phẩm thất bại!", "Error", JOptionPane.ERROR_MESSAGE);
-                    }
-                } catch (HeadlessException ex) {
-                    System.out.println(ex);
-                }
-            }
-        });
         btnCancel.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 dispose();
             }
         });
-
     }
     
     @SuppressWarnings("unchecked")
@@ -217,38 +227,6 @@ public class AddSuplier extends JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (UIManager.LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(AddSuplier.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(AddSuplier.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(AddSuplier.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(AddSuplier.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new AddSuplier().setVisible(true);
-            }
-        });
-    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private JPanel bg;

@@ -1,8 +1,13 @@
 package mobileshop.view.component;
 
+import mobileshop.controller.ReceiptNoteController;
+import mobileshop.dao.ReceiptNoteDAO;
 import mobileshop.dao.ReceiptNoteDetailDAO;
+import mobileshop.dao.StaffDAO;
+import mobileshop.dao.SuplierDAO;
 import mobileshop.model.ReceiptNote;
 import mobileshop.model.ReceiptNoteDetail;
+import mobileshop.view.UI.AddReceiptNoteDetail;
 import net.miginfocom.swing.MigLayout;
 
 import javax.swing.*;
@@ -10,8 +15,11 @@ import javax.swing.border.LineBorder;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
+import static com.sun.java.accessibility.util.AWTEventMonitor.addWindowListener;
 import static java.awt.Frame.HAND_CURSOR;
 
 public class PanelReceiptNoteDetail extends JPanel {
@@ -25,11 +33,18 @@ public class PanelReceiptNoteDetail extends JPanel {
     private JPanel feature;
     private JPanel costPanel;
     private JPanel main;
+    JLabel txtCost;
 
     private ArrayList<ReceiptNote> receiptNotes;
     private ArrayList<ReceiptNoteDetail> receiptNoteDetails;
+    private ReceiptNote receiptNote;
+    private int billCost = 0;
 
-    public PanelReceiptNoteDetail() {
+    public PanelReceiptNoteDetail(String id) {
+
+        if(id != null)
+            receiptNote = ReceiptNoteDAO.getInstance().selectById(id);
+
         initComponents();
         setOpaque(false);
         layout = new MigLayout("wrap", "[grow]", "[grow]10[grow]10[grow]");
@@ -102,9 +117,17 @@ public class PanelReceiptNoteDetail extends JPanel {
         cost.setFont(new Font("sansserif", 1, 20));
         cost.setForeground(new Color(7, 164, 121));
         costPanel.add(cost);
-        JLabel txtCost = new JLabel();
+        txtCost = new JLabel();
         txtCost.setFont(new Font("sansserif", 1, 20));
-        txtCost.setText("Tiền");
+
+        receiptNoteDetails = ReceiptNoteDetailDAO.getInstance().selectAll();
+        for (ReceiptNoteDetail receiptNoteDetail : receiptNoteDetails) {
+            if(receiptNoteDetail.getIdRecept().equals(receiptNote.getId())){
+                billCost += receiptNoteDetail.getUnitPrice() * receiptNoteDetail.getCount();
+            }
+        }
+
+        txtCost.setText(billCost + " VNĐ");
         txtCost.setForeground(new Color(228, 7, 7));
         costPanel.add(txtCost);
         feature.add(costPanel);
@@ -121,9 +144,13 @@ public class PanelReceiptNoteDetail extends JPanel {
         txtId.setForeground(new Color(100, 100, 100));
         txtId.setBackground(new Color(255, 255, 255));
         txtId.setBorder(new LineBorder(new Color(0, 0, 0), 2));
+        if(receiptNote != null){
+            txtId.setText(receiptNote.getId());
+        }
+        txtId.setEditable(false);
         receipt.add(txtId, "w 60%,wrap");
 
-        JLabel idSuplier = new JLabel("Mã nhà cung cấp");
+        JLabel idSuplier = new JLabel("Tên nhà cung cấp");
         idSuplier.setFont(new Font("sansserif", 1, 14));
         idSuplier.setForeground(new Color(100, 100, 100));
         receipt.add(idSuplier);
@@ -132,9 +159,12 @@ public class PanelReceiptNoteDetail extends JPanel {
         txtIdSuplier.setForeground(new Color(100, 100, 100));
         txtIdSuplier.setBackground(new Color(255, 255, 255));
         txtIdSuplier.setBorder(new LineBorder(new Color(0, 0, 0), 2));
+        if(receiptNote != null)
+            txtIdSuplier.setText(SuplierDAO.getInstance().selectById(receiptNote.getIdSuplier()).getName());
+        txtIdSuplier.setEditable(false);
         receipt.add(txtIdSuplier, "w 60%,wrap");
 
-        JLabel idStaff = new JLabel("Mã nhân viên");
+        JLabel idStaff = new JLabel("Tên nhân viên");
         idStaff.setFont(new Font("sansserif", 1, 14));
         idStaff.setForeground(new Color(100, 100, 100));
         receipt.add(idStaff);
@@ -143,12 +173,15 @@ public class PanelReceiptNoteDetail extends JPanel {
         txtIdStaff.setForeground(new Color(100, 100, 100));
         txtIdStaff.setBackground(new Color(255, 255, 255));
         txtIdStaff.setBorder(new LineBorder(new Color(0, 0, 0), 2));
+        if(receiptNote != null)
+            txtIdStaff.setText(StaffDAO.getInstance().selectById(receiptNote.getIdStaff()).getName());
+        txtIdStaff.setEditable(false);
         receipt.add(txtIdStaff, "w 60%,wrap");
 
         //</editor-fold>
 
         //<editor-fold defaultstate="collapsed" desc="Table">
-        String[] columnNames = {"Giá thành", "Số lượng", "Mã sản phẩm", "Mã phiếu nhập"};
+        String[] columnNames = {"Mã sản phẩm", "Giá thành", "Số lượng"};
         DefaultTableModel model = new DefaultTableModel(new Object[][]{}, columnNames);
 
         receiptNoteDetails = ReceiptNoteDetailDAO.getInstance().selectAll();
@@ -156,12 +189,12 @@ public class PanelReceiptNoteDetail extends JPanel {
         try {
             model.setRowCount(0);
             for (ReceiptNoteDetail receiptNoteDetail : receiptNoteDetails) {
-                model.addRow(new Object[]{
-                        receiptNoteDetail.getUnitPrice(),
-                        receiptNoteDetail.getCount(),
-                        receiptNoteDetail.getIdObject(),
-                        receiptNoteDetail.getIdRecept()
-                });
+                if (receiptNoteDetail.getIdRecept().equals(receiptNote.getId()))
+                    model.addRow(new Object[]{
+                            receiptNoteDetail.getIdObject(),
+                            receiptNoteDetail.getUnitPrice(),
+                            receiptNoteDetail.getCount()
+                    });
             }
         } catch (Exception e) {
             System.out.println(e);
@@ -189,10 +222,77 @@ public class PanelReceiptNoteDetail extends JPanel {
         main.add(detail, "width 100%, height 90%, wrap");
         main.add(feature, "width 100%, height 5%");
 
+        btnAdd.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                AddReceiptNoteDetail addReceiptNoteDetail = new AddReceiptNoteDetail(receiptNote.getId());
+                addReceiptNoteDetail.setVisible(true);
+                addReceiptNoteDetail.addWindowListener(new java.awt.event.WindowAdapter() {
+                    @Override
+                    public void windowClosed(java.awt.event.WindowEvent windowEvent) {
+                        reloadTable();
+                    }
+                });
+            }
+        });
 
+        btnEdit.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                int row = receiptNoteDetail.getSelectedRow();
+                if(row != -1){
+                    if(receiptNoteDetail.getSelectedRow() >= 0){
+
+                        String idProduct = receiptNoteDetail.getValueAt(row, 0).toString();
+                        String count = receiptNoteDetail.getValueAt(row, 1).toString();
+                        String unitPrice = receiptNoteDetail.getValueAt(row, 2).toString();
+                        if(ReceiptNoteController.getInstance().updateReceiptNoteDetail(
+                                new ReceiptNoteDetail(Integer.parseInt(unitPrice), Integer.parseInt(count),
+                                        idProduct, receiptNote.getId())))
+                            reloadTable();
+                    }
+                }
+            }
+        });
+
+        btnDel.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                int row = receiptNoteDetail.getSelectedRow();
+                if(row != -1){
+                    String idObject = receiptNoteDetail.getValueAt(row, 0).toString();
+                    if(ReceiptNoteController.getInstance().deleteReceiptNoteDetailById(idObject, receiptNote.getId()))
+                        reloadTable();
+                }
+            }
+        });
         //<editor-fold defaultstate="collapsed" desc="Event">
     }
 
+    private void reloadTable() {
+        receiptNoteDetails = ReceiptNoteDetailDAO.getInstance().selectAll();
+        DefaultTableModel model = (DefaultTableModel) receiptNoteDetail.getModel();
+        try {
+            model.setRowCount(0);
+            for (ReceiptNoteDetail receiptNoteDetail : receiptNoteDetails) {
+                if (receiptNoteDetail.getIdRecept().equals(receiptNote.getId()))
+                    model.addRow(new Object[]{
+                            receiptNoteDetail.getIdObject(),
+                            receiptNoteDetail.getUnitPrice(),
+                            receiptNoteDetail.getCount()
+                    });
+            }
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+        billCost = 0;
+        for (ReceiptNoteDetail receiptNoteDetail : receiptNoteDetails) {
+            if(receiptNoteDetail.getIdRecept().equals(receiptNote.getId())){
+                billCost += receiptNoteDetail.getUnitPrice() * receiptNoteDetail.getCount();
+            }
+        }
+        txtCost.setText(billCost + " VNĐ");
+    }
 
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {

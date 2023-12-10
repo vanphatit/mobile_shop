@@ -1,33 +1,34 @@
 package mobileshop.view.UI;
 
-import java.awt.Color;
-import java.awt.Cursor;
-import java.awt.Font;
-import java.awt.HeadlessException;
-import java.awt.Insets;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.util.ArrayList;
-import javax.swing.*;
-
-import mobileshop.controller.ProductController;
-import mobileshop.dao.ObjectCategoryDAO;
-import mobileshop.model.ObjectCategory;
-import mobileshop.view.component.PanelCoverAddItem;
+import mobileshop.controller.CustomerController;
+import mobileshop.dao.CustomerCategoryDAO;
+import mobileshop.model.CustomerCategory;
+import mobileshop.view.component.PanelCoverAddCustomer;
 import net.miginfocom.swing.MigLayout;
 
-public class AddItem extends javax.swing.JFrame {
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+
+public class AddCustomer extends JFrame {
 
     private MigLayout layout;
-    private PanelCoverAddItem cover;
+    private PanelCoverAddCustomer cover;
     private JPanel addPanel;
     private int fonsize = 14;
-    private ArrayList<ObjectCategory> listCate;
     private JPanel panelBtn;
-            
-    public AddItem() {
+    private ArrayList<CustomerCategory> listCate;
+
+    public AddCustomer() {
         initComponents();
-        setTitle("Thêm sản phẩm mới");
+        setTitle("Thêm khách hàng mới");
+        setLocationRelativeTo(null);
         initComponents();
         init();
     }
@@ -35,13 +36,13 @@ public class AddItem extends javax.swing.JFrame {
     private void init()
     {
         layout = new MigLayout("fill, insets 0");
-        cover = new PanelCoverAddItem();
+        cover = new PanelCoverAddCustomer();
         addPanel = new JPanel();
         bg.setLayout(layout);
-        addPanel.setLayout(new MigLayout("wrap", "push[center]push", "15[]5[]5[]5[]5[]5[]5[]5[]5[]5[]5[]5[]25"));
+        addPanel.setLayout(new MigLayout("wrap", "push[center]push", "15[]5[]5[]5[]5[]5[]5[]5[]5[]5[]5[]5[]5[]5[]25"));
         addPanel.setBackground(new Color(255, 255, 255));
 
-        JLabel id = new JLabel("Nhập mã sản phẩm: ");
+        JLabel id = new JLabel("Nhập mã khách hàng: ");
         id.setForeground(new Color(100, 100, 100));
         id.setFont(new Font("sansserif", 1, fonsize));
         addPanel.add(id, "w 60%");
@@ -49,7 +50,7 @@ public class AddItem extends javax.swing.JFrame {
         txtID.setFont(new Font("sansserif", 1, fonsize));
         addPanel.add(txtID, "wrap, width 60%");
         
-        JLabel name = new JLabel("Nhập tên sản phẩm: ");
+        JLabel name = new JLabel("Nhập tên khách hàng: ");
         name.setForeground(new Color(100, 100, 100));
         name.setFont(new Font("sansserif", 1, fonsize));
         addPanel.add(name, "w 60%");
@@ -57,36 +58,58 @@ public class AddItem extends javax.swing.JFrame {
         txtName.setFont(new Font("sansserif", 1, fonsize));
         addPanel.add(txtName, "wrap, width 60%");
 
-        JLabel status = new JLabel("Nhập trạng thái: ");
-        status.setForeground(new Color(100, 100, 100));
-        status.setFont(new Font("sansserif", 1, fonsize));
-        addPanel.add(status, "w 60%");
-        JComboBox cbbStatus = new JComboBox();
-        cbbStatus.setForeground(new Color(100, 100, 100));
-        cbbStatus.setFont(new Font("sansserif", 1, fonsize));
-        cbbStatus.setCursor(Cursor.getPredefinedCursor(HAND_CURSOR));
-        cbbStatus.setBackground(new Color(255, 255, 255));
-        cbbStatus.addItem("Còn hàng");
-        cbbStatus.addItem("Hết hàng");
-        addPanel.add(cbbStatus, "w 60%");
+        JLabel address = new JLabel("Nhập địa chỉ: ");
+        address.setForeground(new Color(100, 100, 100));
+        address.setFont(new Font("sansserif", 1, fonsize));
+        addPanel.add(address, "w 60%");
+        JTextField txtAddress = new JTextField();
+        txtAddress.setFont(new Font("sansserif", 1, fonsize));
+        addPanel.add(txtAddress, "wrap, width 60%");
+
+        JLabel gender = new JLabel("Nhập giới tính: ");
+        gender.setForeground(new Color(100, 100, 100));
+        gender.setFont(new Font("sansserif", 1, fonsize));
+        addPanel.add(gender, "w 60%");
+        JComboBox cbbGender = new JComboBox();
+        cbbGender.setForeground(new Color(100, 100, 100));
+        cbbGender.setFont(new Font("sansserif", 1, fonsize));
+        cbbGender.setCursor(Cursor.getPredefinedCursor(HAND_CURSOR));
+        cbbGender.setBackground(new Color(255, 255, 255));
+        cbbGender.addItem("Nam");
+        cbbGender.addItem("Nữ");
+        addPanel.add(cbbGender, "w 60%");
+
+        JLabel birth = new JLabel("Nhập sinh nhật: ");
+        birth.setForeground(new Color(100, 100, 100));
+        birth.setFont(new Font("sansserif", 1, fonsize));
+        addPanel.add(birth, "w 60%");
+        SimpleDateFormat formatDate = new SimpleDateFormat("dd/MM/yyyy");
+        JFormattedTextField txtBirth = new JFormattedTextField(formatDate);
+        txtBirth.setFont(new Font("sansserif", 1, fonsize));
+        addPanel.add(txtBirth, "wrap, width 60%");
+
+        txtBirth.addKeyListener(new KeyAdapter() {
+            public void keyTyped(KeyEvent e) {
+                char c = e.getKeyChar();
+                if (!((c >= '0') && (c <= '9') ||
+                        (c == KeyEvent.VK_BACK_SPACE) ||
+                        (c == KeyEvent.VK_DELETE) || (c == KeyEvent.VK_SLASH)))
+                {
+                    JOptionPane.showMessageDialog(null, "Vui lòng nhập theo định dạng: MM/dd/yyyy");
+                    e.consume();
+                }
+            }
+        });
         
-        JLabel sx = new JLabel("Nhập nơi sản xuất: ");
-        sx.setForeground(new Color(100, 100, 100));
-        sx.setFont(new Font("sansserif", 1, fonsize));
-        addPanel.add(sx, "w 60%");
-        JTextField txtManufacturer = new JTextField();
-        txtManufacturer.setFont(new Font("sansserif", 1, fonsize));
-        addPanel.add(txtManufacturer, "wrap, width 60%");
-        
-        JLabel price = new JLabel("Nhập giá tiền: ");
-        price.setForeground(new Color(100, 100, 100));
-        price.setFont(new Font("sansserif", 1, fonsize));
-        addPanel.add(price, "w 60%");
-        JTextField txtPrice = new JTextField();
-        txtPrice.setFont(new Font("sansserif", 1, fonsize));
-        addPanel.add(txtPrice, "wrap, width 60%");
-        
-        JLabel cate = new JLabel("Nhập loại sản phẩm: ");
+        JLabel phone = new JLabel("Nhập số điện thoại: ");
+        phone.setForeground(new Color(100, 100, 100));
+        phone.setFont(new Font("sansserif", 1, fonsize));
+        addPanel.add(phone, "w 60%");
+        JTextField txtPhone = new JTextField();
+        txtPhone.setFont(new Font("sansserif", 1, fonsize));
+        addPanel.add(txtPhone, "wrap, width 60%");
+
+        JLabel cate = new JLabel("Nhập loại khách hàng: ");
         cate.setForeground(new Color(100, 100, 100));
         cate.setFont(new Font("sansserif", 1, fonsize));
         addPanel.add(cate, "w 60%");
@@ -94,10 +117,10 @@ public class AddItem extends javax.swing.JFrame {
         cbbCate.setFont(new Font("sansserif", 1, fonsize));
         cbbCate.setCursor(Cursor.getPredefinedCursor(HAND_CURSOR));
         cbbCate.setBackground(new Color(255, 255, 255));
-        listCate = ObjectCategoryDAO.getInstance().selectAll();
+        listCate = CustomerCategoryDAO.getInstance().selectAll();
         try {
-            for (ObjectCategory objectCategory : listCate) {
-                cbbCate.addItem(objectCategory.getName());
+            for (CustomerCategory customerCategory : listCate) {
+                cbbCate.addItem(customerCategory.getName());
             }
         } catch (Exception e) {
             System.out.println(e);
@@ -110,7 +133,7 @@ public class AddItem extends javax.swing.JFrame {
         addPanel.add(panelBtn, "width 60%, wrap");
 
         JButton btnAdd = new JButton();
-        btnAdd.setText("Thêm sản phẩm");
+        btnAdd.setText("Thêm khách hàng");
         btnAdd.setFont(new Font("sansserif", 1, fonsize));
         btnAdd.setCursor(Cursor.getPredefinedCursor(HAND_CURSOR));
         btnAdd.setForeground(new Color(255, 255, 255));
@@ -169,18 +192,26 @@ public class AddItem extends javax.swing.JFrame {
                 try {
                     String id = txtID.getText();
                     String name = txtName.getText();
-                    String status = cbbStatus.getSelectedItem().toString();
-                    String manufacturer = txtManufacturer.getText();
-                    String price = txtPrice.getText();
+                    String address = txtAddress.getText();
+                    String gender = cbbGender.getSelectedItem().toString();
+                    String birth = txtBirth.getText();
+                    String phone = txtPhone.getText();
                     String cate = cbbCate.getSelectedItem().toString();
-                    for (ObjectCategory objectCategory : listCate) {
-                        if (objectCategory.getName().equals(cate))
-                        {
-                            cate = objectCategory.getId();
-                            break;
-                        }
+
+                    boolean genderBool = false;
+
+                    if(gender == "Nam")
+                        genderBool = true;
+                    else
+                        genderBool = false;
+
+                    for (CustomerCategory customerCategory : listCate) {
+                        if(customerCategory.getName() == cate)
+                            cate = customerCategory.getId();
                     }
-                    if (ProductController.getInstance().addProduct(id, name, status, manufacturer, price, cate))
+                    java.util.Date invoiceDate = formatDate.parse(txtBirth.getText());
+                    java.sql.Date sqlDate = new java.sql.Date(invoiceDate.getTime());
+                    if (CustomerController.getInstance().addCustomer(id, name, address,genderBool, sqlDate, phone, cate))
                     {
                         JOptionPane.showMessageDialog(null,
                                 "Thêm sản phẩm thành công!", "Success", JOptionPane.INFORMATION_MESSAGE);
@@ -193,6 +224,8 @@ public class AddItem extends javax.swing.JFrame {
                     }
                 } catch (HeadlessException ex) {
                     System.out.println(ex);
+                } catch (ParseException ex) {
+                    throw new RuntimeException(ex);
                 }
             }
         });
@@ -209,34 +242,34 @@ public class AddItem extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        bg = new javax.swing.JPanel();
+        bg = new JPanel();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setBackground(new java.awt.Color(255, 255, 255));
+        setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+        setBackground(new Color(255, 255, 255));
 
-        bg.setBackground(new java.awt.Color(255, 255, 255));
+        bg.setBackground(new Color(255, 255, 255));
         bg.setOpaque(false);
 
-        javax.swing.GroupLayout bgLayout = new javax.swing.GroupLayout(bg);
+        GroupLayout bgLayout = new GroupLayout(bg);
         bg.setLayout(bgLayout);
         bgLayout.setHorizontalGroup(
-            bgLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            bgLayout.createParallelGroup(GroupLayout.Alignment.LEADING)
             .addGap(0, 503, Short.MAX_VALUE)
         );
         bgLayout.setVerticalGroup(
-            bgLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            bgLayout.createParallelGroup(GroupLayout.Alignment.LEADING)
             .addGap(0, 647, Short.MAX_VALUE)
         );
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
+        GroupLayout layout = new GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(bg, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            layout.createParallelGroup(GroupLayout.Alignment.LEADING)
+            .addComponent(bg, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(bg, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            layout.createParallelGroup(GroupLayout.Alignment.LEADING)
+            .addComponent(bg, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
         pack();
@@ -249,32 +282,32 @@ public class AddItem extends javax.swing.JFrame {
          * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
          */
         try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
+            for (UIManager.LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
                 if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
+                    UIManager.setLookAndFeel(info.getClassName());
                     break;
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(AddItem.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(AddCustomer.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(AddItem.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(AddCustomer.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(AddItem.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(AddItem.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(AddCustomer.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (UnsupportedLookAndFeelException ex) {
+            java.util.logging.Logger.getLogger(AddCustomer.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
 
         /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
+        EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new AddItem().setVisible(true);
+                new AddCustomer().setVisible(true);
             }
         });
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JPanel bg;
+    private JPanel bg;
     // End of variables declaration//GEN-END:variables
 }

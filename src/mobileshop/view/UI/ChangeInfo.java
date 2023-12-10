@@ -64,7 +64,7 @@ public class ChangeInfo extends javax.swing.JFrame {
 
         btnReset.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                if(LoginController.getInstance().updatePassword(txtInfo.getText(), txtPass.getText())) {
+                if(LoginController.getInstance().updatePassword(txtInfo.getText(), txtPass.getPassword().toString())) {
                     dispose();
                 }
             }

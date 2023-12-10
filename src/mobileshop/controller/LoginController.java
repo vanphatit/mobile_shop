@@ -43,20 +43,32 @@ public class LoginController {
 
     public boolean updatePassword(String user, String password) {
         if(user.equals("") || password.equals("")) {
-            JOptionPane.showMessageDialog(null,"Vui lòng nhập đầy đủ !", "Cảnh báo !", JOptionPane.WARNING_MESSAGE);
+            JOptionPane.showMessageDialog(null,"Vui lòng nhập đầy đủ !",
+                    "Cảnh báo !", JOptionPane.WARNING_MESSAGE);
         } else {
             try {
                 Staff acc = StaffDAO.getInstance().selectById(user);
                 if (acc == null) {
-                    JOptionPane.showMessageDialog(null, "Tài khoản không tồn tại trên hệ thống !", "Cảnh báo !", JOptionPane.WARNING_MESSAGE);
-                } else {
+                    JOptionPane.showMessageDialog(null,
+                            "Tài khoản không tồn tại trên hệ thống !",
+                            "Cảnh báo !", JOptionPane.WARNING_MESSAGE);
+                }
+                if(!acc.getRole()){
+                    JOptionPane.showMessageDialog(null,
+                            "Bạn không có quyền thay đổi mật khẩu !",
+                            "Cảnh báo !", JOptionPane.WARNING_MESSAGE);
+                    return false;
+                }
+                else {
                     acc.setPassword(password);
                     StaffDAO.getInstance().update(acc);
-                    JOptionPane.showMessageDialog(null, "Đổi mật khẩu thành công!");
+                    JOptionPane.showMessageDialog(null, "Đổi mật khẩu thành công!",
+                            "Thông báo !", JOptionPane.INFORMATION_MESSAGE);
                     return true;
                 }
             } catch (Exception e) {
-                JOptionPane.showMessageDialog(null, "Sai mật khẩu !", "Cảnh báo !", JOptionPane.WARNING_MESSAGE);
+                JOptionPane.showMessageDialog(null, "Sai mật khẩu !",
+                        "Cảnh báo !", JOptionPane.WARNING_MESSAGE);
             }
         }
         return false;

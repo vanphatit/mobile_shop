@@ -54,15 +54,15 @@ public class StaffDAO implements IDAO<Staff>{
             Connection con = JDBCUtil.getConnection();
             String sql = "UPDATE staff SET name = ?, password = ?, address = ?, gender = ?, birthday = ?, phone = ?, role = ?, id_shift = ? WHERE id = ?";
             PreparedStatement pst = con.prepareStatement(sql);
-            pst.setString(1, staff.getId());
-            pst.setString(2, staff.getName());
-            pst.setString(3, staff.getPassword());
-            pst.setString(4, staff.getAddress());
-            pst.setBoolean(5, staff.getGender());
-            pst.setDate(6, staff.getBirthday());
-            pst.setString(7, staff.getPhone());
-            pst.setBoolean(8, staff.getRole());
-            pst.setString(9, staff.getIdShift());
+            pst.setString(1, staff.getName());
+            pst.setString(2, staff.getPassword());
+            pst.setString(3, staff.getAddress());
+            pst.setBoolean(4, staff.getGender());
+            pst.setDate(5, staff.getBirthday());
+            pst.setString(6, staff.getPhone());
+            pst.setBoolean(7, staff.getRole());
+            pst.setString(8, staff.getIdShift());
+            pst.setString(9, staff.getId());
             ketqua = pst.executeUpdate();
             JDBCUtil.closeConnection(con);
         } catch (SQLException e) {

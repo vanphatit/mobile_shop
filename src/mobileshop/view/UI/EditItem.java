@@ -2,13 +2,18 @@ package mobileshop.view.UI;
 
 import java.awt.Color;
 import java.awt.Cursor;
+import static java.awt.Cursor.HAND_CURSOR;
 import java.awt.Font;
 import java.awt.Insets;
-import javax.swing.JButton;
-import javax.swing.JComboBox;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.JTextField;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.ArrayList;
+import javax.swing.*;
+
+import mobileshop.dao.ObjectCategoryDAO;
+import mobileshop.dao.ObjectDAO;
+import mobileshop.model.Object;
+import mobileshop.model.ObjectCategory;
 import mobileshop.view.component.PanelCoverEditItem;
 import net.miginfocom.swing.MigLayout;
 
@@ -18,16 +23,24 @@ public class EditItem extends javax.swing.JFrame {
     private PanelCoverEditItem cover;
     private JPanel addPanel;
     private int fonsize = 14;
+    private String idObject;
+    private Object object;
+    private ArrayList<ObjectCategory> listCate;
             
-    public EditItem() {
+    public EditItem(String id) {
         initComponents();
         setTitle("Sửa thông tin sản  phẩm");
         initComponents();
+
+        this.idObject = id;
         init();
+
     }
     
     private void init()
     {
+        object = ObjectDAO.getInstance().selectById(idObject);
+
         layout = new MigLayout("fill, insets 0");
         cover = new PanelCoverEditItem();
         addPanel = new JPanel();
@@ -36,29 +49,38 @@ public class EditItem extends javax.swing.JFrame {
         
         addPanel.setLayout(new MigLayout("wrap", "push[center]push", "15[]5[]5[]5[]5[]5[]5[]5[]5[]5[]5[]5[]25"));
 
-        JLabel id = new JLabel("Nhập mã sản phẩm: ");
+        JLabel id = new JLabel("Mã sản phẩm: ");
         id.setForeground(new Color(100, 100, 100));
         id.setFont(new Font("sansserif", 1, fonsize));
         addPanel.add(id, "w 60%");
         JTextField txtInfo = new JTextField();
         txtInfo.setFont(new Font("sansserif", 1, fonsize));
+        txtInfo.setText(object.getId());
+        txtInfo.setEditable(false);
         addPanel.add(txtInfo, "wrap, width 60%");
         
-       JLabel name = new JLabel("Nhập tên sản phẩm: ");
+        JLabel name = new JLabel("Tên sản phẩm: ");
         name.setForeground(new Color(100, 100, 100));
         name.setFont(new Font("sansserif", 1, fonsize));
         addPanel.add(name, "w 60%");
         JTextField txtName = new JTextField();
         txtName.setFont(new Font("sansserif", 1, fonsize));
+        txtName.setText(object.getName());
         addPanel.add(txtName, "wrap, width 60%");
-        
+
         JLabel status = new JLabel("Nhập trạng thái: ");
         status.setForeground(new Color(100, 100, 100));
         status.setFont(new Font("sansserif", 1, fonsize));
         addPanel.add(status, "w 60%");
-        JTextField txtStatus = new JTextField();
-        txtStatus.setFont(new Font("sansserif", 1, fonsize));
-        addPanel.add(txtStatus, "wrap, width 60%");
+        JComboBox cbbStatus = new JComboBox();
+        cbbStatus.setForeground(new Color(100, 100, 100));
+        cbbStatus.setFont(new Font("sansserif", 1, fonsize));
+        cbbStatus.setCursor(Cursor.getPredefinedCursor(HAND_CURSOR));
+        cbbStatus.setBackground(new Color(255, 255, 255));
+        cbbStatus.addItem("Còn hàng");
+        cbbStatus.addItem("Hết hàng");
+        cbbStatus.setSelectedItem(object.getStatus());
+        addPanel.add(cbbStatus, "w 60%");
         
         JLabel sx = new JLabel("Nhập nơi sản xuất: ");
         sx.setForeground(new Color(100, 100, 100));
@@ -66,6 +88,7 @@ public class EditItem extends javax.swing.JFrame {
         addPanel.add(sx, "w 60%");
         JTextField txtSx = new JTextField();
         txtSx.setFont(new Font("sansserif", 1, fonsize));
+        txtSx.setText(object.getManufacturer());
         addPanel.add(txtSx, "wrap, width 60%");
         
         JLabel price = new JLabel("Nhập giá tiền: ");
@@ -74,6 +97,7 @@ public class EditItem extends javax.swing.JFrame {
         addPanel.add(price, "w 60%");
         JTextField txtPrice = new JTextField();
         txtPrice.setFont(new Font("sansserif", 1, fonsize));
+        txtPrice.setText(String.valueOf(object.getUnitPrice()));
         addPanel.add(txtPrice, "wrap, width 60%");
         
         JLabel cate = new JLabel("Nhập loại sản phẩm: ");
@@ -84,21 +108,27 @@ public class EditItem extends javax.swing.JFrame {
         cbbCate.setFont(new Font("sansserif", 1, fonsize));
         cbbCate.setCursor(Cursor.getPredefinedCursor(HAND_CURSOR));
         cbbCate.setBackground(new Color(255, 255, 255));
-        cbbCate.addItem("id1");
-        cbbCate.addItem("id2");
-        cbbCate.addItem("id3");
+        listCate = ObjectCategoryDAO.getInstance().selectAll();
+        try {
+            for (ObjectCategory objectCategory : listCate) {
+                cbbCate.addItem(objectCategory.getName());
+            }
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+        cbbCate.setSelectedItem(object.getIdCategory());
         addPanel.add(cbbCate, "wrap, width 60%");
         
-        JButton addBtn = new JButton();
-        addBtn.setText("Sửa thông tin");
-        addBtn.setFont(new Font("sansserif", 1, fonsize));
-        addBtn.setCursor(Cursor.getPredefinedCursor(HAND_CURSOR));
-        addBtn.setForeground(new Color(255, 255, 255));
-        addBtn.setBackground(new Color(7, 164, 121));
-        addBtn.setMargin(new Insets(10,20,10,20));
-        addPanel.add(addBtn);
+        JButton btnEdit = new JButton();
+        btnEdit.setText("Sửa thông tin");
+        btnEdit.setFont(new Font("sansserif", 1, fonsize));
+        btnEdit.setCursor(Cursor.getPredefinedCursor(HAND_CURSOR));
+        btnEdit.setForeground(new Color(255, 255, 255));
+        btnEdit.setBackground(new Color(7, 164, 121));
+        btnEdit.setMargin(new Insets(10,20,10,20));
+        addPanel.add(btnEdit);
         
-        addBtn.addMouseListener(new java.awt.event.MouseAdapter() {
+        btnEdit.addMouseListener(new java.awt.event.MouseAdapter() {
             @Override
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 JButton source = (JButton) evt.getSource();
@@ -106,7 +136,7 @@ public class EditItem extends javax.swing.JFrame {
                 source.setBackground(new Color(0, 255, 213));
             }
         });
-        addBtn.addMouseListener(new java.awt.event.MouseAdapter() {
+        btnEdit.addMouseListener(new java.awt.event.MouseAdapter() {
             @Override
             public void mouseExited(java.awt.event.MouseEvent evt) {
                 JButton source = (JButton) evt.getSource();
@@ -118,7 +148,31 @@ public class EditItem extends javax.swing.JFrame {
         
         bg.add(cover, "height 20%, width 100%, wrap");
         bg.add(addPanel, "height 80%, width 100%");
-        
+
+        btnEdit.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                object.setName(txtName.getText());
+                object.setStatus(cbbStatus.getSelectedItem().toString());
+                object.setManufacturer(txtSx.getText());
+                object.setUnitPrice(Integer.parseInt(txtPrice.getText()));
+                for (ObjectCategory objectCategory : listCate) {
+                    if (objectCategory.getName().equals(cbbCate.getSelectedItem().toString()))
+                    {
+                        object.setIdCategory(objectCategory.getId());
+                        break;
+                    }
+                }
+                if(ObjectDAO.getInstance().update(object) == 1) {
+                    JOptionPane.showMessageDialog(null,
+                            "Sửa thông tin sản phẩm thành công!", "Success", JOptionPane.INFORMATION_MESSAGE);
+                    dispose();
+                } else {
+                    JOptionPane.showMessageDialog(null,
+                            "Sửa thông tin sản phẩm thất bại!", "Error", JOptionPane.ERROR_MESSAGE);
+                }
+            }
+        });
     }
     
     @SuppressWarnings("unchecked")
@@ -157,39 +211,6 @@ public class EditItem extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(EditItem.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(EditItem.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(EditItem.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(EditItem.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-        //</editor-fold>
-
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new EditItem().setVisible(true);
-            }
-        });
-    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel bg;
