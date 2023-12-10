@@ -58,8 +58,8 @@ public class Home extends javax.swing.JFrame {
         main = new JPanel();
         main.setBackground(new Color(255,255,255));
 
-        bg.setLayout(new MigLayout("wrap", "[Left]", "150[]10[]10[]10[]10[]10[]10[]10[]push[]10[]10[]push"));
-        main.setLayout(new MigLayout("wrap", "[grow]", "[grow]"));
+        bg.setLayout(new MigLayout("fill, wrap", "[Left]", "150[]10[]10[]10[]10[]10[]10[]10[]push[]10[]10[]push"));
+        main.setLayout(new MigLayout("fill, wrap", "[Center]", "[Center]"));
 
         bg.add(cover, "width 20%, pos 0al 0 n 100%");
         bg.add(main, "width 78%, pos 1al 0 n 100%");

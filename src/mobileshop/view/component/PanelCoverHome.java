@@ -32,12 +32,13 @@ public class PanelCoverHome extends javax.swing.JPanel {
     
     private void init() {
         title1 = new JLabel("Hi!");
-        title1.setFont(new Font("sansserif", 1, 30));
+        title1.setFont(new Font("sansserif", 1, 40));
         title1.setForeground(new Color(245, 245, 245));
         add(title1);
-        
+
+
         title2 = new JLabel("Admin");
-        title2.setFont(new Font("sansserif", 1, 30));
+        title2.setFont(new Font("sansserif", 1, 40));
         title2.setForeground(new Color(245, 245, 245));
         add(title2);
         
