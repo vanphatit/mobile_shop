@@ -1,6 +1,8 @@
 package mobileshop.view.component;
 
+import mobileshop.dao.BillDAO;
 import mobileshop.dao.BillDetailDAO;
+import mobileshop.dao.ReceiptNoteDAO;
 import mobileshop.dao.ReceiptNoteDetailDAO;
 import mobileshop.model.Bill;
 import mobileshop.model.BillDetail;
@@ -31,8 +33,11 @@ public class PanelBillDetail extends JPanel {
 
     private ArrayList<Bill> bills;
     private ArrayList<BillDetail> billDetails;
+    private Bill bill;
 
-    public PanelBillDetail() {
+    public PanelBillDetail(String id) {
+        if(id != null)
+            bill = BillDAO.getInstance().selectById(id);
         initComponents();
         setOpaque(false);
         layout = new MigLayout("wrap", "[grow]", "[grow]10[grow]10[grow]");

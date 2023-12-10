@@ -50,7 +50,6 @@ public class Home extends javax.swing.JFrame {
         Customer = new PanelCustomer();
         ReceiptNote = new PanelReceiptNote();
         Bill = new PanelBill();
-        BillDetail = new PanelBillDetail();
         Statistics = new PanelStatistics();
         main = new JPanel();
         main.setBackground(new Color(255,255,255));
@@ -58,8 +57,8 @@ public class Home extends javax.swing.JFrame {
         bg.setLayout(new MigLayout("fill, wrap", "[Left]", "150[]10[]10[]10[]10[]10[]10[]10[]push[]10[]10[]push"));
         main.setLayout(new MigLayout("fill, wrap", "[Center]", "[Center]"));
 
-        bg.add(cover, "width 20%, pos 0al 0 n 100%");
-        bg.add(main, "width 78%, pos 1al 0 n 100%");
+        bg.add(cover, "width 25%, pos 0al 0 n 100%");
+        bg.add(main, "width 73%, pos 1al 0 n 100%");
 
         // <editor-fold defaultstate="collapsed" desc="Home">
         JButton object = new JButton();
@@ -299,7 +298,7 @@ public class Home extends javax.swing.JFrame {
 
                 main.removeAll();
                 main.repaint();
-                main.add(ReceiptNote, "width 100%, pos 0al 0 n 100%");
+                main.add(ReceiptNote, "width 100%, height 100%");
                 main.revalidate();
             }
             public void mousePressed(java.awt.event.MouseEvent evt) {
@@ -331,8 +330,7 @@ public class Home extends javax.swing.JFrame {
 
                 main.removeAll();
                 main.repaint();
-                main.add(Bill, "width 50%, pos 0al 0 n 100%");
-                main.add(BillDetail, "width 50%, pos 1al 0 n 100%");
+                main.add(Bill, "width 100%, height 100%");
                 main.revalidate();
             }
             public void mousePressed(java.awt.event.MouseEvent evt) {
@@ -394,10 +392,6 @@ public class Home extends javax.swing.JFrame {
 
     public void setReceiptNoteDetail() {
         main.removeAll();
-//        main.repaint();
-//        main.add(ReceiptNote, "width 50%, pos 0al 0 n 100%");
-//        main.add(ReceiptNoteDetail, "width 50%, pos 1al 0 n 100%");
-//        main.revalidate();
     }
 
     @SuppressWarnings("unchecked")

@@ -171,6 +171,7 @@ public class PanelStaff extends JPanel {
         staff.getTableHeader().setDefaultRenderer(renderer);
         staff.getTableHeader().setReorderingAllowed(false);
         staff.getTableHeader().setResizingAllowed(false);
+        staff.getColumn("Tên nhân viên").setPreferredWidth(200);
 
         mainPanel.add(scrollPane, "w 100%, h 100%");
         //</editor-fold>

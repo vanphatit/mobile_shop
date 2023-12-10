@@ -4,11 +4,14 @@ import mobileshop.dao.BillDAO;
 import mobileshop.dao.ReceiptNoteDAO;
 import mobileshop.model.Bill;
 import mobileshop.model.ReceiptNote;
+import mobileshop.view.UI.BillDetail;
+import mobileshop.view.UI.ReceiptNoteDetail;
 import mobileshop.view.swing.MyTextField;
 import net.miginfocom.swing.MigLayout;
 
 import javax.swing.*;
 import javax.swing.border.LineBorder;
+import javax.swing.border.TitledBorder;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
@@ -25,6 +28,7 @@ public class PanelBill extends JPanel {
     private JScrollPane scrollPane;
     private JPanel feature;
     private JPanel search;
+    private BillDetail billDetail;
 
     private ArrayList<Bill> bills;
 
@@ -42,7 +46,7 @@ public class PanelBill extends JPanel {
         feature = new JPanel();
         search = new JPanel();
 
-        feature.setLayout(new MigLayout("wrap", "push[]10[]10[]push"));
+        feature.setLayout(new MigLayout("wrap", "push[]10[]10[]10[]push"));
         feature.setBackground(new Color(255,255,255));
         search.setLayout(new MigLayout("wrap 3", "[grow]10[grow]10[grow]", "[center]"));
         search.setBackground(new Color(255,255,255));
@@ -88,10 +92,25 @@ public class PanelBill extends JPanel {
         btnEdit.setHorizontalTextPosition(SwingConstants.CENTER);
         btnEdit.setHorizontalAlignment(SwingConstants.LEFT);
         feature.add(btnEdit);
+
+        JButton btnDetail = new JButton();
+        btnDetail.setFont(new Font("sansserif", 1, 14));
+        btnDetail.setForeground(new Color(100, 100, 100));
+        btnDetail.setBackground(new Color(255, 255, 255));
+        btnDetail.setBorderPainted(false);
+        btnDetail.setCursor(Cursor.getPredefinedCursor(HAND_CURSOR));
+        btnDetail.setText("Xem");
+        btnDetail.setIcon(new ImageIcon(getClass().getResource("/mobileshop/assets/icon/icons8-information-25.png")));
+        btnDetail.setVerticalTextPosition(SwingConstants.BOTTOM);
+        btnDetail.setHorizontalTextPosition(SwingConstants.CENTER);
+        btnDetail.setHorizontalAlignment(SwingConstants.LEFT);
+        feature.add(btnDetail);
         //</editor-fold>
 
         //<editor-fold defaultstate="collapsed" desc="Search">
-        
+
+        search.setBorder(new TitledBorder(new LineBorder(new Color(0, 0, 0)), "Tìm kiếm", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));
+
         JComboBox area = new JComboBox();
         area.setFont(new Font("sansserif", 1, 14));
         area.setForeground(new Color(0, 0, 0));
@@ -162,6 +181,18 @@ public class PanelBill extends JPanel {
         add(search, "width 100%, height 5%, wrap");
         add(mainPanel, "width 100%, height 85%, wrap");
         add(feature, "width 100%, height 20%, top");
+
+        btnDetail.addActionListener(e -> {
+            if (bill.getSelectedRow() >= 0) {
+                int row = bill.getSelectedRow();
+                if(row == -1) {
+                    return;
+                }
+                String id = (String) bill.getValueAt(row, 0);
+                billDetail = new BillDetail(id);
+                billDetail.setVisible(true);
+            }
+        });
     }
     
     
