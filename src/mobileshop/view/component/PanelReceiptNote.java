@@ -3,7 +3,7 @@ package mobileshop.view.component;
 import mobileshop.controller.ReceiptNoteController;
 import mobileshop.dao.ReceiptNoteDAO;
 import mobileshop.model.ReceiptNote;
-import mobileshop.view.UI.Add;
+import mobileshop.view.UI.AddItem;
 import mobileshop.view.UI.AddReceiptNote;
 import mobileshop.view.UI.ReceiptNoteDetail;
 import mobileshop.view.swing.MyTextField;
@@ -11,6 +11,7 @@ import net.miginfocom.swing.MigLayout;
 
 import javax.swing.*;
 import javax.swing.border.LineBorder;
+import javax.swing.border.TitledBorder;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
@@ -55,6 +56,8 @@ public class PanelReceiptNote extends JPanel {
         search.setBackground(new Color(255,255,255));
         mainPanel.setLayout(new MigLayout("wrap"));
         mainPanel.setBackground(new Color(255,255,255));
+        search.setBorder(new TitledBorder(new LineBorder(new Color(0, 0, 0)), "Tìm kiếm", TitledBorder.LEADING, TitledBorder.TOP, new Font("sansserif", 1, 14), new Color(0, 0, 0)));
+
 
         //<editor-fold defaultstate="collapsed" desc="Menu">
         JButton btnAdd = new JButton();
