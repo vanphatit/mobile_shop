@@ -14,11 +14,8 @@ import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 
 import mobileshop.controller.SuplierController;
-import mobileshop.dao.StaffDAO;
 import mobileshop.dao.SuplierDAO;
-import mobileshop.model.Staff;
 import mobileshop.model.Suplier;
-import mobileshop.view.UI.AddItem;
 import mobileshop.view.UI.EditSuplier;
 import mobileshop.view.swing.MyTextField;
 import net.miginfocom.swing.MigLayout;

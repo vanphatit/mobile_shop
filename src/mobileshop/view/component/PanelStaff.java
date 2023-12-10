@@ -2,7 +2,7 @@ package mobileshop.view.component;
 
 import mobileshop.dao.StaffDAO;
 import mobileshop.model.Staff;
-import mobileshop.view.UI.AddItem;
+import mobileshop.view.UI.Add;
 import mobileshop.view.swing.MyTextField;
 import net.miginfocom.swing.MigLayout;
 
@@ -30,7 +30,7 @@ public class PanelStaff extends JPanel {
     private JLabel title1;
     private JLabel title2;
     private JMenuBar featureMenu;
-    private mobileshop.view.UI.AddItem AddItem;
+    private Add AddItem;
 
     private ArrayList<Staff> staffs;
 
@@ -221,7 +221,7 @@ public class PanelStaff extends JPanel {
         btnAdd.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                AddItem = new AddItem();
+                AddItem = new Add();
                 AddItem.show();
             }
         });

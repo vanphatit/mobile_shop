@@ -13,6 +13,8 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.SwingConstants;
+
+import mobileshop.dao.StaffDAO;
 import net.miginfocom.swing.MigLayout;
 
 public class PanelCoverHome extends javax.swing.JPanel {
@@ -22,21 +24,22 @@ public class PanelCoverHome extends javax.swing.JPanel {
     private JLabel title2;
     private int fontSize = 16;
     
-    public PanelCoverHome() {
+    public PanelCoverHome(String idStaff) {
         initComponents();
         setOpaque(false);
         layout = new MigLayout("wrap", "push[Center]push", "25[]5[]push[]10[]10[]10[]10[]10[]10[]10[]push[]10[]10[]push");
         setLayout(layout);
-        init();
+        init(idStaff);
     }
     
-    private void init() {
+    private void init(String idStaff) {
         title1 = new JLabel("Hi!");
         title1.setFont(new Font("sansserif", 1, 30));
         title1.setForeground(new Color(245, 245, 245));
         add(title1);
-        
-        title2 = new JLabel("Admin");
+
+
+        title2 = new JLabel(StaffDAO.getInstance().selectById(idStaff).getName());
         title2.setFont(new Font("sansserif", 1, 30));
         title2.setForeground(new Color(245, 245, 245));
         add(title2);

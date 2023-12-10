@@ -23,10 +23,10 @@ public class MobileShop {
        Connection connection = JDBCUtil.getConnection();
         if(connection != null) {
             System.out.println("Connect successfully!");
+            Login login = new Login();
+            login.setVisible(true);
         } else {
             System.out.println("Connect failed!");
         }
-        Login login = new Login();
-        login.setVisible(true);
     }
 }

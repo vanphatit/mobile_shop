@@ -26,7 +26,7 @@ public class ReceiptNoteDAO implements IDAO<ReceiptNote> {
         int ketqua = 0;
         try {
             Connection con = JDBCUtil.getConnection();
-            String sql = "INSERT INTO receipt_note (id, date, more_info, id_suplierr, id_staff) VALUES (?,?,?,?,?,?)";
+            String sql = "INSERT INTO receipt_note (id, date, more_info, id_suplier, id_staff) VALUES (?,?,?,?,?)";
             PreparedStatement pst = con.prepareStatement(sql);
             pst.setString(1, receiptNote.getId());
             pst.setDate(2, receiptNote.getDate());

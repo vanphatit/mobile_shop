@@ -22,7 +22,6 @@ public class Home extends javax.swing.JFrame {
     private PanelStaff Staff;
     private PanelCustomer Customer;
     private PanelReceiptNote ReceiptNote;
-    private PanelReceiptNoteDetail ReceiptNoteDetail;
     private PanelBill Bill;
     private PanelBillDetail BillDetail;
     private PanelStatistics Statistics;
@@ -35,22 +34,21 @@ public class Home extends javax.swing.JFrame {
     public static final Color HOVER_BACKGROUND = new Color(0,255,213);
    
     
-    public Home() {
+    public Home(String idStaff) {
         setTitle("Phần mềm quản lý Mobile Shop!");
         initComponents();
-        init();
+        init(idStaff);
     }
 
-    private void init()
+    private void init(String idStaff)
     {
         layout = new MigLayout("fill, insets 0");
-        cover = new PanelCoverHome();
+        cover = new PanelCoverHome(idStaff);
         Product = new PanelProduct();
         Suplier = new PanelSuplier();
         Staff = new PanelStaff();
         Customer = new PanelCustomer();
         ReceiptNote = new PanelReceiptNote();
-        ReceiptNoteDetail = new PanelReceiptNoteDetail();
         Bill = new PanelBill();
         BillDetail = new PanelBillDetail();
         Statistics = new PanelStatistics();
@@ -163,7 +161,7 @@ public class Home extends javax.swing.JFrame {
         logout.setHorizontalAlignment(SwingConstants.LEFT);
         cover.add(logout, "w 100%");
 
-        main.add(Product, "w 100%, h 100% , wrap");
+        main.add(Statistics, "w 100%, h 100% , wrap");
 
         object.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -301,8 +299,7 @@ public class Home extends javax.swing.JFrame {
 
                 main.removeAll();
                 main.repaint();
-                main.add(ReceiptNote, "width 50%, pos 0al 0 n 100%");
-                main.add(ReceiptNoteDetail, "width 50%, pos 1al 0 n 100%");
+                main.add(ReceiptNote, "width 100%, pos 0al 0 n 100%");
                 main.revalidate();
             }
             public void mousePressed(java.awt.event.MouseEvent evt) {
@@ -394,6 +391,15 @@ public class Home extends javax.swing.JFrame {
         // </editor-fold>
 
     }
+
+    public void setReceiptNoteDetail() {
+        main.removeAll();
+//        main.repaint();
+//        main.add(ReceiptNote, "width 50%, pos 0al 0 n 100%");
+//        main.add(ReceiptNoteDetail, "width 50%, pos 1al 0 n 100%");
+//        main.revalidate();
+    }
+
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -430,13 +436,7 @@ public class Home extends javax.swing.JFrame {
         pack();
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
-    
-    public static void main(String args[]) {
-        java.awt.EventQueue.invokeLater(() -> {
-            new Home().setVisible(true);
-        });
-    }
-    
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLayeredPane bg;
     // End of variables declaration//GEN-END:variables

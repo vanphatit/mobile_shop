@@ -12,6 +12,7 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import mobileshop.controller.LoginController;
+import mobileshop.view.component.PanelCoverChangeinfo;
 import mobileshop.view.component.PanelCoverLogin;
 import mobileshop.view.swing.MyTextField;
 import net.miginfocom.swing.MigLayout;
@@ -76,9 +77,18 @@ public class Login extends javax.swing.JFrame {
                         String.valueOf(txtPass.getPassword())))
                 {
                     dispose();
-                    Home mainLayout = new Home();
+                    Home mainLayout = new Home(txtUser.getText());
                     mainLayout.setVisible(true);
                 }
+            }
+        });
+
+        btnForget.addActionListener(new ActionListener()
+        {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                ChangeInfo forget = new ChangeInfo();
+                forget.setVisible(true);
             }
         });
         

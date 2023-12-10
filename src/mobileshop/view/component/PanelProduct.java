@@ -19,7 +19,7 @@ import mobileshop.model.Object;
 import mobileshop.view.UI.EditItem;
 import mobileshop.view.swing.MyTextField;
 import net.miginfocom.swing.MigLayout;
-import mobileshop.view.UI.AddItem;
+import mobileshop.view.UI.Add;
 
 public class PanelProduct extends javax.swing.JPanel {
 
@@ -34,7 +34,7 @@ public class PanelProduct extends javax.swing.JPanel {
     private JLabel title1;
     private JLabel title2;
     private JMenuBar featureMenu;
-    private mobileshop.view.UI.AddItem AddItem;
+    private Add AddItem;
     private EditItem EditItem;
 
     private ArrayList<Object> products;
@@ -224,7 +224,7 @@ public class PanelProduct extends javax.swing.JPanel {
         btnAdd.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                AddItem = new AddItem();
+                AddItem = new Add();
                 AddItem.show();
             }
         });
