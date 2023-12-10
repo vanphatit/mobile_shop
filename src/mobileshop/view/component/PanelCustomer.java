@@ -252,6 +252,7 @@ public class PanelCustomer extends JPanel {
                 }
             }
         });
+        //</editor-fold>
     }
     
     

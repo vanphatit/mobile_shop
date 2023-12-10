@@ -8,20 +8,16 @@ import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
-import javax.swing.ImageIcon;
-import javax.swing.JButton;
-import javax.swing.JComboBox;
-import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-import javax.swing.JTable;
-import javax.swing.SwingConstants;
+import javax.swing.*;
 import javax.swing.border.LineBorder;
 import javax.swing.border.TitledBorder;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 
+import mobileshop.controller.ProductController;
 import mobileshop.dao.ObjectDAO;
 import mobileshop.model.Object;
+import mobileshop.view.UI.EditItem;
 import mobileshop.view.swing.MyTextField;
 import net.miginfocom.swing.MigLayout;
 import mobileshop.view.UI.AddItem;
@@ -37,6 +33,7 @@ public class PanelProduct extends javax.swing.JPanel {
     private JPanel search;
     private JPanel featureMenu;
     private mobileshop.view.UI.AddItem AddItem;
+    private mobileshop.view.UI.EditItem editItem;
 
     private ArrayList<Object> products;
     
@@ -127,16 +124,16 @@ public class PanelProduct extends javax.swing.JPanel {
         text.setBorder(new LineBorder(new Color(0, 0, 0)));
         search.add(text, "grow");
         
-        JButton reload = new JButton();
-        reload.setFont(new Font("sansserif", 1, 14));
-        reload.setForeground(new Color(0, 0, 0));
-        reload.setBackground(new Color(255, 255, 255));
-        reload.setCursor(Cursor.getPredefinedCursor(HAND_CURSOR));
-        reload.setText("Làm mới");
-        reload.setBorder(new LineBorder(new Color(0,0,0)));
-        reload.setIcon(new ImageIcon(getClass().getResource("/mobileshop/assets/icon/icons8_reset_25px_1.png")));
-        reload.setMargin(new Insets(10,20,10,20));
-        search.add(reload, "grow");
+        JButton btnReload = new JButton();
+        btnReload.setFont(new Font("sansserif", 1, 14));
+        btnReload.setForeground(new Color(0, 0, 0));
+        btnReload.setBackground(new Color(255, 255, 255));
+        btnReload.setCursor(Cursor.getPredefinedCursor(HAND_CURSOR));
+        btnReload.setText("Làm mới");
+        btnReload.setBorder(new LineBorder(new Color(0,0,0)));
+        btnReload.setIcon(new ImageIcon(getClass().getResource("/mobileshop/assets/icon/icons8_reset_25px_1.png")));
+        btnReload.setMargin(new Insets(10,20,10,20));
+        search.add(btnReload, "grow");
         //</editor-fold>
 
         //<editor-fold defaultstate="collapsed" desc="Table">
@@ -194,6 +191,58 @@ public class PanelProduct extends javax.swing.JPanel {
                 AddItem.show();
             }
         });
+
+        btnEdit.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                int row = product.getSelectedRow();
+                if(row == -1) {
+                    return;
+                }
+                String id = (String) product.getValueAt(row, 0);
+                editItem = new EditItem(id);
+                editItem.show();
+            }
+        });
+
+        btnDel.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                int row = product.getSelectedRow();
+                if(row == -1) {
+                    return;
+                }
+                String id = (String) product.getValueAt(row, 0);
+                if(ProductController.getInstance().delProduct(id)) {
+                    model.removeRow(row);
+                    JOptionPane.showMessageDialog(null, "Xóa thành công!",
+                            "Success", JOptionPane.INFORMATION_MESSAGE);
+                }
+            }
+        });
+
+        btnReload.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                products = ObjectDAO.getInstance().selectAll();
+                try {
+                    model.setRowCount(0);
+                    for (Object product : products) {
+                        model.addRow(new java.lang.Object[]{
+                                product.getId(),
+                                product.getName(),
+                                product.getStatus(),
+                                product.getManufacturer(),
+                                product.getUnitPrice(),
+                                product.getIdCategory()
+                        });
+                    }
+                } catch (Exception ex) {
+                    System.out.println(ex);
+                }
+            }
+        });
+        //</editor-fold>
     }
     
     

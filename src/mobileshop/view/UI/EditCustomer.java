@@ -31,7 +31,8 @@ public class EditCustomer extends JFrame {
         initComponents();
         setTitle("Sửa thông tin khách hàng");
         initComponents();
-
+        setLocationRelativeTo(null);
+        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         this.idCustomer = id;
         init();
 

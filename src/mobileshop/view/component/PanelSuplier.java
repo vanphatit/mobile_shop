@@ -8,24 +8,18 @@ import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
-import javax.swing.ImageIcon;
-import javax.swing.JButton;
-import javax.swing.JComboBox;
-import javax.swing.JLabel;
-import javax.swing.JMenuBar;
-import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-import javax.swing.JTable;
-import javax.swing.SwingConstants;
+import javax.swing.*;
 import javax.swing.border.LineBorder;
 import javax.swing.border.TitledBorder;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 
+import mobileshop.controller.SuplierController;
 import mobileshop.dao.StaffDAO;
 import mobileshop.dao.SuplierDAO;
 import mobileshop.model.Staff;
 import mobileshop.model.Suplier;
+import mobileshop.view.UI.EditSuplier;
 import mobileshop.view.swing.MyTextField;
 import net.miginfocom.swing.MigLayout;
 import mobileshop.view.UI.AddSuplier;
@@ -41,6 +35,7 @@ public class PanelSuplier extends javax.swing.JPanel {
     private JPanel search;
     private JPanel featureMenu;
     private AddSuplier addSuplier;
+    private EditSuplier editSuplier;
     private ArrayList<Suplier> supliers;
     
     public PanelSuplier() {
@@ -130,16 +125,16 @@ public class PanelSuplier extends javax.swing.JPanel {
         text.setBorder(new LineBorder(new Color(0, 0, 0)));
         search.add(text, "grow");
 
-        JButton reload = new JButton();
-        reload.setFont(new Font("sansserif", 1, 14));
-        reload.setForeground(new Color(0, 0, 0));
-        reload.setBackground(new Color(255, 255, 255));
-        reload.setCursor(Cursor.getPredefinedCursor(HAND_CURSOR));
-        reload.setText("Làm mới");
-        reload.setBorder(new LineBorder(new Color(0,0,0)));
-        reload.setIcon(new ImageIcon(getClass().getResource("/mobileshop/assets/icon/icons8_reset_25px_1.png")));
-        reload.setMargin(new Insets(10,20,10,20));
-        search.add(reload, "grow");
+        JButton btnReload = new JButton();
+        btnReload.setFont(new Font("sansserif", 1, 14));
+        btnReload.setForeground(new Color(0, 0, 0));
+        btnReload.setBackground(new Color(255, 255, 255));
+        btnReload.setCursor(Cursor.getPredefinedCursor(HAND_CURSOR));
+        btnReload.setText("Làm mới");
+        btnReload.setBorder(new LineBorder(new Color(0,0,0)));
+        btnReload.setIcon(new ImageIcon(getClass().getResource("/mobileshop/assets/icon/icons8_reset_25px_1.png")));
+        btnReload.setMargin(new Insets(10,20,10,20));
+        search.add(btnReload, "grow");
         //</editor-fold>
 
         //<editor-fold defaultstate="collapsed" desc="Table">
@@ -194,6 +189,58 @@ public class PanelSuplier extends javax.swing.JPanel {
                 addSuplier.show();
             }
         });
+
+        btnEdit.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                int row = suplier.getSelectedRow();
+                if(row == -1) {
+                    return;
+                }
+                String id = suplier.getValueAt(row, 0).toString();
+                editSuplier = new EditSuplier(id);
+                editSuplier.show();
+            }
+        });
+
+        btnDel.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                int row = suplier.getSelectedRow();
+                if(row == -1) {
+                    return;
+                }
+                String id = suplier.getValueAt(row, 0).toString();
+                if(SuplierController.getInstance().delSuplier(id)) {
+                    model.removeRow(row);
+                    JOptionPane.showMessageDialog(null, "Xóa thành công!",
+                            "Success", JOptionPane.INFORMATION_MESSAGE);
+                }
+            }
+        });
+
+        btnReload.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                supliers = SuplierDAO.getInstance().selectAll();
+
+                try {
+                    model.setRowCount(0);
+                    for (Suplier suplier : supliers) {
+                        model.addRow(new java.lang.Object[]{
+                                suplier.getId(),
+                                suplier.getName(),
+                                suplier.getAddress(),
+                                suplier.getPhoneNumber(),
+                                suplier.getStatus() ? "Còn hoạt động" : "Hết hoạt động"
+                        });
+                    }
+                } catch (Exception ex) {
+                    System.out.println(ex);
+                }
+            }
+        });
+
     }
     
     

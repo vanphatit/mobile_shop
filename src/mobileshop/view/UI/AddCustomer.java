@@ -31,6 +31,7 @@ public class AddCustomer extends JFrame {
         setLocationRelativeTo(null);
         initComponents();
         init();
+        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
     }
     
     private void init()

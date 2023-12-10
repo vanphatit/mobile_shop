@@ -31,7 +31,7 @@ public class EditItem extends javax.swing.JFrame {
         initComponents();
         setTitle("Sửa thông tin sản  phẩm");
         initComponents();
-
+        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         this.idObject = id;
         init();
 

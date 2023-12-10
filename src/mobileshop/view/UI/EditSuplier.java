@@ -28,7 +28,8 @@ public class EditSuplier extends JFrame {
         initComponents();
         setTitle("Sửa thông tin nhà cung cấp");
         initComponents();
-
+        setLocationRelativeTo(null);
+        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         this.idSuplier = id;
         init();
 
