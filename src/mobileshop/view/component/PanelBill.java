@@ -124,28 +124,32 @@ public class PanelBill extends JPanel {
         area.setForeground(new Color(0, 0, 0));
         area.setBackground(new Color(255, 255, 255));
         area.setCursor(Cursor.getPredefinedCursor(HAND_CURSOR));
-        area.addItem("Tất cả");
+        area.addItem("Mã bill");
+        area.addItem("Trạng thái");
+        area.addItem("Ngày");
+        area.addItem("Mã nhân viên");
+        area.addItem("Mã khách hàng");
         area.setBorder(null);
         search.add(area, "w 30%, h 100%");
         
-        MyTextField text = new MyTextField();
-        text.setFont(new Font("sansserif", 1, 14));
-        text.setForeground(new Color(0, 0, 0));
-        text.setBackground(new Color(255, 255, 255));
-        text.setCursor(Cursor.getPredefinedCursor(HAND_CURSOR));
-        text.setBorder(new LineBorder(new Color(0, 0, 0)));
-        search.add(text, "w 40%, h 100%");
+        MyTextField txtSearch = new MyTextField();
+        txtSearch.setFont(new Font("sansserif", 1, 14));
+        txtSearch.setForeground(new Color(0, 0, 0));
+        txtSearch.setBackground(new Color(255, 255, 255));
+        txtSearch.setCursor(Cursor.getPredefinedCursor(HAND_CURSOR));
+        txtSearch.setBorder(new LineBorder(new Color(0, 0, 0)));
+        search.add(txtSearch, "w 40%, h 100%");
         
-        JButton reload = new JButton();
-        reload.setFont(new Font("sansserif", 1, 14));
-        reload.setForeground(new Color(0, 0, 0));
-        reload.setBackground(new Color(255, 255, 255));
-        reload.setCursor(Cursor.getPredefinedCursor(HAND_CURSOR));
-        reload.setText("Làm mới");
-        reload.setBorder(new LineBorder(new Color(0,0,0)));
-        reload.setIcon(new ImageIcon(getClass().getResource("/mobileshop/assets/icon/icons8_reset_25px_1.png")));
-        reload.setMargin(new Insets(10,20,10,20));
-        search.add(reload, "w 30%, h 100%");
+        JButton btnReload = new JButton();
+        btnReload.setFont(new Font("sansserif", 1, 14));
+        btnReload.setForeground(new Color(0, 0, 0));
+        btnReload.setBackground(new Color(255, 255, 255));
+        btnReload.setCursor(Cursor.getPredefinedCursor(HAND_CURSOR));
+        btnReload.setText("Làm mới");
+        btnReload.setBorder(new LineBorder(new Color(0,0,0)));
+        btnReload.setIcon(new ImageIcon(getClass().getResource("/mobileshop/assets/icon/icons8_reset_25px_1.png")));
+        btnReload.setMargin(new Insets(10,20,10,20));
+        search.add(btnReload, "w 30%, h 100%");
         //</editor-fold>
 
         //<editor-fold defaultstate="collapsed" desc="Table">
@@ -255,6 +259,117 @@ public class PanelBill extends JPanel {
                 billDetail.setVisible(true);
             }
         });
+        area.addActionListener(e -> {
+            String selected = (String) area.getSelectedItem();
+            Boolean check = false;
+            if(selected.equals("Mã bill")) {
+                model.setRowCount(0);
+                for (Bill bill : bills) {
+                    if(bill.getId().contains(txtSearch.getText())) {
+                        check = true;
+                        model.addRow(new Object[]{
+                                bill.getId(),
+                                bill.getDate(),
+                                bill.getStatus(),
+                                bill.getIdCustomer(),
+                                bill.getIdStaff()
+                        });
+                    }
+                }
+                if(!check) {
+                    JOptionPane.showMessageDialog(null, "Không tìm thấy!",
+                            "Error", JOptionPane.ERROR_MESSAGE);
+                    check = false;
+                }
+            } else if(selected.equals("Trạng thái")) {
+                model.setRowCount(0);
+                for (Bill bill : bills) {
+                    if(bill.getStatus().contains(txtSearch.getText())) {
+                        check = true;
+                        model.addRow(new Object[]{
+                                bill.getId(),
+                                bill.getDate(),
+                                bill.getStatus(),
+                                bill.getIdCustomer(),
+                                bill.getIdStaff()
+                        });
+                    }
+                }
+                if(!check) {
+                    JOptionPane.showMessageDialog(null, "Không tìm thấy!",
+                            "Error", JOptionPane.ERROR_MESSAGE);
+                    check = false;
+                }
+            } else if(selected.equals("Ngày")) {
+                model.setRowCount(0);
+                for (Bill bill : bills) {
+                    if(bill.getDate().toString().contains(txtSearch.getText())) {
+                        check = true;
+                        model.addRow(new Object[]{
+                                bill.getId(),
+                                bill.getDate(),
+                                bill.getStatus(),
+                                bill.getIdCustomer(),
+                                bill.getIdStaff()
+                        });
+                    }
+                }
+                if(!check) {
+                    JOptionPane.showMessageDialog(null, "Không tìm thấy!",
+                            "Error", JOptionPane.ERROR_MESSAGE);
+                    check = false;
+                }
+            } else if(selected.equals("Mã nhân viên")) {
+                model.setRowCount(0);
+                for (Bill bill : bills) {
+                    if(bill.getIdStaff().contains(txtSearch.getText())) {
+                        check = true;
+                        model.addRow(new Object[]{
+                                bill.getId(),
+                                bill.getDate(),
+                                bill.getStatus(),
+                                bill.getIdCustomer(),
+                                bill.getIdStaff()
+                        });
+                    }
+                }
+                if(!check) {
+                    JOptionPane.showMessageDialog(null, "Không tìm thấy!",
+                            "Error", JOptionPane.ERROR_MESSAGE);
+                    check = false;
+                }
+            } else if(selected.equals("Mã khách hàng")) {
+                model.setRowCount(0);
+                for (Bill bill : bills) {
+                    if (bill.getIdCustomer().contains(txtSearch.getText())) {
+                        check = true;
+                        model.addRow(new Object[]{
+                                bill.getId(),
+                                bill.getDate(),
+                                bill.getStatus(),
+                                bill.getIdCustomer(),
+                                bill.getIdStaff()
+                        });
+                    }
+                }
+                if (!check) {
+                    JOptionPane.showMessageDialog(null, "Không tìm thấy!",
+                            "Error", JOptionPane.ERROR_MESSAGE);
+                    check = false;
+                }
+            } else {
+                model.setRowCount(0);
+                for (Bill bill : bills) {
+                    model.addRow(new Object[]{
+                            bill.getId(),
+                            bill.getDate(),
+                            bill.getStatus(),
+                            bill.getIdCustomer(),
+                            bill.getIdStaff()
+                    });
+                }
+            }
+        });
     }
 
     public void reloadTable(){
@@ -271,6 +386,8 @@ public class PanelBill extends JPanel {
             });
         }
     }
+
+
     
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {

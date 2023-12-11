@@ -9,6 +9,8 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import mobileshop.controller.LoginController;
+import mobileshop.dao.StaffDAO;
+import mobileshop.model.Staff;
 import mobileshop.view.component.PanelCoverChangeinfo;
 import mobileshop.view.swing.MyTextField;
 import net.miginfocom.swing.MigLayout;
@@ -18,8 +20,13 @@ public class ChangeInfo extends javax.swing.JFrame {
     private MigLayout layout;
     private PanelCoverChangeinfo cover;
     private JPanel change;
+
+    private Staff staff;
     
-    public ChangeInfo() {
+    public ChangeInfo(String idStaff) {
+
+        staff = StaffDAO.getInstance().selectById(idStaff);
+
         setTitle("Thay đổi mật khẩu");
         initComponents();
         init();
@@ -34,13 +41,15 @@ public class ChangeInfo extends javax.swing.JFrame {
         
         change.setLayout(new MigLayout("wrap", "push[center]push", "5[]25[]25[]20[]30"));
 
-        JLabel user = new JLabel("Nhập tên người dùng: ");
+        JLabel user = new JLabel("Tên người dùng: ");
         user.setForeground(new Color(100, 100, 100));
         user.setFont(new Font("sansserif", 1, 14));
         change.add(user, "w 60%");
         MyTextField txtInfo = new MyTextField();
         txtInfo.setPrefixIcon(new ImageIcon(getClass().getResource("/mobileshop/assets/icon/user.png")));
         txtInfo.setHint("Username: ");
+        txtInfo.setText(staff.getId());
+        txtInfo.setEditable(false);
         change.add(txtInfo, "wrap, width 60%");
         
         JLabel password = new JLabel("Nhập mật khẩu của bạn: ");
@@ -64,7 +73,7 @@ public class ChangeInfo extends javax.swing.JFrame {
 
         btnReset.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                if(LoginController.getInstance().updatePassword(txtInfo.getText(), txtPass.getPassword().toString())) {
+                if(LoginController.getInstance().updatePassword(txtInfo.getText(), String.valueOf(txtPass.getPassword()))) {
                     dispose();
                 }
             }

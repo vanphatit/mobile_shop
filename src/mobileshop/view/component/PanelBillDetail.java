@@ -1,9 +1,6 @@
 package mobileshop.view.component;
 
-import mobileshop.dao.BillDAO;
-import mobileshop.dao.BillDetailDAO;
-import mobileshop.dao.ReceiptNoteDAO;
-import mobileshop.dao.ReceiptNoteDetailDAO;
+import mobileshop.dao.*;
 import mobileshop.model.Bill;
 import mobileshop.model.BillDetail;
 import mobileshop.model.ReceiptNote;
@@ -30,10 +27,14 @@ public class PanelBillDetail extends JPanel {
     private JPanel feature;
     private JPanel costPanel;
     private JPanel main;
+    JLabel txtCost;
 
     private ArrayList<Bill> bills;
     private ArrayList<BillDetail> billDetails;
     private Bill bill;
+    private mobileshop.model.Object products;
+
+    private int billCost = 0;
 
     public PanelBillDetail(String id) {
         if(id != null)
@@ -110,9 +111,10 @@ public class PanelBillDetail extends JPanel {
         cost.setFont(new Font("sansserif", 1, 20));
         cost.setForeground(new Color(7, 164, 121));
         costPanel.add(cost);
-        JLabel txtCost = new JLabel();
+        txtCost = new JLabel();
         txtCost.setFont(new Font("sansserif", 1, 20));
-        txtCost.setText("Tiền");
+        billDetails = BillDetailDAO.getInstance().selectAll();
+        updateCost(billDetails);
         txtCost.setForeground(new Color(228, 7, 7));
         costPanel.add(txtCost);
         feature.add(costPanel);
@@ -129,46 +131,54 @@ public class PanelBillDetail extends JPanel {
         txtId.setForeground(new Color(100, 100, 100));
         txtId.setBackground(new Color(255, 255, 255));
         txtId.setBorder(new LineBorder(new Color(0, 0, 0), 2));
+        txtId.setText(bill.getId());
+        txtId.setEditable(false);
         receipt.add(txtId, "w 60%,wrap");
 
-        JLabel idObject = new JLabel("Mã sản phẩm");
-        idObject.setFont(new Font("sansserif", 1, 14));
-        idObject.setForeground(new Color(100, 100, 100));
-        receipt.add(idObject);
+        JLabel CustomerName = new JLabel("Tên khách hàng");
+        CustomerName.setFont(new Font("sansserif", 1, 14));
+        CustomerName.setForeground(new Color(100, 100, 100));
+        receipt.add(CustomerName);
         JTextField txtIdObject = new JTextField();
         txtIdObject.setFont(new Font("sansserif", 1, 14));
         txtIdObject.setForeground(new Color(100, 100, 100));
         txtIdObject.setBackground(new Color(255, 255, 255));
         txtIdObject.setBorder(new LineBorder(new Color(0, 0, 0), 2));
+        txtIdObject.setText(CustomerDAO.getInstance().selectById(bill.getIdCustomer()).getName());
+        txtIdObject.setEditable(false);
         receipt.add(txtIdObject, "w 60%,wrap");
 
-        JLabel idStaff = new JLabel("Mã nhân viên");
-        idStaff.setFont(new Font("sansserif", 1, 14));
-        idStaff.setForeground(new Color(100, 100, 100));
-        receipt.add(idStaff);
-        JTextField txtIdStaff = new JTextField();
-        txtIdStaff.setFont(new Font("sansserif", 1, 14));
-        txtIdStaff.setForeground(new Color(100, 100, 100));
-        txtIdStaff.setBackground(new Color(255, 255, 255));
-        txtIdStaff.setBorder(new LineBorder(new Color(0, 0, 0), 2));
-        receipt.add(txtIdStaff, "w 60%,wrap");
+        JLabel StaffName = new JLabel("Tên nhân viên");
+        StaffName.setFont(new Font("sansserif", 1, 14));
+        StaffName.setForeground(new Color(100, 100, 100));
+        receipt.add(StaffName);
+        JTextField txtStaffName = new JTextField();
+        txtStaffName.setFont(new Font("sansserif", 1, 14));
+        txtStaffName.setForeground(new Color(100, 100, 100));
+        txtStaffName.setBackground(new Color(255, 255, 255));
+        txtStaffName.setBorder(new LineBorder(new Color(0, 0, 0), 2));
+        txtStaffName.setText(StaffDAO.getInstance().selectById(bill.getIdStaff()).getName());
+        txtStaffName.setEditable(false);
+        receipt.add(txtStaffName, "w 60%,wrap");
 
         //</editor-fold>
 
         //<editor-fold defaultstate="collapsed" desc="Table">
-        String[] columnNames = {"Giá thành", "Mã sản phẩm", "Mã hóa đơn"};
+        String[] columnNames = {"Mã sản phẩm", "Số lượng", "Đơn giá"};
         DefaultTableModel model = new DefaultTableModel(new Object[][]{}, columnNames);
-
-        billDetails = BillDetailDAO.getInstance().selectAll();
 
         try {
             model.setRowCount(0);
             for (BillDetail billDetail : billDetails) {
-                model.addRow(new Object[]{
-                        billDetail.getCount(),
-                        billDetail.getIdObject(),
-                        billDetail.getIdBill()
-                });
+                if(billDetail.getIdBill().equals(bill.getId())){
+                    products = ObjectDAO.getInstance().selectById(billDetail.getIdObject());
+                    model.addRow(new Object[]{
+                            billDetail.getIdObject(),
+                            billDetail.getCount(),
+                            products.getUnitPrice()
+                    });
+                }
+
             }
         } catch (Exception e) {
             System.out.println(e);
@@ -196,10 +206,79 @@ public class PanelBillDetail extends JPanel {
         main.add(detail, "width 100%, height 90%, wrap");
         main.add(feature, "width 100%, height 5%");
 
+        btnAdd.addActionListener(e -> {
+            String idObject = JOptionPane.showInputDialog("Nhập mã sản phẩm");
+            String count = JOptionPane.showInputDialog("Nhập số lượng");
+            BillDetail billDetail1 = new BillDetail(Integer.parseInt(count), idObject, bill.getId());
+            if(BillDetailDAO.getInstance().insert(billDetail1) == 1){
+                JOptionPane.showMessageDialog(null, "Thêm thành công");
+                updateTable();
+            } else {
+                JOptionPane.showMessageDialog(null, "Thêm thất bại");
+            }
+        });
 
+        btnEdit.addActionListener(e -> {
+            int row = billDetail.getSelectedRow();
+            String idObject = billDetail.getValueAt(row, 0).toString();
+            String count = billDetail.getValueAt(row, 1).toString();
+            BillDetail billDetail1 = new BillDetail(Integer.parseInt(count), idObject, bill.getId());
+            if(BillDetailDAO.getInstance().update(billDetail1) == 1){
+                JOptionPane.showMessageDialog(null, "Sửa thành công");
+                updateTable();
+            } else {
+                JOptionPane.showMessageDialog(null, "Sửa thất bại");
+            }
+        });
+
+        btnDel.addActionListener(e -> {
+            int row = billDetail.getSelectedRow();
+            String idObject = billDetail.getValueAt(row, 0).toString();
+            String count = billDetail.getValueAt(row, 1).toString();
+            BillDetail billDetail1 = new BillDetail(Integer.parseInt(count), idObject, bill.getId());
+            if(BillDetailDAO.getInstance().delete(billDetail1) == 1){
+                JOptionPane.showMessageDialog(null, "Xóa thành công");
+                updateTable();
+            } else {
+                JOptionPane.showMessageDialog(null, "Xóa thất bại");
+            }
+        });
         //<editor-fold defaultstate="collapsed" desc="Event">
     }
 
+    private void updateTable(){
+        billDetails = BillDetailDAO.getInstance().selectAll();
+        DefaultTableModel model = (DefaultTableModel) billDetail.getModel();
+
+        try {
+            model.setRowCount(0);
+            for (BillDetail billDetail : billDetails) {
+                if(billDetail.getIdBill().equals(bill.getId())){
+                    products = ObjectDAO.getInstance().selectById(billDetail.getIdObject());
+                    model.addRow(new Object[]{
+                            billDetail.getIdObject(),
+                            billDetail.getCount(),
+                            products.getUnitPrice()
+                    });
+                }
+            }
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+        updateCost(billDetails);
+    }
+
+    public void updateCost(ArrayList<BillDetail> billDetails){
+        billCost = 0;
+        for (BillDetail billDetail : billDetails) {
+            if(billDetail.getIdBill().equals(bill.getId())){
+                billCost += billDetail.getCount() * ObjectDAO.getInstance().
+                        selectById(billDetail.getIdObject()).getUnitPrice();
+            }
+        }
+
+        txtCost.setText(billCost + " VNĐ");
+    }
 
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {

@@ -3,11 +3,9 @@ package mobileshop.view.UI;
 import java.awt.Color;
 import java.awt.Cursor;
 import java.awt.Font;
-import javax.swing.ImageIcon;
-import javax.swing.JButton;
-import javax.swing.JPanel;
-import javax.swing.SwingConstants;
+import javax.swing.*;
 
+import mobileshop.dao.StaffDAO;
 import mobileshop.view.component.*;
 
 import net.miginfocom.swing.MigLayout;
@@ -38,6 +36,7 @@ public class Home extends javax.swing.JFrame {
         setTitle("Phần mềm quản lý Mobile Shop!");
         initComponents();
         init(idStaff);
+        setResizable(false);
     }
 
     private void init(String idStaff)
@@ -228,14 +227,18 @@ public class Home extends javax.swing.JFrame {
         });
         staff.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                JButton source = (JButton) evt.getSource();
-                source.setForeground(new Color(0,0,0));
-                source.setBackground(new Color(0, 255, 213));
+                if(StaffDAO.getInstance().selectById(idStaff).getRole()){
+                    JButton source = (JButton) evt.getSource();
+                    source.setForeground(new Color(0,0,0));
+                    source.setBackground(new Color(0, 255, 213));
 
-                main.removeAll();
-                main.repaint();
-                main.add(Staff, "w 100%, h 100% , wrap");
-                main.revalidate();
+                    main.removeAll();
+                    main.repaint();
+                    main.add(Staff, "w 100%, h 100% , wrap");
+                    main.revalidate();
+                }
+                else
+                    JOptionPane.showMessageDialog(null, "Bạn không có quyền truy cập!");
             }
             public void mousePressed(java.awt.event.MouseEvent evt) {
                 staff.setForeground(HOVER_FOREGROUND);
@@ -384,6 +387,72 @@ public class Home extends javax.swing.JFrame {
                 change_info.setBackground(DEFAULT_BACKGROUND);
                 logout.setForeground(DEFAULT_FOREGROUND);
                 logout.setBackground(DEFAULT_BACKGROUND);
+            }
+        });
+
+        change_info.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                if(StaffDAO.getInstance().selectById(idStaff).getRole()){
+                    JButton source = (JButton) evt.getSource();
+                    source.setForeground(new Color(0,0,0));
+                    source.setBackground(new Color(0, 255, 213));
+                    ChangeInfo changeInfo = new ChangeInfo(idStaff);
+                    changeInfo.setVisible(true);
+                    changeInfo.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+                }
+                else
+                    JOptionPane.showMessageDialog(null, "Bạn không có quyền truy cập!");
+            }
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                change_info.setForeground(HOVER_FOREGROUND);
+                change_info.setBackground(HOVER_BACKGROUND);
+                object.setForeground(DEFAULT_FOREGROUND);
+                object.setBackground(DEFAULT_BACKGROUND);
+                suplier.setForeground(DEFAULT_FOREGROUND);
+                suplier.setBackground(DEFAULT_BACKGROUND);
+                staff.setForeground(DEFAULT_FOREGROUND);
+                staff.setBackground(DEFAULT_BACKGROUND);
+                customer.setForeground(DEFAULT_FOREGROUND);
+                customer.setBackground(DEFAULT_BACKGROUND);
+                receipt_note.setForeground(DEFAULT_FOREGROUND);
+                receipt_note.setBackground(DEFAULT_BACKGROUND);
+                bill.setForeground(DEFAULT_FOREGROUND);
+                bill.setBackground(DEFAULT_BACKGROUND);
+                statistics.setForeground(DEFAULT_FOREGROUND);
+                statistics.setBackground(DEFAULT_BACKGROUND);
+                logout.setForeground(DEFAULT_FOREGROUND);
+                logout.setBackground(DEFAULT_BACKGROUND);
+            }
+        });
+
+        logout.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                JButton source = (JButton) evt.getSource();
+                source.setForeground(new Color(0,0,0));
+                source.setBackground(new Color(0, 255, 213));
+                Login login = new Login();
+                login.setVisible(true);
+                dispose();
+            }
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                logout.setForeground(HOVER_FOREGROUND);
+                logout.setBackground(HOVER_BACKGROUND);
+                object.setForeground(DEFAULT_FOREGROUND);
+                object.setBackground(DEFAULT_BACKGROUND);
+                suplier.setForeground(DEFAULT_FOREGROUND);
+                suplier.setBackground(DEFAULT_BACKGROUND);
+                staff.setForeground(DEFAULT_FOREGROUND);
+                staff.setBackground(DEFAULT_BACKGROUND);
+                customer.setForeground(DEFAULT_FOREGROUND);
+                customer.setBackground(DEFAULT_BACKGROUND);
+                receipt_note.setForeground(DEFAULT_FOREGROUND);
+                receipt_note.setBackground(DEFAULT_BACKGROUND);
+                bill.setForeground(DEFAULT_FOREGROUND);
+                bill.setBackground(DEFAULT_BACKGROUND);
+                statistics.setForeground(DEFAULT_FOREGROUND);
+                statistics.setBackground(DEFAULT_BACKGROUND);
+                change_info.setForeground(DEFAULT_FOREGROUND);
+                change_info.setBackground(DEFAULT_BACKGROUND);
             }
         });
         // </editor-fold>

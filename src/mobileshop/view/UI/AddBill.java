@@ -31,6 +31,7 @@ public class AddBill extends JFrame {
         initComponents();
         init();
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        getRootPane().setDefaultButton((JButton) panelBtn.getComponent(0));
     }
     
     private void init()
@@ -42,7 +43,7 @@ public class AddBill extends JFrame {
         addPanel.setLayout(new MigLayout("wrap", "push[center]push", "15[]5[]5[]5[]5[]5[]5[]5[]5[]5[]5[]5[]5[]5[]25"));
         addPanel.setBackground(new Color(255, 255, 255));
 
-        JLabel id = new JLabel("Nhập mã phiếu nhập: ");
+        JLabel id = new JLabel("Nhập mã hóa đơn: ");
         id.setForeground(new Color(100, 100, 100));
         id.setFont(new Font("sansserif", 1, fonsize));
         addPanel.add(id, "w 60%");
@@ -50,7 +51,7 @@ public class AddBill extends JFrame {
         txtID.setFont(new Font("sansserif", 1, fonsize));
         addPanel.add(txtID, "wrap, width 60%");
 
-        JLabel date = new JLabel("Nhập ngày nhập hàng: (dd/MM/yyyy)");
+        JLabel date = new JLabel("Nhập ngày bán: (dd/MM/yyyy)");
         date.setForeground(new Color(100, 100, 100));
         date.setFont(new Font("sansserif", 1, fonsize));
         addPanel.add(date, "w 60%");
