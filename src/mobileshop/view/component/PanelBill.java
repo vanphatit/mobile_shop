@@ -1,9 +1,12 @@
 package mobileshop.view.component;
 
+import mobileshop.controller.BillController;
+import mobileshop.controller.ReceiptNoteController;
 import mobileshop.dao.BillDAO;
 import mobileshop.dao.ReceiptNoteDAO;
 import mobileshop.model.Bill;
 import mobileshop.model.ReceiptNote;
+import mobileshop.view.UI.AddBill;
 import mobileshop.view.UI.BillDetail;
 import mobileshop.view.UI.ReceiptNoteDetail;
 import mobileshop.view.swing.MyTextField;
@@ -15,6 +18,11 @@ import javax.swing.border.TitledBorder;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+import java.sql.Date;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
 import static java.awt.Frame.HAND_CURSOR;
@@ -182,6 +190,60 @@ public class PanelBill extends JPanel {
         add(mainPanel, "width 100%, height 85%, wrap");
         add(feature, "width 100%, height 20%, top");
 
+        btnAdd.addActionListener(e -> {
+            AddBill addBill = new AddBill();
+            addBill.setVisible(true);
+            addBill.addWindowListener(new WindowAdapter() {
+                @Override
+                public void windowClosed(WindowEvent e) {
+                    super.windowClosed(e);
+                    reloadTable();
+                }
+            });
+        });
+
+        btnEdit.addActionListener(e -> {
+            if (bill.getSelectedRow() >= 0) {
+                int row = bill.getSelectedRow();
+                if(row == -1) {
+                    return;
+                }
+                String id = (String) bill.getValueAt(row, 0);
+
+                SimpleDateFormat formatDate = new SimpleDateFormat("yyyy-MM-dd");
+                java.util.Date invoiceDate = null;
+                try {
+                    invoiceDate = formatDate.parse(bill.getValueAt(row, 1).toString());
+                } catch (ParseException ex) {
+                    ex.printStackTrace();
+                }
+                java.sql.Date date = new java.sql.Date(invoiceDate.getTime());
+                String status = (String) bill.getValueAt(row, 2);
+                String idCustomer = (String) bill.getValueAt(row, 3);
+                String idStaff = (String) bill.getValueAt(row, 4);
+                if(BillController.getInstance().updateBill(id, date, status, idCustomer, idStaff)){
+                    JOptionPane.showMessageDialog(null, "Cập nhật thành công!",
+                            "Success", JOptionPane.INFORMATION_MESSAGE);
+                    reloadTable();
+                }
+            }
+        });
+
+        btnDel.addActionListener(e -> {
+            if (bill.getSelectedRow() >= 0) {
+                int row = bill.getSelectedRow();
+                if(row == -1) {
+                    return;
+                }
+                String id = (String) bill.getValueAt(row, 0);
+                if(BillController.getInstance().deleteBill(id)) {
+                    JOptionPane.showMessageDialog(null, "Xóa thành công!",
+                            "Success", JOptionPane.INFORMATION_MESSAGE);
+                    reloadTable();
+                }
+            }
+        });
+
         btnDetail.addActionListener(e -> {
             if (bill.getSelectedRow() >= 0) {
                 int row = bill.getSelectedRow();
@@ -194,7 +256,21 @@ public class PanelBill extends JPanel {
             }
         });
     }
-    
+
+    public void reloadTable(){
+        bills = BillDAO.getInstance().selectAll();
+        DefaultTableModel model = (DefaultTableModel) bill.getModel();
+        model.setRowCount(0);
+        for (Bill bill : bills) {
+            model.addRow(new Object[]{
+                    bill.getId(),
+                    bill.getDate(),
+                    bill.getStatus(),
+                    bill.getIdCustomer(),
+                    bill.getIdStaff()
+            });
+        }
+    }
     
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {

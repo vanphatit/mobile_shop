@@ -26,7 +26,7 @@ public class BillDAO implements IDAO<Bill> {
         int ketqua = 0;
         try {
             Connection con = JDBCUtil.getConnection();
-            String sql = "INSERT INTO bill (id, date, status, id_customer, id_staff) VALUES (?,?,?,?,?,?)";
+            String sql = "INSERT INTO bill (id, date, status, id_customer, id_staff) VALUES (?,?,?,?,?)";
             PreparedStatement pst = con.prepareStatement(sql);
             pst.setString(1, bill.getId());
             pst.setDate(2, bill.getDate());
