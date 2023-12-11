@@ -392,16 +392,12 @@ public class Home extends javax.swing.JFrame {
 
         change_info.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                if(StaffDAO.getInstance().selectById(idStaff).getRole()){
                     JButton source = (JButton) evt.getSource();
                     source.setForeground(new Color(0,0,0));
                     source.setBackground(new Color(0, 255, 213));
                     ChangeInfo changeInfo = new ChangeInfo(idStaff);
                     changeInfo.setVisible(true);
                     changeInfo.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
-                }
-                else
-                    JOptionPane.showMessageDialog(null, "Bạn không có quyền truy cập!");
             }
             public void mousePressed(java.awt.event.MouseEvent evt) {
                 change_info.setForeground(HOVER_FOREGROUND);

@@ -189,7 +189,7 @@ public class PanelSuplier extends javax.swing.JPanel {
         mainPanel.add(scrollPane, "w 100%, h 100%");
         //</editor-fold>
 
-        //<editor-fold defaultstate="collapsed" desc="Add staff">
+        //<editor-fold defaultstate="collapsed" desc="Add suplier">
         JPanel id = new JPanel();
         id.setLayout(new MigLayout("fill, wrap", "[200]", "[50]"));
         id.setBackground(new Color(255,255,255));
@@ -242,6 +242,10 @@ public class PanelSuplier extends javax.swing.JPanel {
         phone.add(phoneText, "grow");
         addSuplier.add(phone, "grow");
 
+        JPanel statusJP = new JPanel();
+        statusJP.setLayout(new MigLayout("fill, wrap", "[200]", "[50]"));
+        statusJP.setBackground(new Color(255,255,255));
+        statusJP.setBorder(new TitledBorder(new LineBorder(new Color(0, 0, 0)), "Trạng thái", TitledBorder.LEADING, TitledBorder.TOP, new Font("sansserif", 1, 14), new Color(0, 0, 0)));
         JComboBox status = new JComboBox();
         status.setFont(new Font("sansserif", 1, 14));
         status.setForeground(new Color(0, 0, 0));
@@ -250,7 +254,8 @@ public class PanelSuplier extends javax.swing.JPanel {
         status.addItem("Còn hoạt động");
         status.addItem("Hết hoạt động");
         status.setBorder(null);
-        addSuplier.add(status,"grow");
+        statusJP.add(status, "grow");
+        addSuplier.add(statusJP,"grow");
 
         //</editor-fold>
 
