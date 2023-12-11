@@ -38,7 +38,7 @@ public class Login extends javax.swing.JFrame {
         login = new JPanel();
         login.setBackground(new Color(255, 255, 255));
 
-        login.setLayout(new MigLayout("wrap", "push[center]push", "push[]25[]10[]10[]25[]push"));
+        login.setLayout(new MigLayout("wrap", "push[center]push", "push[]25[]10[]25[]push"));
         JLabel label = new JLabel("Login");
         login.setFont(new Font("sansserif", 1, 30));
         label.setFont(new Font("sansserif", 1, 30));
@@ -54,14 +54,6 @@ public class Login extends javax.swing.JFrame {
         txtPass.setPrefixIcon(new ImageIcon(getClass().getResource("/mobileshop/assets/icon/pass.png")));
         txtPass.setHint("Password: ");
         login.add(txtPass, "wrap, width 60%");
-        
-        JButton btnForget = new JButton("Forgot your password ?");
-        btnForget.setForeground(new Color(100, 100, 100));
-        btnForget.setFont(new Font("sansserif", 1, 12));
-        btnForget.setContentAreaFilled(false);
-        btnForget.setBorderPainted(false);
-        btnForget.setCursor(new Cursor(Cursor.HAND_CURSOR));
-        login.add(btnForget);
         
         Button btnLogin = new Button();
         btnLogin.setBackground(new Color(7, 164, 121));
@@ -80,15 +72,6 @@ public class Login extends javax.swing.JFrame {
                     Home mainLayout = new Home(txtUser.getText());
                     mainLayout.setVisible(true);
                 }
-            }
-        });
-
-        btnForget.addActionListener(new ActionListener()
-        {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                ChangeInfo forget = new ChangeInfo();
-                forget.setVisible(true);
             }
         });
         

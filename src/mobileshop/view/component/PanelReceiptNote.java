@@ -3,7 +3,6 @@ package mobileshop.view.component;
 import mobileshop.controller.ReceiptNoteController;
 import mobileshop.dao.ReceiptNoteDAO;
 import mobileshop.model.ReceiptNote;
-import mobileshop.view.UI.AddItem;
 import mobileshop.view.UI.AddReceiptNote;
 import mobileshop.view.UI.ReceiptNoteDetail;
 import mobileshop.view.swing.MyTextField;
@@ -17,6 +16,7 @@ import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
 import static java.awt.Frame.HAND_CURSOR;
@@ -121,6 +121,11 @@ public class PanelReceiptNote extends JPanel {
         area.setBackground(new Color(255, 255, 255));
         area.setCursor(Cursor.getPredefinedCursor(HAND_CURSOR));
         area.addItem("Tất cả");
+        area.addItem("Mã phiếu nhập");
+        area.addItem("Ngày nhập");
+        area.addItem("Chi tiết");
+        area.addItem("Mã nhà cung cấp");
+        area.addItem("Mã nhân viên");
         area.setBorder(null);
         search.add(area, "w 30%, h 100%");
         
@@ -253,6 +258,164 @@ public class PanelReceiptNote extends JPanel {
             @Override
             public void actionPerformed(ActionEvent e) {
                 reloadTable();
+            }
+        });
+
+        area.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                receiptNotes = ReceiptNoteDAO.getInstance().selectAll();
+                String comBoBox = area.getSelectedItem().toString();
+                String textSearch = text.getText();
+                Boolean check = false;
+                if (comBoBox.equals("Tất cả")) {
+                    try {
+                        model.setRowCount(0);
+                        for (ReceiptNote receiptNote : receiptNotes) {
+                            model.addRow(new Object[]{
+                                    receiptNote.getId(),
+                                    receiptNote.getDate(),
+                                    receiptNote.getMoreInfo(),
+                                    receiptNote.getIdSuplier(),
+                                    receiptNote.getIdStaff()
+                            });
+                        }
+                    } catch (Exception ex) {
+                        System.out.println(ex);
+                    }
+                }
+                else if (comBoBox.equals("Mã phiếu nhập")) {
+                    try {
+                        model.setRowCount(0);
+                        for (ReceiptNote receiptNote : receiptNotes) {
+                            if (receiptNote.getId().toLowerCase().contains(textSearch.toLowerCase())) {
+                                model.addRow(new Object[]{
+                                        receiptNote.getId(),
+                                        receiptNote.getDate(),
+                                        receiptNote.getMoreInfo(),
+                                        receiptNote.getIdSuplier(),
+                                        receiptNote.getIdStaff()
+                                });
+                                check = true;
+                            }
+                        }
+                        if (!check) {
+                            JOptionPane.showMessageDialog(null, "Không tìm thấy!",
+                                    "Warning", JOptionPane.WARNING_MESSAGE);
+                        }
+                        else {
+                            check = false;
+                        }
+                    } catch (Exception ex) {
+                        System.out.println(ex);
+                    }
+                }
+                else if (comBoBox.equals("Ngày nhập")) {
+                    try {
+                        model.setRowCount(0);
+                        for (ReceiptNote receiptNote : receiptNotes) {
+                            SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+                            String date = sdf.format(receiptNote.getDate());
+                            if (date.toLowerCase().contains(textSearch.toLowerCase())) {
+                                model.addRow(new Object[]{
+                                        receiptNote.getId(),
+                                        receiptNote.getDate(),
+                                        receiptNote.getMoreInfo(),
+                                        receiptNote.getIdSuplier(),
+                                        receiptNote.getIdStaff()
+                                });
+                                check = true;
+                            }
+                        }
+                        if (!check) {
+                            JOptionPane.showMessageDialog(null, "Không tìm thấy!",
+                                    "Warning", JOptionPane.WARNING_MESSAGE);
+                        }
+                        else {
+                            check = false;
+                        }
+                    } catch (Exception ex) {
+                        System.out.println(ex);
+                    }
+                }
+                else if (comBoBox.equals("Chi tiết")) {
+                    try {
+                        model.setRowCount(0);
+                        for (ReceiptNote receiptNote : receiptNotes) {
+                            if (receiptNote.getMoreInfo().toLowerCase().contains(textSearch.toLowerCase())) {
+                                model.addRow(new Object[]{
+                                        receiptNote.getId(),
+                                        receiptNote.getDate(),
+                                        receiptNote.getMoreInfo(),
+                                        receiptNote.getIdSuplier(),
+                                        receiptNote.getIdStaff()
+                                });
+                                check = true;
+                            }
+                        }
+                        if (!check) {
+                            JOptionPane.showMessageDialog(null, "Không tìm thấy!",
+                                    "Warning", JOptionPane.WARNING_MESSAGE);
+                        }
+                        else {
+                            check = false;
+                        }
+                    } catch (Exception ex) {
+                        System.out.println(ex);
+                    }
+                }
+                else if (comBoBox.equals("Mã nhà cung cấp")) {
+                    try {
+                        model.setRowCount(0);
+                        for (ReceiptNote receiptNote : receiptNotes) {
+                            if (receiptNote.getIdSuplier().toLowerCase().contains(textSearch.toLowerCase())) {
+                                model.addRow(new Object[]{
+                                        receiptNote.getId(),
+                                        receiptNote.getDate(),
+                                        receiptNote.getMoreInfo(),
+                                        receiptNote.getIdSuplier(),
+                                        receiptNote.getIdStaff()
+                                });
+                                check = true;
+                            }
+                        }
+                        if (!check) {
+                            JOptionPane.showMessageDialog(null, "Không tìm thấy!",
+                                    "Warning", JOptionPane.WARNING_MESSAGE);
+                        }
+                        else {
+                            check = false;
+                        }
+                    } catch (Exception ex) {
+                        System.out.println(ex);
+                    }
+                }
+                else if (comBoBox.equals("Mã nhân viên")) {
+                    try {
+                        model.setRowCount(0);
+                        for (ReceiptNote receiptNote : receiptNotes) {
+                            if (receiptNote.getIdStaff().toLowerCase().contains(textSearch.toLowerCase())) {
+                                model.addRow(new Object[]{
+                                        receiptNote.getId(),
+                                        receiptNote.getDate(),
+                                        receiptNote.getMoreInfo(),
+                                        receiptNote.getIdSuplier(),
+                                        receiptNote.getIdStaff()
+                                });
+                                check = true;
+                            }
+                        }
+                        if (!check) {
+                            JOptionPane.showMessageDialog(null, "Không tìm thấy!",
+                                    "Warning", JOptionPane.WARNING_MESSAGE);
+                        }
+                        else {
+                            check = false;
+                        }
+                    } catch (Exception ex) {
+                        System.out.println(ex);
+                    }
+                }
             }
         });
     }

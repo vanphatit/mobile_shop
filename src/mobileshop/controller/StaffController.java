@@ -1,21 +1,25 @@
 package mobileshop.controller;
 
-import mobileshop.dao.ObjectDAO;
-import mobileshop.dao.SuplierDAO;
-import mobileshop.model.Object;
-import mobileshop.model.Suplier;
+import mobileshop.dao.CustomerDAO;
+import mobileshop.dao.ReceiptNoteDAO;
+import mobileshop.dao.StaffDAO;
+import mobileshop.model.Customer;
+import mobileshop.model.ReceiptNote;
+import mobileshop.model.Staff;
 
 import javax.swing.*;
+import java.sql.Date;
+import java.text.SimpleDateFormat;
 
-public class ProductController {
-    public static ProductController getInstance() {
-        return new ProductController();
+public class StaffController {
+    public static StaffController getInstance() {
+        return new StaffController();
     }
 
-    public boolean addProduct(String id, String name, String status, String manufacturer, String price, String cate) {
+    public boolean addStaff(String id, String name, String password, String address, Boolean gender, Date birthday, String phone, Boolean role, String id_shift) {
         try {
-            Object object = new Object(id, name, status, manufacturer, Integer.parseInt(price), cate);
-            if(ObjectDAO.getInstance().insert(object) == 1) {
+            Staff staff = new Staff(id, name, password, address, gender, birthday, phone, role, id_shift);
+            if(StaffDAO.getInstance().insert(staff) == 1) {
                 JOptionPane.showMessageDialog(null, "Thêm thành công!",
                         "Success", JOptionPane.INFORMATION_MESSAGE);
                 return true;
@@ -28,11 +32,14 @@ public class ProductController {
         return false;
     }
 
-    public boolean updateObject(String id, String name, String status, String manufacturer, String price, String cate) {
+    public boolean updateStaff(String id, String name, String password, String address, Boolean gender, Date birthday, String phone, Boolean role, String id_shift) {
         try {
             // TODO add your handling code here:
-            Object object = new Object(id, name, status, manufacturer, Integer.parseInt(price), cate);
-            if(ObjectDAO.getInstance().update(object) == 1) {
+            SimpleDateFormat formatDate = new SimpleDateFormat("yyyy-MM-dd");
+            java.util.Date invoiceDate = formatDate.parse(String.valueOf(birthday));
+            java.sql.Date sqlDate = new java.sql.Date(invoiceDate.getTime());
+            Staff staff = new Staff(id, name, password, address, gender, sqlDate, phone, role, id_shift);
+            if(StaffDAO.getInstance().update(staff) == 1) {
                 JOptionPane.showMessageDialog(null, "Cập nhật thành công!", "Success", JOptionPane.INFORMATION_MESSAGE);
                 return true;
             } else {
@@ -44,10 +51,10 @@ public class ProductController {
         return false;
     }
 
-    public boolean deleteObjectById(String id){
+    public boolean deleteStaffById(String id){
         try {
-            Object object = ObjectDAO.getInstance().selectById(id);
-            if(ObjectDAO.getInstance().delete(object) == 1) {
+            Staff staff = StaffDAO.getInstance().selectById(id);
+            if(StaffDAO.getInstance().delete(staff) == 1) {
                 JOptionPane.showMessageDialog(null, "Xóa thành công!", "Success", JOptionPane.INFORMATION_MESSAGE);
                 return true;
             } else {

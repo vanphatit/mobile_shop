@@ -54,7 +54,7 @@ public class PanelStatistics extends JPanel {
         initComponents();
         setOpaque(false);
         init();
-        layout = new MigLayout("fill, wrap", "[100%]", "[20%][80%]");
+        layout = new MigLayout("fill, wrap", "[grow]", "[grow][grow]");
         setLayout(layout);
         setVisible(true);
     }
@@ -957,8 +957,8 @@ public class PanelStatistics extends JPanel {
         });
         //</editor-fold>
 
-        add(statisticsPanel, "growx, growy, wrap");
-        add(mainPanel, "growx, growy, wrap");
+        add(statisticsPanel, "width 100%, height 20%, wrap");
+        add(mainPanel, "width 100%, height 80%, wrap");
     }
 
     

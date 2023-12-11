@@ -28,7 +28,7 @@ public class StaffDAO implements IDAO<Staff>{
         int ketqua = 0;
         try {
             Connection con = JDBCUtil.getConnection();
-            String sql = "INSERT INTO staff (id, name, passwors, address, gender, birthday, phone, role, id_shift) VALUES (?,?,?,?,?,?,?,?,?)";
+            String sql = "INSERT INTO staff (id, name, password, address, gender, birthday, phone, role, id_shift) VALUES (?,?,?,?,?,?,?,?,?)";
             PreparedStatement pst = con.prepareStatement(sql);
             pst.setString(1, staff.getId());
             pst.setString(2, staff.getName());
