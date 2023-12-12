@@ -1,9 +1,6 @@
 package mobileshop.controller;
 
-import mobileshop.dao.BillDAO;
-import mobileshop.dao.BillDetailDAO;
-import mobileshop.dao.ObjectDAO;
-import mobileshop.dao.ReceiptNoteDetailDAO;
+import mobileshop.dao.*;
 import mobileshop.model.*;
 import mobileshop.model.Object;
 
@@ -60,11 +57,12 @@ public class BillController {
     }
 
     public boolean updateBillDetail(BillDetail billDetail) {
-        if(billDetail != null && BillDAO.getInstance().selectById(billDetail.getIdBill()) != null
-                && getStockCount(billDetail.getIdObject()) >= 0) {
-            if(BillDetailDAO.getInstance().update(billDetail) == 1){
-                return true;
-            }
+        if(billDetail != null && BillDAO.getInstance().selectById(billDetail.getIdBill()) != null)
+            if(billDetail.getCount() <= ( getStockCount(billDetail.getIdObject())
+                    + BillDetailDAO.getInstance().selectbyId(billDetail.getIdObject(), billDetail.getIdBill()).getCount())) {
+                if(BillDetailDAO.getInstance().update(billDetail) == 1){
+                    return true;
+                }
         }
         return false;
     }

@@ -233,7 +233,7 @@ public class PanelBillDetail extends JPanel {
             String idObject = billDetail.getValueAt(row, 0).toString();
             String count = billDetail.getValueAt(row, 1).toString();
             BillDetail billDetail = new BillDetail(Integer.parseInt(count), idObject, bill.getId());
-            if(BillController.getInstance().updateBillDetail(billDetail) == true){
+            if(BillController.getInstance().updateBillDetail(billDetail)){
                 JOptionPane.showMessageDialog(null, "Sửa thành công");
             } else {
                 JOptionPane.showMessageDialog(null, "Sửa thất bại");

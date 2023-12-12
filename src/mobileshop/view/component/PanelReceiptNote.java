@@ -2,8 +2,10 @@ package mobileshop.view.component;
 
 import mobileshop.controller.ReceiptNoteController;
 import mobileshop.dao.ReceiptNoteDAO;
+import mobileshop.dao.StaffDAO;
 import mobileshop.model.ReceiptNote;
-import mobileshop.view.UI.AddReceiptNote;
+import mobileshop.model.Staff;
+import mobileshop.model.Suplier;
 import mobileshop.view.UI.ReceiptNoteDetail;
 import mobileshop.view.swing.MyTextField;
 import net.miginfocom.swing.MigLayout;
@@ -16,6 +18,9 @@ import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
@@ -30,33 +35,45 @@ public class PanelReceiptNote extends JPanel {
     private JScrollPane scrollPane;
     private JPanel feature;
     private JPanel search;
+    private JPanel fsPanel;
+    private JPanel addReceiptNote;
     private ReceiptNoteDetail receiptNoteDetail;
 
     private ArrayList<ReceiptNote> receiptNotes;
+    private ArrayList<Suplier> supliers;
+    private ArrayList<Staff> staffs;
 
     boolean eventHandled = false;
 
     public PanelReceiptNote() {
         initComponents();
         setOpaque(false);
-        layout = new MigLayout("wrap", "[grow]", "[grow]10[grow]10[grow]");
+        layout = new MigLayout("fill, wrap", "[grow]", "[grow][grow][grow]");
         setLayout(layout);
         init();
         setVisible(true);
     }
-    
+
     private void init() {
         mainPanel = new JPanel();
         feature = new JPanel();
         search = new JPanel();
+        fsPanel = new JPanel();
+        addReceiptNote = new JPanel();
 
-        feature.setLayout(new MigLayout("wrap", "push[]10[]10[]10[]push"));
+        fsPanel.setLayout(new MigLayout("fill, wrap", "[400][1000]", "[50]"));
+        fsPanel.setBackground(new Color(255,255,255));
+        feature.setLayout(new MigLayout("fill, wrap", "[100][100][100][100]", "[50]"));
         feature.setBackground(new Color(255,255,255));
-        search.setLayout(new MigLayout("wrap 3", "[grow]10[grow]10[grow]", "[center]"));
+        search.setLayout(new MigLayout("fill, wrap", "[200][300][150]", "[50]"));
         search.setBackground(new Color(255,255,255));
-        mainPanel.setLayout(new MigLayout("wrap"));
+        mainPanel.setLayout(new MigLayout("wrap", "[1000]", "[1000]"));
         mainPanel.setBackground(new Color(255,255,255));
         search.setBorder(new TitledBorder(new LineBorder(new Color(0, 0, 0)), "Tìm kiếm", TitledBorder.LEADING, TitledBorder.TOP, new Font("sansserif", 1, 14), new Color(0, 0, 0)));
+        feature.setBorder(new TitledBorder(new LineBorder(new Color(0, 0, 0)), "Chức năng", TitledBorder.LEADING, TitledBorder.TOP, new Font("sansserif", 1, 14), new Color(0, 0, 0)));
+        addReceiptNote.setLayout(new MigLayout("fill, wrap", "30[33.33%][33.33%][33.33%]30", "10[33.33%][33.33%]10"));
+        addReceiptNote.setBackground(new Color(255,255,255));
+        addReceiptNote.setBorder(new TitledBorder(new LineBorder(new Color(0, 0, 0)), "Thông tin phiếu nhập", TitledBorder.LEADING, TitledBorder.TOP, new Font("sansserif", 1, 14), new Color(0, 0, 0)));
 
 
         //<editor-fold defaultstate="collapsed" desc="Menu">
@@ -71,7 +88,7 @@ public class PanelReceiptNote extends JPanel {
         btnAdd.setVerticalTextPosition(SwingConstants.BOTTOM);
         btnAdd.setHorizontalTextPosition(SwingConstants.CENTER);
         btnAdd.setHorizontalAlignment(SwingConstants.LEFT);
-        feature.add(btnAdd);
+        feature.add(btnAdd, "grow");
 
         JButton btnDel = new JButton();
         btnDel.setFont(new Font("sansserif", 1, 14));
@@ -84,7 +101,7 @@ public class PanelReceiptNote extends JPanel {
         btnDel.setVerticalTextPosition(SwingConstants.BOTTOM);
         btnDel.setHorizontalTextPosition(SwingConstants.CENTER);
         btnDel.setHorizontalAlignment(SwingConstants.LEFT);
-        feature.add(btnDel);
+        feature.add(btnDel, "grow");
 
         JButton btnEdit = new JButton();
         btnEdit.setFont(new Font("sansserif", 1, 14));
@@ -97,7 +114,7 @@ public class PanelReceiptNote extends JPanel {
         btnEdit.setVerticalTextPosition(SwingConstants.BOTTOM);
         btnEdit.setHorizontalTextPosition(SwingConstants.CENTER);
         btnEdit.setHorizontalAlignment(SwingConstants.LEFT);
-        feature.add(btnEdit);
+        feature.add(btnEdit, "grow");
 
         JButton btnDetail = new JButton();
         btnDetail.setFont(new Font("sansserif", 1, 14));
@@ -110,11 +127,11 @@ public class PanelReceiptNote extends JPanel {
         btnDetail.setVerticalTextPosition(SwingConstants.BOTTOM);
         btnDetail.setHorizontalTextPosition(SwingConstants.CENTER);
         btnDetail.setHorizontalAlignment(SwingConstants.LEFT);
-        feature.add(btnDetail);
+        feature.add(btnDetail, "grow");
         //</editor-fold>
 
         //<editor-fold defaultstate="collapsed" desc="Search">
-        
+
         JComboBox area = new JComboBox();
         area.setFont(new Font("sansserif", 1, 14));
         area.setForeground(new Color(0, 0, 0));
@@ -127,16 +144,16 @@ public class PanelReceiptNote extends JPanel {
         area.addItem("Mã nhà cung cấp");
         area.addItem("Mã nhân viên");
         area.setBorder(null);
-        search.add(area, "w 30%, h 100%");
-        
+        search.add(area, "grow");
+
         MyTextField text = new MyTextField();
         text.setFont(new Font("sansserif", 1, 14));
         text.setForeground(new Color(0, 0, 0));
         text.setBackground(new Color(255, 255, 255));
         text.setCursor(Cursor.getPredefinedCursor(HAND_CURSOR));
         text.setBorder(new LineBorder(new Color(0, 0, 0)));
-        search.add(text, "w 40%, h 100%");
-        
+        search.add(text, "grow");
+
         JButton btnReload = new JButton();
         btnReload.setFont(new Font("sansserif", 1, 14));
         btnReload.setForeground(new Color(0, 0, 0));
@@ -146,7 +163,7 @@ public class PanelReceiptNote extends JPanel {
         btnReload.setBorder(new LineBorder(new Color(0,0,0)));
         btnReload.setIcon(new ImageIcon(getClass().getResource("/mobileshop/assets/icon/icons8_reset_25px_1.png")));
         btnReload.setMargin(new Insets(10,20,10,20));
-        search.add(btnReload, "w 30%, h 100%");
+        search.add(btnReload, "grow");
         //</editor-fold>
 
         //<editor-fold defaultstate="collapsed" desc="Table">
@@ -191,44 +208,139 @@ public class PanelReceiptNote extends JPanel {
         renderer.setHorizontalAlignment(SwingConstants.LEFT);
         receiptNote.getTableHeader().setDefaultRenderer(renderer);
 
-        mainPanel.add(scrollPane, "w 100%, h 100%");
+        mainPanel.add(scrollPane, "grow");
         //</editor-fold>
 
-        add(search, "width 100%, height 5%, wrap");
-        add(mainPanel, "width 100%, height 85%, wrap");
-        add(feature, "width 100%, height 20%, top");
+        //<editor-fold defaultstate="collapsed" desc="Add Receipt Note">
+        JPanel idReceiptNote = new JPanel();
+        idReceiptNote.setLayout(new MigLayout("fill, wrap", "[200]", "[50]"));
+        idReceiptNote.setBackground(new Color(255,255,255));
+        idReceiptNote.setBorder(new TitledBorder(new LineBorder(new Color(0, 0, 0)), "Mã phiếu nhập", TitledBorder.LEADING, TitledBorder.TOP, new Font("sansserif", 1, 14), new Color(0, 0, 0)));
+        JTextField idText = new JTextField();
+        idText.setFont(new Font("sansserif", 1, 14));
+        idText.setForeground(new Color(0, 0, 0));
+        idText.setBackground(new Color(255, 255, 255));
+        idText.setCursor(Cursor.getPredefinedCursor(HAND_CURSOR));
+        idText.setBorder(null);
+        idReceiptNote.add(idText, "grow");
+        addReceiptNote.add(idReceiptNote, "grow");
+
+        JPanel date = new JPanel();
+        date.setLayout(new MigLayout("fill, wrap", "[200]", "[50]"));
+        date.setBackground(new Color(255,255,255));
+        date.setBorder(new TitledBorder(new LineBorder(new Color(0, 0, 0)), "Ngày sinh (dd/MM/yyyy)", TitledBorder.LEADING, TitledBorder.TOP, new Font("sansserif", 1, 14), new Color(0, 0, 0)));
+        SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
+        JFormattedTextField dateText = new JFormattedTextField(format);
+        dateText.setFont(new Font("sansserif", 1, 14));
+        dateText.setForeground(new Color(0, 0, 0));
+        dateText.setBackground(new Color(255, 255, 255));
+        dateText.setCursor(Cursor.getPredefinedCursor(HAND_CURSOR));
+        dateText.setBorder(null);
+        date.add(dateText, "grow");
+        addReceiptNote.add(date, "grow");
+
+        dateText.addKeyListener(new KeyAdapter() {
+            public void keyTyped(KeyEvent e) {
+                char c = e.getKeyChar();
+                if (!((c >= '0') && (c <= '9') ||
+                        (c == KeyEvent.VK_BACK_SPACE) ||
+                        (c == KeyEvent.VK_DELETE) || (c == KeyEvent.VK_SLASH)))
+                {
+                    JOptionPane.showMessageDialog(null, "Vui lòng nhập theo định dạng: dd/MM/yyyy");
+                    e.consume();
+                }
+            }
+        });
+
+        JPanel moreInfo = new JPanel();
+        moreInfo.setLayout(new MigLayout("fill, wrap", "[200]", "[50]"));
+        moreInfo.setBackground(new Color(255,255,255));
+        moreInfo.setBorder(new TitledBorder(new LineBorder(new Color(0, 0, 0)), "Chi tiết", TitledBorder.LEADING, TitledBorder.TOP, new Font("sansserif", 1, 14), new Color(0, 0, 0)));
+        JTextField moreInfoText = new JTextField();
+        moreInfoText.setFont(new Font("sansserif", 1, 14));
+        moreInfoText.setForeground(new Color(0, 0, 0));
+        moreInfoText.setBackground(new Color(255, 255, 255));
+        moreInfoText.setCursor(Cursor.getPredefinedCursor(HAND_CURSOR));
+        moreInfoText.setBorder(null);
+        moreInfo.add(moreInfoText, "grow");
+        addReceiptNote.add(moreInfo, "grow");
+
+        JPanel idSuplier = new JPanel();
+        idSuplier.setLayout(new MigLayout("fill, wrap", "[200]", "[50]"));
+        idSuplier.setBackground(new Color(255,255,255));
+        idSuplier.setBorder(new TitledBorder(new LineBorder(new Color(0, 0, 0)), "Mã nhà cung cấp", TitledBorder.LEADING, TitledBorder.TOP, new Font("sansserif", 1, 14), new Color(0, 0, 0)));
+        JComboBox idSuplierText = new JComboBox();
+        idSuplierText.setFont(new Font("sansserif", 1, 14));
+        idSuplierText.setForeground(new Color(0, 0, 0));
+        idSuplierText.setBackground(new Color(255, 255, 255));
+        idSuplierText.setCursor(Cursor.getPredefinedCursor(HAND_CURSOR));
+        idSuplierText.setBorder(null);
+        supliers = mobileshop.dao.SuplierDAO.getInstance().selectAll();
+        for (Suplier suplier : supliers) {
+            idSuplierText.addItem(suplier.getId());
+        }
+        idSuplier.add(idSuplierText, "grow");
+        addReceiptNote.add(idSuplier, "grow");
+
+        JPanel idStaff = new JPanel();
+        idStaff.setLayout(new MigLayout("fill, wrap", "[200]", "[50]"));
+        idStaff.setBackground(new Color(255,255,255));
+        idStaff.setBorder(new TitledBorder(new LineBorder(new Color(0, 0, 0)), "Mã nhân viên", TitledBorder.LEADING, TitledBorder.TOP, new Font("sansserif", 1, 14), new Color(0, 0, 0)));
+        JComboBox idStaffText = new JComboBox();
+        idStaffText.setFont(new Font("sansserif", 1, 14));
+        idStaffText.setForeground(new Color(0, 0, 0));
+        idStaffText.setBackground(new Color(255, 255, 255));
+        idStaffText.setCursor(Cursor.getPredefinedCursor(HAND_CURSOR));
+        idStaffText.setBorder(null);
+        staffs = mobileshop.dao.StaffDAO.getInstance().selectAll();
+        for (Staff staff : staffs) {
+            idStaffText.addItem(staff.getId());
+        }
+        idStaff.add(idStaffText, "grow");
+        addReceiptNote.add(idStaff, "grow");
+
+        //</editor-fold>
+
+        add(fsPanel, "width 100%, height 5%, wrap");
+        add(addReceiptNote, "width 100%, height 20%, wrap");
+        add(mainPanel, "width 100%, height 75%, wrap");
+        fsPanel.add(feature, "width 40%, pos 0al 0 n 100%");
+        fsPanel.add(search, "width 58%, pos 1al 0 n 100%");
+
+        //<editor-fold defaultstate="collapsed" desc="Event">
+        receiptNote.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                int row = receiptNote.getSelectedRow();
+                if(row == -1) {
+                    return;
+                }
+                idText.setText(receiptNote.getValueAt(row, 0).toString());
+                SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
+                dateText.setText(format.format(receiptNote.getValueAt(row, 1)));
+                moreInfoText.setText(receiptNote.getValueAt(row, 2).toString());
+                idSuplierText.setSelectedItem(receiptNote.getValueAt(row, 3).toString());
+                idStaffText.setSelectedItem(receiptNote.getValueAt(row, 4).toString());
+            }
+        });
 
         btnAdd.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                AddReceiptNote addReceiptNote = new AddReceiptNote();
-                addReceiptNote.setVisible(true);
-                addReceiptNote.addWindowListener(new java.awt.event.WindowAdapter() {
-                    @Override
-                    public void windowClosed(java.awt.event.WindowEvent windowEvent) {
-                        reloadTable();
+                try {
+                    String id = idText.getText().toString();
+                    java.util.Date invoiceDate = format.parse(dateText.getText());
+                    java.sql.Date sqlDate = new java.sql.Date(invoiceDate.getTime());
+                    String moreInfo = moreInfoText.getText().toString();
+                    String idSuplier = idSuplierText.getSelectedItem().toString();
+                    String idStaff = idStaffText.getSelectedItem().toString();
+                    if(ReceiptNoteController.getInstance().addReceiptNote(id, sqlDate, moreInfo, idSuplier, idStaff)) {
                     }
-                });
-            }
-        });
-
-        btnEdit.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                if(receiptNote.getSelectedRow() >= 0) {
-                    int row = receiptNote.getSelectedRow();
-                    if(row == -1) {
-                        return;
-                    }
-                    String id = receiptNote.getValueAt(row, 0).toString();
-                    String date = receiptNote.getValueAt(row, 1).toString();
-                    String moreInfo = receiptNote.getValueAt(row, 2).toString();
-                    String idSuplier = receiptNote.getValueAt(row, 3).toString();
-                    String idStaff = receiptNote.getValueAt(row, 4).toString();
-                    if(ReceiptNoteController.getInstance().updateReceiptNote(id, date, moreInfo, idSuplier, idStaff)){
-                        reloadTable();
-                    }
+                } catch (HeadlessException ex) {
+                    System.out.println(ex);
+                } catch (ParseException ex) {
+                    throw new RuntimeException(ex);
                 }
+
             }
         });
 
@@ -242,10 +354,43 @@ public class PanelReceiptNote extends JPanel {
                     }
                     String id = receiptNote.getValueAt(row, 0).toString();
                     if(ReceiptNoteController.getInstance().deleteReceiptNoteById(id)){
-                        reloadTable();
+                        staffs = StaffDAO.getInstance().selectAll();
+                        try {
+                            model.setRowCount(0);
+                            for (ReceiptNote receiptNote1 : receiptNotes) {
+                                model.addRow(new java.lang.Object[]{
+                                        receiptNote1.getId(),
+                                        receiptNote1.getDate(),
+                                        receiptNote1.getMoreInfo(),
+                                        receiptNote1.getIdSuplier(),
+                                        receiptNote1.getIdStaff()
+                                });
+                            }
+                        } catch (Exception ex) {
+                            System.out.println(ex);
+                        }
                     }
                 }
             }
+        });
+
+        btnEdit.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                try {
+                    String id = idText.getText().toString();
+                    java.util.Date invoiceDate = format.parse(dateText.getText());
+                    java.sql.Date sqlDate = new java.sql.Date(invoiceDate.getTime());
+                    String moreInfo = moreInfoText.getText().toString();
+                    String idSuplier = idSuplierText.getSelectedItem().toString();
+                    String idStaff = idStaffText.getSelectedItem().toString();
+                    if(ReceiptNoteController.getInstance().updateReceiptNote(id, sqlDate, moreInfo, idSuplier, idStaff)){}
+                } catch (HeadlessException ex) {
+                    System.out.println(ex);
+                } catch (ParseException ex) {
+                    throw new RuntimeException(ex);
+                }
+            };
         });
 
         btnDetail.addActionListener(e -> {
@@ -424,6 +569,7 @@ public class PanelReceiptNote extends JPanel {
                 }
             }
         });
+        //</editor-fold>
     }
 
     public void reloadTable() {
@@ -444,19 +590,19 @@ public class PanelReceiptNote extends JPanel {
             System.out.println(ex);
         }
     }
-    
+
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
         GroupLayout layout = new GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
-            layout.createParallelGroup(GroupLayout.Alignment.LEADING)
-            .addGap(0, 400, Short.MAX_VALUE)
+                layout.createParallelGroup(GroupLayout.Alignment.LEADING)
+                        .addGap(0, 400, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
-            layout.createParallelGroup(GroupLayout.Alignment.LEADING)
-            .addGap(0, 298, Short.MAX_VALUE)
+                layout.createParallelGroup(GroupLayout.Alignment.LEADING)
+                        .addGap(0, 298, Short.MAX_VALUE)
         );
     }// </editor-fold>//GEN-END:initComponents
 

@@ -108,18 +108,7 @@ public class PanelStatistics extends JPanel {
         countCustomerPanel.setLayout(new MigLayout("fill, wrap", "[100%]", "[50%][50%]"));
         customerPanel.add(countCustomerPanel, "align left");
 
-        int countProductInBill = 0;
-        ArrayList<BillDetail> billDetails = BillDetailDAO.getInstance().selectAll();
-        for (BillDetail billDetail : billDetails) {
-            countProductInBill += billDetail.getCount();
-        }
-        int countProductInReceiptNote = 0;
-        ArrayList<ReceiptNoteDetail> receiptNoteDetails = ReceiptNoteDetailDAO.getInstance().selectAll();
-        for (ReceiptNoteDetail receiptNoteDetail : receiptNoteDetails) {
-            countProductInReceiptNote += receiptNoteDetail.getCount();
-        }
-
-        int countProduct = countProductInReceiptNote - countProductInBill;
+        int countProduct = countProduct();
         JLabel countProductLabel = new JLabel(String.valueOf(countProduct));
         countProductLabel.setForeground(new Color(255, 255, 255));
         countProductLabel.setFont(new Font("sansserif", 1, 30));
@@ -129,12 +118,7 @@ public class PanelStatistics extends JPanel {
         productLabel.setFont(new Font("sansserif", 1, fontSize));
         countProductPanel.add(productLabel, "align left");
 
-        int countSupplier = 0;
-        ArrayList<Suplier> supliers = SuplierDAO.getInstance().selectAll();
-        for (Suplier suplier : supliers) {
-            countSupplier += 1;
-        }
-
+        int countSupplier = countSuplier();
         JLabel countSupplierLabel = new JLabel(String.valueOf(countSupplier));
         countSupplierLabel.setForeground(new Color(255, 255, 255));
         countSupplierLabel.setFont(new Font("sansserif", 1, 30));
@@ -144,12 +128,7 @@ public class PanelStatistics extends JPanel {
         supplierLabel.setFont(new Font("sansserif", 1, fontSize));
         countSupplierPanel.add(supplierLabel, "align left");
 
-        int countCustomer = 0;
-        ArrayList<Customer> customers = CustomerDAO.getInstance().selectAll();
-        for (Customer customer : customers) {
-            countCustomer += 1;
-        }
-
+        int countCustomer = countCustomer();
         JLabel countCustomerLabel = new JLabel(String.valueOf(countCustomer));
         countCustomerLabel.setForeground(new Color(255, 255, 255));
         countCustomerLabel.setFont(new Font("sansserif", 1, 30));
@@ -233,7 +212,7 @@ public class PanelStatistics extends JPanel {
         {
             @Override
             public boolean isCellEditable(int row, int column) {
-            return false;
+                return false;
             }
         };
 
@@ -953,6 +932,9 @@ public class PanelStatistics extends JPanel {
                         }
                     }
                 }
+                countProductLabel.setText(String.valueOf(countProduct()));
+                countSupplierLabel.setText(String.valueOf(countSuplier()));
+                countCustomerLabel.setText(String.valueOf(countCustomer()));
             }
         });
         //</editor-fold>
@@ -960,20 +942,52 @@ public class PanelStatistics extends JPanel {
         add(statisticsPanel, "width 100%, height 20%, wrap");
         add(mainPanel, "width 100%, height 80%, wrap");
     }
+    private int countProduct() {
+        int countProductInBill = 0;
+        ArrayList<BillDetail> billDetails = BillDetailDAO.getInstance().selectAll();
+        for (BillDetail billDetail : billDetails) {
+            countProductInBill += billDetail.getCount();
+        }
+        int countProductInReceiptNote = 0;
+        ArrayList<ReceiptNoteDetail> receiptNoteDetails = ReceiptNoteDetailDAO.getInstance().selectAll();
+        for (ReceiptNoteDetail receiptNoteDetail : receiptNoteDetails) {
+            countProductInReceiptNote += receiptNoteDetail.getCount();
+        }
 
-    
+        int countProduct = countProductInReceiptNote - countProductInBill;
+        return countProduct;
+    }
+
+    private int countSuplier() {
+        int countSupplier = 0;
+        ArrayList<Suplier> supliers = SuplierDAO.getInstance().selectAll();
+        for (Suplier suplier : supliers) {
+            countSupplier += 1;
+        }
+        return countSupplier;
+    }
+
+    private int countCustomer() {
+        int countCustomer = 0;
+        ArrayList<Customer> customers = CustomerDAO.getInstance().selectAll();
+        for (Customer customer : customers) {
+            countCustomer += 1;
+        }
+        return countCustomer;
+    }
+
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
         GroupLayout layout = new GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
-            layout.createParallelGroup(GroupLayout.Alignment.LEADING)
-            .addGap(0, 400, Short.MAX_VALUE)
+                layout.createParallelGroup(GroupLayout.Alignment.LEADING)
+                        .addGap(0, 400, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
-            layout.createParallelGroup(GroupLayout.Alignment.LEADING)
-            .addGap(0, 298, Short.MAX_VALUE)
+                layout.createParallelGroup(GroupLayout.Alignment.LEADING)
+                        .addGap(0, 298, Short.MAX_VALUE)
         );
     }// </editor-fold>//GEN-END:initComponents
 
