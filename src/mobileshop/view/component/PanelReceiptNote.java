@@ -151,7 +151,13 @@ public class PanelReceiptNote extends JPanel {
 
         //<editor-fold defaultstate="collapsed" desc="Table">
         String[] columnNames = {"Mã phiếu nhập", "Ngày nhập", "Chi tiết", "Mã nhà cung cấp", "Mã nhân viên"};
-        DefaultTableModel model = new DefaultTableModel(new Object[][]{}, columnNames);
+        DefaultTableModel model = new DefaultTableModel(new java.lang.Object[][]{}, columnNames)
+        {
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                return false;
+            }
+        };
 
         receiptNotes = ReceiptNoteDAO.getInstance().selectAll();
 

@@ -270,7 +270,7 @@ public class PanelStatistics extends JPanel {
         staticticsProduct.getTableHeader().setDefaultRenderer(renderer);
         staticticsProduct.getTableHeader().setReorderingAllowed(false);
         staticticsProduct.getTableHeader().setResizingAllowed(false);
-        mainPanel.add(scrollPaneProduct, "growx, growy, wrap");
+        mainPanel.add(scrollPaneProduct, "grow");
         //</editor-fold>
 
         //<editor-fold defaultstate="collapsed" desc="Table Bill">
