@@ -29,13 +29,10 @@ public class ReceiptNoteController {
         }
         return false;
     }
-    public boolean updateReceiptNote(String id, String date, String moreInfo, String idSuplier, String idStaff){
+    public boolean updateReceiptNote(String id, Date date, String moreInfo, String idSuplier, String idStaff){
         try {
             // TODO add your handling code here:
-            SimpleDateFormat formatDate = new SimpleDateFormat("yyyy-MM-dd");
-            java.util.Date invoiceDate = formatDate.parse(date);
-            java.sql.Date sqlDate = new java.sql.Date(invoiceDate.getTime());
-            ReceiptNote receiptNote = new ReceiptNote(id, sqlDate, moreInfo, idSuplier, idStaff);
+            ReceiptNote receiptNote = new ReceiptNote(id, date, moreInfo, idSuplier, idStaff);
             if(ReceiptNoteDAO.getInstance().update(receiptNote) == 1) {
                 JOptionPane.showMessageDialog(null, "Cập nhật thành công!", "Success", JOptionPane.INFORMATION_MESSAGE);
                 return true;

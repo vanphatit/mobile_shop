@@ -4,7 +4,6 @@ import mobileshop.controller.ReceiptNoteController;
 import mobileshop.dao.ReceiptNoteDAO;
 import mobileshop.model.ReceiptNote;
 import mobileshop.model.ReceiptNoteDetail;
-import mobileshop.view.component.PanelCoverAddReceiptNote;
 import mobileshop.view.component.PanelCoverAddReceiptNoteDetail;
 import net.miginfocom.swing.MigLayout;
 
@@ -12,10 +11,6 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.KeyAdapter;
-import java.awt.event.KeyEvent;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 
 public class AddReceiptNoteDetail extends JFrame {
 

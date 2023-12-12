@@ -1,8 +1,5 @@
 package mobileshop.view.UI;
 
-import mobileshop.controller.CustomerController;
-import mobileshop.dao.CustomerCategoryDAO;
-import mobileshop.model.CustomerCategory;
 import net.miginfocom.swing.MigLayout;
 
 import javax.swing.*;
