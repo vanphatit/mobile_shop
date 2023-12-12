@@ -4,8 +4,10 @@ import mobileshop.controller.CustomerController;
 import mobileshop.controller.StaffController;
 import mobileshop.dao.CustomerCategoryDAO;
 import mobileshop.dao.CustomerDAO;
+import mobileshop.dao.ObjectDAO;
 import mobileshop.model.Customer;
 import mobileshop.model.CustomerCategory;
+import mobileshop.model.Object;
 import mobileshop.view.swing.MyTextField;
 import net.miginfocom.swing.MigLayout;
 
@@ -393,7 +395,7 @@ public class PanelCustomer extends JPanel {
                 } catch (ParseException ex) {
                     throw new RuntimeException(ex);
                 }
-
+                reloadTable();
             }
         });
 
@@ -426,6 +428,7 @@ public class PanelCustomer extends JPanel {
                         }
                     }
                 }
+                reloadTable();
             }
         });
 
@@ -460,36 +463,14 @@ public class PanelCustomer extends JPanel {
                 } catch (ParseException ex) {
                     throw new RuntimeException(ex);
                 }
+                reloadTable();
             };
         });
 
         btnReload.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                customers  = CustomerDAO.getInstance().selectAll();
-                try {
-                    model.setRowCount(0);
-                    for (Customer cus : customers) {
-                        model.addRow(new java.lang.Object[]{
-                                cus.getId(),
-                                cus.getName(),
-                                cus.getAddress(),
-                                cus.getGender() ? "Nam" : "Nữ",
-                                cus.getBirthday(),
-                                cus.getPhone(),
-                                cus.getIdCategory()
-                        });
-                    }
-                } catch (Exception ex) {
-                    System.out.println(ex);
-                }
-                idText.setText("");
-                nameText.setText("");
-                addressText.setText("");
-                mail.setSelected(true);
-                birthdayText.setText("");
-                phoneText.setText("");
-                cbbCate.setSelectedIndex(0);
+                reloadTable();
             }
         });
 
@@ -643,7 +624,27 @@ public class PanelCustomer extends JPanel {
         });
         //</editor-fold>
     }
-    
+
+    public void reloadTable() {
+        customers = CustomerDAO.getInstance().selectAll();
+        DefaultTableModel model = (DefaultTableModel) customer.getModel();
+        try {
+            model.setRowCount(0);
+            for (Customer customer1 : customers) {
+                model.addRow(new java.lang.Object[]{
+                        customer1.getId(),
+                        customer1.getName(),
+                        customer1.getAddress(),
+                        customer1.getGender() ? "Nam" : "Nữ",
+                        customer1.getBirthday(),
+                        customer1.getPhone(),
+                        customer1.getIdCategory()
+                });
+            }
+        } catch (Exception ex) {
+            System.out.println(ex);
+        }
+    }
     
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {

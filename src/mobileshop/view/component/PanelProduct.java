@@ -328,6 +328,7 @@ public class PanelProduct extends javax.swing.JPanel {
                 } catch (HeadlessException ex) {
                     System.out.println(ex);
                 }
+                reloadTable();
             }
         });
 
@@ -359,6 +360,7 @@ public class PanelProduct extends javax.swing.JPanel {
                         }
                     }
                 }
+                reloadTable();
             }
         });
 
@@ -383,34 +385,14 @@ public class PanelProduct extends javax.swing.JPanel {
                 } catch (HeadlessException ex) {
                     System.out.println(ex);
                 }
+                reloadTable();
             };
         });
 
         btnReload.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                products = ObjectDAO.getInstance().selectAll();
-                try {
-                    model.setRowCount(0);
-                    for (Object object : products) {
-                        model.addRow(new java.lang.Object[]{
-                                object.getId(),
-                                object.getName(),
-                                object.getStatus(),
-                                object.getManufacturer(),
-                                object.getUnitPrice(),
-                                object.getIdCategory()
-                        });
-                    }
-                } catch (Exception ex) {
-                    System.out.println(ex);
-                }
-                idText.setText("");
-                nameText.setText("");
-                statusText.setText("");
-                manufactureText.setText("");
-                unitPriceText.setText("");
-                idCategoryText.setSelectedIndex(0);
+                reloadTable();
             }
         });
 
@@ -573,6 +555,25 @@ public class PanelProduct extends javax.swing.JPanel {
         //</editor-fold>
     }
 
+    public void reloadTable() {
+        products = ObjectDAO.getInstance().selectAll();
+        DefaultTableModel model = (DefaultTableModel) product.getModel();
+        try {
+            model.setRowCount(0);
+            for (Object pro : products) {
+                model.addRow(new java.lang.Object[]{
+                        pro.getId(),
+                        pro.getName(),
+                        pro.getStatus(),
+                        pro.getManufacturer(),
+                        pro.getUnitPrice(),
+                        pro.getIdCategory()
+                });
+            }
+        } catch (Exception ex) {
+            System.out.println(ex);
+        }
+    }
     
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {

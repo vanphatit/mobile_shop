@@ -1,7 +1,9 @@
 package mobileshop.view.component;
 
 import mobileshop.controller.StaffController;
+import mobileshop.dao.ObjectDAO;
 import mobileshop.dao.StaffDAO;
+import mobileshop.model.Object;
 import mobileshop.model.Staff;
 import mobileshop.view.swing.MyTextField;
 import net.miginfocom.swing.MigLayout;
@@ -432,7 +434,7 @@ public class PanelStaff extends JPanel {
                 } catch (ParseException ex) {
                     throw new RuntimeException(ex);
                 }
-
+                reloadTable();
             }
         });
 
@@ -467,6 +469,7 @@ public class PanelStaff extends JPanel {
                         }
                     }
                 }
+                reloadTable();
             }
         });
 
@@ -508,40 +511,14 @@ public class PanelStaff extends JPanel {
                 } catch (ParseException ex) {
                     throw new RuntimeException(ex);
                 }
+                reloadTable();
             };
         });
 
         btnReload.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                staffs = StaffDAO.getInstance().selectAll();
-                try {
-                    model.setRowCount(0);
-                    for (Staff staff1 : staffs) {
-                        model.addRow(new java.lang.Object[]{
-                                staff1.getId(),
-                                staff1.getName(),
-                                staff1.getPassword(),
-                                staff1.getAddress(),
-                                staff1.getGender() ? "Nam" : "Nữ",
-                                staff1.getBirthday(),
-                                staff1.getPhone(),
-                                staff1.getRole(),
-                                staff1.getIdShift()
-                        });
-                    }
-                } catch (Exception ex) {
-                    System.out.println(ex);
-                }
-                idText.setText("");
-                nameText.setText("");
-                passText.setText("");
-                addressText.setText("");
-                mail.setSelected(true);
-                birthdayText.setText("");
-                phoneText.setText("");
-                admin.setSelected(true);
-                shiftText.setSelectedIndex(0);
+                reloadTable();
             }
         });
 
@@ -738,7 +715,29 @@ public class PanelStaff extends JPanel {
         });
         //</editor-fold>
     }
-    
+
+    public void reloadTable() {
+        staffs = StaffDAO.getInstance().selectAll();
+        DefaultTableModel model = (DefaultTableModel) staff.getModel();
+        try {
+            model.setRowCount(0);
+            for (Staff staff1 : staffs) {
+                model.addRow(new java.lang.Object[]{
+                        staff1.getId(),
+                        staff1.getName(),
+                        staff1.getPassword(),
+                        staff1.getAddress(),
+                        staff1.getGender() ? "Nam" : "Nữ",
+                        staff1.getBirthday(),
+                        staff1.getPhone(),
+                        staff1.getRole(),
+                        staff1.getIdShift()
+                });
+            }
+        } catch (Exception ex) {
+            System.out.println(ex);
+        }
+    }
     
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {

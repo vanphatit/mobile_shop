@@ -17,8 +17,10 @@ import javax.swing.table.DefaultTableModel;
 
 import mobileshop.controller.StaffController;
 import mobileshop.controller.SuplierController;
+import mobileshop.dao.ObjectDAO;
 import mobileshop.dao.StaffDAO;
 import mobileshop.dao.SuplierDAO;
+import mobileshop.model.Object;
 import mobileshop.model.Staff;
 import mobileshop.model.Suplier;
 import mobileshop.view.swing.MyTextField;
@@ -295,6 +297,7 @@ public class PanelSuplier extends javax.swing.JPanel {
                 } catch (HeadlessException ex) {
                     System.out.println(ex);
                 }
+                reloadTable();
             }
         });
 
@@ -325,6 +328,7 @@ public class PanelSuplier extends javax.swing.JPanel {
                         }
                     }
                 }
+                reloadTable();
             }
         });
 
@@ -342,32 +346,14 @@ public class PanelSuplier extends javax.swing.JPanel {
                 } catch (HeadlessException ex) {
                     System.out.println(ex);
                 }
+                reloadTable();
             };
         });
 
         btnReload.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                supliers = SuplierDAO.getInstance().selectAll();
-                try {
-                    model.setRowCount(0);
-                    for (Suplier suplier1 : supliers) {
-                        model.addRow(new java.lang.Object[]{
-                                suplier1.getId(),
-                                suplier1.getName(),
-                                suplier1.getAddress(),
-                                suplier1.getPhoneNumber(),
-                                suplier1.getStatus() ? "Còn hoạt động" : "Hết hoạt động"
-                        });
-                    }
-                } catch (Exception ex) {
-                    System.out.println(ex);
-                }
-                idText.setText("");
-                nameText.setText("");
-                addressText.setText("");
-                phoneText.setText("");
-                status.setSelectedIndex(0);
+                reloadTable();
             }
         });
 
@@ -481,7 +467,25 @@ public class PanelSuplier extends javax.swing.JPanel {
         });
         //</editor-fold>
     }
-    
+
+    public void reloadTable() {
+        supliers = SuplierDAO.getInstance().selectAll();
+        DefaultTableModel model = (DefaultTableModel) suplier.getModel();
+        try {
+            model.setRowCount(0);
+            for (Suplier suplier1 : supliers) {
+                model.addRow(new java.lang.Object[]{
+                        suplier1.getId(),
+                        suplier1.getName(),
+                        suplier1.getAddress(),
+                        suplier1.getPhoneNumber(),
+                        suplier1.getStatus() ? "Còn hàng" : "Hết hàng"
+                });
+            }
+        } catch (Exception ex) {
+            System.out.println(ex);
+        }
+    }
     
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {

@@ -16,10 +16,7 @@ import javax.swing.border.TitledBorder;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.KeyAdapter;
-import java.awt.event.KeyEvent;
+import java.awt.event.*;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -61,9 +58,9 @@ public class PanelReceiptNote extends JPanel {
         fsPanel = new JPanel();
         addReceiptNote = new JPanel();
 
-        fsPanel.setLayout(new MigLayout("fill, wrap", "[400][1000]", "[50]"));
+        fsPanel.setLayout(new MigLayout("fill, wrap", "[300][1000]", "[50]"));
         fsPanel.setBackground(new Color(255,255,255));
-        feature.setLayout(new MigLayout("fill, wrap", "[100][100][100][100]", "[50]"));
+        feature.setLayout(new MigLayout("fill, wrap", "[100][100][100]", "[50]"));
         feature.setBackground(new Color(255,255,255));
         search.setLayout(new MigLayout("fill, wrap", "[200][300][150]", "[50]"));
         search.setBackground(new Color(255,255,255));
@@ -115,19 +112,6 @@ public class PanelReceiptNote extends JPanel {
         btnEdit.setHorizontalTextPosition(SwingConstants.CENTER);
         btnEdit.setHorizontalAlignment(SwingConstants.LEFT);
         feature.add(btnEdit, "grow");
-
-        JButton btnDetail = new JButton();
-        btnDetail.setFont(new Font("sansserif", 1, 14));
-        btnDetail.setForeground(new Color(100, 100, 100));
-        btnDetail.setBackground(new Color(255, 255, 255));
-        btnDetail.setBorderPainted(false);
-        btnDetail.setCursor(Cursor.getPredefinedCursor(HAND_CURSOR));
-        btnDetail.setText("Xem");
-        btnDetail.setIcon(new ImageIcon(getClass().getResource("/mobileshop/assets/icon/icons8-information-25.png")));
-        btnDetail.setVerticalTextPosition(SwingConstants.BOTTOM);
-        btnDetail.setHorizontalTextPosition(SwingConstants.CENTER);
-        btnDetail.setHorizontalAlignment(SwingConstants.LEFT);
-        feature.add(btnDetail, "grow");
         //</editor-fold>
 
         //<editor-fold defaultstate="collapsed" desc="Search">
@@ -299,6 +283,19 @@ public class PanelReceiptNote extends JPanel {
         idStaff.add(idStaffText, "grow");
         addReceiptNote.add(idStaff, "grow");
 
+        JPanel btnPanel = new JPanel();
+        btnPanel.setLayout(new MigLayout("fill, wrap", "[200]", "[50]"));
+        btnPanel.setBackground(new Color(255,255,255));
+        JButton btnDetail = new JButton();
+        btnDetail.setFont(new Font("sansserif", 1, 16));
+        btnDetail.setForeground(new Color(255, 255, 255));
+        btnDetail.setBackground(new Color(7, 164, 121));
+        btnDetail.setBorderPainted(false);
+        btnDetail.setCursor(Cursor.getPredefinedCursor(HAND_CURSOR));
+        btnDetail.setText("Xem chi tiết");
+        btnPanel.add(btnDetail, "grow");
+        addReceiptNote.add(btnPanel, "grow");
+
         //</editor-fold>
 
         add(fsPanel, "width 100%, height 5%, wrap");
@@ -340,7 +337,7 @@ public class PanelReceiptNote extends JPanel {
                 } catch (ParseException ex) {
                     throw new RuntimeException(ex);
                 }
-
+                reloadTable();
             }
         });
 
@@ -371,6 +368,7 @@ public class PanelReceiptNote extends JPanel {
                         }
                     }
                 }
+                reloadTable();
             }
         });
 
@@ -390,6 +388,7 @@ public class PanelReceiptNote extends JPanel {
                 } catch (ParseException ex) {
                     throw new RuntimeException(ex);
                 }
+                reloadTable();
             };
         });
 
