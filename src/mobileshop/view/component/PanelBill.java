@@ -3,9 +3,10 @@ package mobileshop.view.component;
 import mobileshop.controller.BillController;
 import mobileshop.controller.ReceiptNoteController;
 import mobileshop.dao.BillDAO;
+import mobileshop.dao.CustomerDAO;
 import mobileshop.dao.ReceiptNoteDAO;
-import mobileshop.model.Bill;
-import mobileshop.model.ReceiptNote;
+import mobileshop.dao.StaffDAO;
+import mobileshop.model.*;
 import mobileshop.view.UI.AddBill;
 import mobileshop.view.UI.BillDetail;
 import mobileshop.view.UI.ReceiptNoteDetail;
@@ -18,8 +19,8 @@ import javax.swing.border.TitledBorder;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
+import java.awt.event.*;
+import java.lang.Object;
 import java.sql.Date;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -36,6 +37,10 @@ public class PanelBill extends JPanel {
     private JScrollPane scrollPane;
     private JPanel feature;
     private JPanel search;
+    private JPanel fsPanel;
+    private JPanel addBill;
+    private ArrayList<Customer> customers;
+    private ArrayList<Staff> staffs;
     private BillDetail billDetail;
 
     private ArrayList<Bill> bills;
@@ -53,13 +58,22 @@ public class PanelBill extends JPanel {
         mainPanel = new JPanel();
         feature = new JPanel();
         search = new JPanel();
+        fsPanel = new JPanel();
+        addBill = new JPanel();
 
-        feature.setLayout(new MigLayout("wrap", "push[]10[]10[]10[]push"));
+        fsPanel.setLayout(new MigLayout("fill, wrap", "[400][1000]", "[50]"));
+        fsPanel.setBackground(new Color(255,255,255));
+        feature.setLayout(new MigLayout("fill, wrap", "[100][100][100][100]", "[50]"));
         feature.setBackground(new Color(255,255,255));
-        search.setLayout(new MigLayout("wrap 3", "[grow]10[grow]10[grow]", "[center]"));
+        search.setLayout(new MigLayout("fill, wrap", "[200][300][150]", "[50]"));
         search.setBackground(new Color(255,255,255));
-        mainPanel.setLayout(new MigLayout("wrap"));
+        mainPanel.setLayout(new MigLayout("wrap", "[1000]", "[1000]"));
         mainPanel.setBackground(new Color(255,255,255));
+        search.setBorder(new TitledBorder(new LineBorder(new Color(0, 0, 0)), "Tìm kiếm", TitledBorder.LEADING, TitledBorder.TOP, new Font("sansserif", 1, 14), new Color(0, 0, 0)));
+        feature.setBorder(new TitledBorder(new LineBorder(new Color(0, 0, 0)), "Chức năng", TitledBorder.LEADING, TitledBorder.TOP, new Font("sansserif", 1, 14), new Color(0, 0, 0)));
+        addBill.setLayout(new MigLayout("fill, wrap", "30[33.33%][33.33%][33.33%]30", "10[33.33%][33.33%]10"));
+        addBill.setBackground(new Color(255,255,255));
+        addBill.setBorder(new TitledBorder(new LineBorder(new Color(0, 0, 0)), "Thông tin phiếu nhập", TitledBorder.LEADING, TitledBorder.TOP, new Font("sansserif", 1, 14), new Color(0, 0, 0)));
 
         //<editor-fold defaultstate="collapsed" desc="Menu">
         JButton btnAdd = new JButton();
@@ -73,7 +87,7 @@ public class PanelBill extends JPanel {
         btnAdd.setVerticalTextPosition(SwingConstants.BOTTOM);
         btnAdd.setHorizontalTextPosition(SwingConstants.CENTER);
         btnAdd.setHorizontalAlignment(SwingConstants.LEFT);
-        feature.add(btnAdd);
+        feature.add(btnAdd, "grow");
 
         JButton btnDel = new JButton();
         btnDel.setFont(new Font("sansserif", 1, 14));
@@ -86,7 +100,7 @@ public class PanelBill extends JPanel {
         btnDel.setVerticalTextPosition(SwingConstants.BOTTOM);
         btnDel.setHorizontalTextPosition(SwingConstants.CENTER);
         btnDel.setHorizontalAlignment(SwingConstants.LEFT);
-        feature.add(btnDel);
+        feature.add(btnDel, "grow");
 
         JButton btnEdit = new JButton();
         btnEdit.setFont(new Font("sansserif", 1, 14));
@@ -99,7 +113,7 @@ public class PanelBill extends JPanel {
         btnEdit.setVerticalTextPosition(SwingConstants.BOTTOM);
         btnEdit.setHorizontalTextPosition(SwingConstants.CENTER);
         btnEdit.setHorizontalAlignment(SwingConstants.LEFT);
-        feature.add(btnEdit);
+        feature.add(btnEdit, "grow");
 
         JButton btnDetail = new JButton();
         btnDetail.setFont(new Font("sansserif", 1, 14));
@@ -112,34 +126,33 @@ public class PanelBill extends JPanel {
         btnDetail.setVerticalTextPosition(SwingConstants.BOTTOM);
         btnDetail.setHorizontalTextPosition(SwingConstants.CENTER);
         btnDetail.setHorizontalAlignment(SwingConstants.LEFT);
-        feature.add(btnDetail);
+        feature.add(btnDetail, "grow");
         //</editor-fold>
 
         //<editor-fold defaultstate="collapsed" desc="Search">
-
-        search.setBorder(new TitledBorder(new LineBorder(new Color(0, 0, 0)), "Tìm kiếm", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));
 
         JComboBox area = new JComboBox();
         area.setFont(new Font("sansserif", 1, 14));
         area.setForeground(new Color(0, 0, 0));
         area.setBackground(new Color(255, 255, 255));
         area.setCursor(Cursor.getPredefinedCursor(HAND_CURSOR));
-        area.addItem("Mã bill");
-        area.addItem("Trạng thái");
-        area.addItem("Ngày");
+        area.addItem("Tất cả");
+        area.addItem("Mã phiếu nhập");
+        area.addItem("Ngày nhập");
+        area.addItem("Chi tiết");
+        area.addItem("Mã nhà cung cấp");
         area.addItem("Mã nhân viên");
-        area.addItem("Mã khách hàng");
         area.setBorder(null);
-        search.add(area, "w 30%, h 100%");
-        
-        MyTextField txtSearch = new MyTextField();
-        txtSearch.setFont(new Font("sansserif", 1, 14));
-        txtSearch.setForeground(new Color(0, 0, 0));
-        txtSearch.setBackground(new Color(255, 255, 255));
-        txtSearch.setCursor(Cursor.getPredefinedCursor(HAND_CURSOR));
-        txtSearch.setBorder(new LineBorder(new Color(0, 0, 0)));
-        search.add(txtSearch, "w 40%, h 100%");
-        
+        search.add(area, "grow");
+
+        MyTextField text = new MyTextField();
+        text.setFont(new Font("sansserif", 1, 14));
+        text.setForeground(new Color(0, 0, 0));
+        text.setBackground(new Color(255, 255, 255));
+        text.setCursor(Cursor.getPredefinedCursor(HAND_CURSOR));
+        text.setBorder(new LineBorder(new Color(0, 0, 0)));
+        search.add(text, "grow");
+
         JButton btnReload = new JButton();
         btnReload.setFont(new Font("sansserif", 1, 14));
         btnReload.setForeground(new Color(0, 0, 0));
@@ -149,12 +162,16 @@ public class PanelBill extends JPanel {
         btnReload.setBorder(new LineBorder(new Color(0,0,0)));
         btnReload.setIcon(new ImageIcon(getClass().getResource("/mobileshop/assets/icon/icons8_reset_25px_1.png")));
         btnReload.setMargin(new Insets(10,20,10,20));
-        search.add(btnReload, "w 30%, h 100%");
+        search.add(btnReload, "grow");
         //</editor-fold>
 
         //<editor-fold defaultstate="collapsed" desc="Table">
         String[] columnNames = {"Mã bill", "Ngày tạo bill", "Trạng thái", "Mã khách hàng", "Mã nhân viên"};
-        DefaultTableModel model = new DefaultTableModel(new Object[][]{}, columnNames);
+        DefaultTableModel model = new DefaultTableModel(new Object[][]{}, columnNames) {
+            public boolean isCellEditable(int row, int column) {
+                return false;
+            }
+        };
 
         bills = BillDAO.getInstance().selectAll();
 
@@ -190,62 +207,188 @@ public class PanelBill extends JPanel {
         mainPanel.add(scrollPane, "w 100%, h 100%");
         //</editor-fold>
 
-        add(search, "width 100%, height 5%, wrap");
-        add(mainPanel, "width 100%, height 85%, wrap");
-        add(feature, "width 100%, height 20%, top");
+        //<editor-fold defaultstate="collapsed" desc="Add Receipt Note">
+        JPanel id = new JPanel();
+        id.setLayout(new MigLayout("fill, wrap", "[200]", "[50]"));
+        id.setBackground(new Color(255,255,255));
+        id.setBorder(new TitledBorder(new LineBorder(new Color(0, 0, 0)), "Mã bill", TitledBorder.LEADING, TitledBorder.TOP, new Font("sansserif", 1, 14), new Color(0, 0, 0)));
+        JTextField idText = new JTextField();
+        idText.setFont(new Font("sansserif", 1, 14));
+        idText.setForeground(new Color(0, 0, 0));
+        idText.setBackground(new Color(255, 255, 255));
+        idText.setCursor(Cursor.getPredefinedCursor(HAND_CURSOR));
+        idText.setBorder(null);
+        id.add(idText, "grow");
+        addBill.add(id, "grow");
 
-        btnAdd.addActionListener(e -> {
-            AddBill addBill = new AddBill();
-            addBill.setVisible(true);
-            addBill.addWindowListener(new WindowAdapter() {
-                @Override
-                public void windowClosed(WindowEvent e) {
-                    super.windowClosed(e);
-                    reloadTable();
+        JPanel date = new JPanel();
+        date.setLayout(new MigLayout("fill, wrap", "[200]", "[50]"));
+        date.setBackground(new Color(255,255,255));
+        date.setBorder(new TitledBorder(new LineBorder(new Color(0, 0, 0)), "Ngày xuất (dd/MM/yyyy)", TitledBorder.LEADING, TitledBorder.TOP, new Font("sansserif", 1, 14), new Color(0, 0, 0)));
+        SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
+        JFormattedTextField dateText = new JFormattedTextField(format);
+        dateText.setFont(new Font("sansserif", 1, 14));
+        dateText.setForeground(new Color(0, 0, 0));
+        dateText.setBackground(new Color(255, 255, 255));
+        dateText.setCursor(Cursor.getPredefinedCursor(HAND_CURSOR));
+        dateText.setBorder(null);
+        date.add(dateText, "grow");
+        addBill.add(date, "grow");
+
+        dateText.addKeyListener(new KeyAdapter() {
+            public void keyTyped(KeyEvent e) {
+                char c = e.getKeyChar();
+                if (!((c >= '0') && (c <= '9') ||
+                        (c == KeyEvent.VK_BACK_SPACE) ||
+                        (c == KeyEvent.VK_DELETE) || (c == KeyEvent.VK_SLASH)))
+                {
+                    JOptionPane.showMessageDialog(null, "Vui lòng nhập theo định dạng: dd/MM/yyyy");
+                    e.consume();
                 }
-            });
+            }
         });
 
-        btnEdit.addActionListener(e -> {
-            if (bill.getSelectedRow() >= 0) {
+        JPanel status = new JPanel();
+        status.setLayout(new MigLayout("fill, wrap", "[200]", "[50]"));
+        status.setBackground(new Color(255,255,255));
+        status.setBorder(new TitledBorder(new LineBorder(new Color(0, 0, 0)), "Trạng thái", TitledBorder.LEADING, TitledBorder.TOP, new Font("sansserif", 1, 14), new Color(0, 0, 0)));
+        JComboBox statusText = new JComboBox();
+        statusText.setFont(new Font("sansserif", 1, 14));
+        statusText.setForeground(new Color(0, 0, 0));
+        statusText.setBackground(new Color(255, 255, 255));
+        statusText.setCursor(Cursor.getPredefinedCursor(HAND_CURSOR));
+        statusText.setBorder(null);
+        statusText.addItem("Đã thanh toán");
+        statusText.addItem("Chưa thanh toán");
+        status.add(statusText, "grow");
+        addBill.add(status, "grow");
+
+        JPanel idCustomer = new JPanel();
+        idCustomer.setLayout(new MigLayout("fill, wrap", "[200]", "[50]"));
+        idCustomer.setBackground(new Color(255,255,255));
+        idCustomer.setBorder(new TitledBorder(new LineBorder(new Color(0, 0, 0)), "Mã khách hàng", TitledBorder.LEADING, TitledBorder.TOP, new Font("sansserif", 1, 14), new Color(0, 0, 0)));
+        JComboBox idCustomerText = new JComboBox();
+        idCustomerText.setFont(new Font("sansserif", 1, 14));
+        idCustomerText.setForeground(new Color(0, 0, 0));
+        idCustomerText.setBackground(new Color(255, 255, 255));
+        idCustomerText.setCursor(Cursor.getPredefinedCursor(HAND_CURSOR));
+        idCustomerText.setBorder(null);
+        customers = CustomerDAO.getInstance().selectAll();
+        for (Customer customer : customers) {
+            idCustomerText.addItem(customer.getId());
+        }
+        idCustomer.add(idCustomerText, "grow");
+        addBill.add(idCustomer, "grow");
+
+        JPanel idStaff = new JPanel();
+        idStaff.setLayout(new MigLayout("fill, wrap", "[200]", "[50]"));
+        idStaff.setBackground(new Color(255,255,255));
+        idStaff.setBorder(new TitledBorder(new LineBorder(new Color(0, 0, 0)), "Mã nhân viên", TitledBorder.LEADING, TitledBorder.TOP, new Font("sansserif", 1, 14), new Color(0, 0, 0)));
+        JComboBox idStaffText = new JComboBox();
+        idStaffText.setFont(new Font("sansserif", 1, 14));
+        idStaffText.setForeground(new Color(0, 0, 0));
+        idStaffText.setBackground(new Color(255, 255, 255));
+        idStaffText.setCursor(Cursor.getPredefinedCursor(HAND_CURSOR));
+        idStaffText.setBorder(null);
+        staffs = StaffDAO.getInstance().selectAll();
+        for (Staff staff : staffs) {
+            idStaffText.addItem(staff.getId());
+        }
+        idStaff.add(idStaffText, "grow");
+        addBill.add(idStaff, "grow");
+        //</editor-fold>
+
+        add(fsPanel, "width 100%, height 5%, wrap");
+        add(addBill, "width 100%, height 20%, wrap");
+        add(mainPanel, "width 100%, height 75%, wrap");
+        fsPanel.add(feature, "width 40%, pos 0al 0 n 100%");
+        fsPanel.add(search, "width 58%, pos 1al 0 n 100%");
+
+        //<editor-fold defaultstate="collapsed" desc="Event">
+        bill.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
                 int row = bill.getSelectedRow();
                 if(row == -1) {
                     return;
                 }
-                String id = (String) bill.getValueAt(row, 0);
+                idText.setText(bill.getValueAt(row, 0).toString());
+                SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
+                dateText.setText(format.format(bill.getValueAt(row, 1)));
+                statusText.setSelectedItem(bill.getValueAt(row, 2));
+                idCustomerText.setSelectedItem(bill.getValueAt(row, 3));
+                idStaffText.setSelectedItem(bill.getValueAt(row, 4));
+            }
+        });
 
-                SimpleDateFormat formatDate = new SimpleDateFormat("yyyy-MM-dd");
-                java.util.Date invoiceDate = null;
+        btnAdd.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
                 try {
-                    invoiceDate = formatDate.parse(bill.getValueAt(row, 1).toString());
+                    String id = idText.getText().toString();
+                    java.util.Date invoiceDate = format.parse(dateText.getText());
+                    java.sql.Date sqlDate = new java.sql.Date(invoiceDate.getTime());
+                    String status = statusText.getSelectedItem().toString();
+                    String idCustomer = idCustomerText.getSelectedItem().toString();
+                    String idStaff = idStaffText.getSelectedItem().toString();
+                    if(BillController.getInstance().addBill(new Bill(id, sqlDate, status, idCustomer, idStaff))){
+                    }
+                } catch (HeadlessException ex) {
+                    System.out.println(ex);
                 } catch (ParseException ex) {
-                    ex.printStackTrace();
+                    throw new RuntimeException(ex);
                 }
-                java.sql.Date date = new java.sql.Date(invoiceDate.getTime());
-                String status = (String) bill.getValueAt(row, 2);
-                String idCustomer = (String) bill.getValueAt(row, 3);
-                String idStaff = (String) bill.getValueAt(row, 4);
-                if(BillController.getInstance().updateBill(id, date, status, idCustomer, idStaff)){
-                    JOptionPane.showMessageDialog(null, "Cập nhật thành công!",
-                            "Success", JOptionPane.INFORMATION_MESSAGE);
-                    reloadTable();
+
+            }
+        });
+
+        btnDel.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if(bill.getSelectedRow() >= 0) {
+                    int row = bill.getSelectedRow();
+                    if(row == -1) {
+                        return;
+                    }
+                    String id = bill.getValueAt(row, 0).toString();
+                    if(BillController.getInstance().deleteBillById(id)){
+                        staffs = StaffDAO.getInstance().selectAll();
+                        try {
+                            model.setRowCount(0);
+                            for (Bill bill1 : bills) {
+                                model.addRow(new java.lang.Object[]{
+                                        bill1.getId(),
+                                        bill1.getDate(),
+                                        bill1.getStatus(),
+                                        bill1.getIdCustomer(),
+                                        bill1.getIdStaff()
+                                });
+                            }
+                        } catch (Exception ex) {
+                            System.out.println(ex);
+                        }
+                    }
                 }
             }
         });
 
-        btnDel.addActionListener(e -> {
-            if (bill.getSelectedRow() >= 0) {
-                int row = bill.getSelectedRow();
-                if(row == -1) {
-                    return;
+        btnEdit.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                try {
+                    String id = idText.getText().toString();
+                    java.util.Date invoiceDate = format.parse(dateText.getText());
+                    java.sql.Date sqlDate = new java.sql.Date(invoiceDate.getTime());
+                    String status = statusText.getSelectedItem().toString();
+                    String idCustomer = idCustomerText.getSelectedItem().toString();
+                    String idStaff = idStaffText.getSelectedItem().toString();
+                    if(BillController.getInstance().updateBill(id, sqlDate, status, idCustomer, idStaff)){
+                    }
+                } catch (HeadlessException ex) {
+                    System.out.println(ex);
+                } catch (ParseException ex) {
+                    throw new RuntimeException(ex);
                 }
-                String id = (String) bill.getValueAt(row, 0);
-                if(BillController.getInstance().deleteBill(id)) {
-                    JOptionPane.showMessageDialog(null, "Xóa thành công!",
-                            "Success", JOptionPane.INFORMATION_MESSAGE);
-                    reloadTable();
-                }
-            }
+            };
         });
 
         btnDetail.addActionListener(e -> {
@@ -254,122 +397,176 @@ public class PanelBill extends JPanel {
                 if(row == -1) {
                     return;
                 }
-                String id = (String) bill.getValueAt(row, 0);
-                billDetail = new BillDetail(id);
+                String idBill = (String) bill.getValueAt(row, 0);
+                billDetail = new BillDetail(idBill);
                 billDetail.setVisible(true);
             }
         });
-        area.addActionListener(e -> {
-            String selected = (String) area.getSelectedItem();
-            Boolean check = false;
-            if(selected.equals("Mã bill")) {
-                model.setRowCount(0);
-                for (Bill bill : bills) {
-                    if(bill.getId().contains(txtSearch.getText())) {
-                        check = true;
-                        model.addRow(new Object[]{
-                                bill.getId(),
-                                bill.getDate(),
-                                bill.getStatus(),
-                                bill.getIdCustomer(),
-                                bill.getIdStaff()
-                        });
+
+        btnReload.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                reloadTable();
+            }
+        });
+
+        area.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                bills = BillDAO.getInstance().selectAll();
+                String comBoBox = area.getSelectedItem().toString();
+                String textSearch = text.getText();
+                Boolean check = false;
+                if (comBoBox.equals("Tất cả")) {
+                    try {
+                        model.setRowCount(0);
+                        for (Bill bill : bills) {
+                            model.addRow(new Object[]{
+                                    bill.getId(),
+                                    bill.getDate(),
+                                    bill.getStatus(),
+                                    bill.getIdCustomer(),
+                                    bill.getIdStaff()
+                            });
+                        }
+                    } catch (Exception ex) {
+                        System.out.println(ex);
                     }
                 }
-                if(!check) {
-                    JOptionPane.showMessageDialog(null, "Không tìm thấy!",
-                            "Error", JOptionPane.ERROR_MESSAGE);
-                    check = false;
-                }
-            } else if(selected.equals("Trạng thái")) {
-                model.setRowCount(0);
-                for (Bill bill : bills) {
-                    if(bill.getStatus().contains(txtSearch.getText())) {
-                        check = true;
-                        model.addRow(new Object[]{
-                                bill.getId(),
-                                bill.getDate(),
-                                bill.getStatus(),
-                                bill.getIdCustomer(),
-                                bill.getIdStaff()
-                        });
+                else if (comBoBox.equals("Mã phiếu nhập")) {
+                    try {
+                        model.setRowCount(0);
+                        for (Bill bill : bills) {
+                            if (bill.getId().toLowerCase().contains(textSearch.toLowerCase())) {
+                                model.addRow(new Object[]{
+                                        bill.getId(),
+                                        bill.getDate(),
+                                        bill.getStatus(),
+                                        bill.getIdCustomer(),
+                                        bill.getIdStaff()
+                                });
+                                check = true;
+                            }
+                        }
+                        if (!check) {
+                            JOptionPane.showMessageDialog(null, "Không tìm thấy!",
+                                    "Warning", JOptionPane.WARNING_MESSAGE);
+                        }
+                        else {
+                            check = false;
+                        }
+                    } catch (Exception ex) {
+                        System.out.println(ex);
                     }
                 }
-                if(!check) {
-                    JOptionPane.showMessageDialog(null, "Không tìm thấy!",
-                            "Error", JOptionPane.ERROR_MESSAGE);
-                    check = false;
-                }
-            } else if(selected.equals("Ngày")) {
-                model.setRowCount(0);
-                for (Bill bill : bills) {
-                    if(bill.getDate().toString().contains(txtSearch.getText())) {
-                        check = true;
-                        model.addRow(new Object[]{
-                                bill.getId(),
-                                bill.getDate(),
-                                bill.getStatus(),
-                                bill.getIdCustomer(),
-                                bill.getIdStaff()
-                        });
+                else if (comBoBox.equals("Ngày nhập")) {
+                    try {
+                        model.setRowCount(0);
+                        for (Bill bill : bills) {
+                            if (bill.getDate().toString().toLowerCase().contains(textSearch.toLowerCase())) {
+                                model.addRow(new Object[]{
+                                        bill.getId(),
+                                        bill.getDate(),
+                                        bill.getStatus(),
+                                        bill.getIdCustomer(),
+                                        bill.getIdStaff()
+                                });
+                                check = true;
+                            }
+                        }
+                        if (!check) {
+                            JOptionPane.showMessageDialog(null, "Không tìm thấy!",
+                                    "Warning", JOptionPane.WARNING_MESSAGE);
+                        }
+                        else {
+                            check = false;
+                        }
+                    } catch (Exception ex) {
+                        System.out.println(ex);
                     }
                 }
-                if(!check) {
-                    JOptionPane.showMessageDialog(null, "Không tìm thấy!",
-                            "Error", JOptionPane.ERROR_MESSAGE);
-                    check = false;
-                }
-            } else if(selected.equals("Mã nhân viên")) {
-                model.setRowCount(0);
-                for (Bill bill : bills) {
-                    if(bill.getIdStaff().contains(txtSearch.getText())) {
-                        check = true;
-                        model.addRow(new Object[]{
-                                bill.getId(),
-                                bill.getDate(),
-                                bill.getStatus(),
-                                bill.getIdCustomer(),
-                                bill.getIdStaff()
-                        });
+                else if (comBoBox.equals("Chi tiết")) {
+                    try {
+                        model.setRowCount(0);
+                        for (Bill bill : bills) {
+                            if (bill.getStatus().toLowerCase().contains(textSearch.toLowerCase())) {
+                                model.addRow(new Object[]{
+                                        bill.getId(),
+                                        bill.getDate(),
+                                        bill.getStatus(),
+                                        bill.getIdCustomer(),
+                                        bill.getIdStaff()
+                                });
+                                check = true;
+                            }
+                        }
+                        if (!check) {
+                            JOptionPane.showMessageDialog(null, "Không tìm thấy!",
+                                    "Warning", JOptionPane.WARNING_MESSAGE);
+                        }
+                        else {
+                            check = false;
+                        }
+                    } catch (Exception ex) {
+                        System.out.println(ex);
                     }
                 }
-                if(!check) {
-                    JOptionPane.showMessageDialog(null, "Không tìm thấy!",
-                            "Error", JOptionPane.ERROR_MESSAGE);
-                    check = false;
-                }
-            } else if(selected.equals("Mã khách hàng")) {
-                model.setRowCount(0);
-                for (Bill bill : bills) {
-                    if (bill.getIdCustomer().contains(txtSearch.getText())) {
-                        check = true;
-                        model.addRow(new Object[]{
-                                bill.getId(),
-                                bill.getDate(),
-                                bill.getStatus(),
-                                bill.getIdCustomer(),
-                                bill.getIdStaff()
-                        });
+                else if (comBoBox.equals("Mã nhà cung cấp")) {
+                    try {
+                        model.setRowCount(0);
+                        for (Bill bill : bills) {
+                            if (bill.getIdCustomer().toLowerCase().contains(textSearch.toLowerCase())) {
+                                model.addRow(new Object[]{
+                                        bill.getId(),
+                                        bill.getDate(),
+                                        bill.getStatus(),
+                                        bill.getIdCustomer(),
+                                        bill.getIdStaff()
+                                });
+                                check = true;
+                            }
+                        }
+                        if (!check) {
+                            JOptionPane.showMessageDialog(null, "Không tìm thấy!",
+                                    "Warning", JOptionPane.WARNING_MESSAGE);
+                        }
+                        else {
+                            check = false;
+                        }
+                    } catch (Exception ex) {
+                        System.out.println(ex);
                     }
                 }
-                if (!check) {
-                    JOptionPane.showMessageDialog(null, "Không tìm thấy!",
-                            "Error", JOptionPane.ERROR_MESSAGE);
-                    check = false;
-                }
-            } else {
-                model.setRowCount(0);
-                for (Bill bill : bills) {
-                    model.addRow(new Object[]{
-                            bill.getId(),
-                            bill.getDate(),
-                            bill.getStatus(),
-                            bill.getIdCustomer(),
-                            bill.getIdStaff()
-                    });
+                else if (comBoBox.equals("Mã nhân viên")) {
+                    try {
+                        model.setRowCount(0);
+                        for (Bill bill : bills) {
+                            if (bill.getIdStaff().toLowerCase().contains(textSearch.toLowerCase())) {
+                                model.addRow(new Object[]{
+                                        bill.getId(),
+                                        bill.getDate(),
+                                        bill.getStatus(),
+                                        bill.getIdCustomer(),
+                                        bill.getIdStaff()
+                                });
+                                check = true;
+                            }
+                        }
+                        if (!check) {
+                            JOptionPane.showMessageDialog(null, "Không tìm thấy!",
+                                    "Warning", JOptionPane.WARNING_MESSAGE);
+                        }
+                        else {
+                            check = false;
+                        }
+                    } catch (Exception ex) {
+                        System.out.println(ex);
+                    }
                 }
             }
         });
+        //</editor-fold>
+
     }
 
     public void reloadTable(){

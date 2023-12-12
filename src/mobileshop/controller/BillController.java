@@ -16,32 +16,47 @@ public class BillController {
     }
 
     public boolean addBill(Bill bill) {
-        if(bill != null) {
-            if(BillDAO.getInstance().insert(bill) == 1){
+        try {
+            if(BillDAO.getInstance().insert(bill) == 1) {
+                JOptionPane.showMessageDialog(null, "Thêm thành công!",
+                        "Success", JOptionPane.INFORMATION_MESSAGE);
                 return true;
+            } else {
+                JOptionPane.showMessageDialog(null, "Thêm thất bại!", "Error", JOptionPane.ERROR_MESSAGE);
             }
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "Lỗi truy vấn!", "Error", JOptionPane.ERROR_MESSAGE);
         }
         return false;
     }
 
-    public boolean updateBill(String id, Date date, String status, String idCustomer, String idStaff) {
-
-        Bill bill = new Bill(id, date, status, idCustomer, idStaff);
-        if(bill != null) {
-            if(BillDAO.getInstance().update(bill) == 1){
+    public boolean updateBill(String id, Date date, String status, String idCustomer, String idStaff){
+        try {
+            // TODO add your handling code here:
+            Bill bill = new Bill(id, date, status, idCustomer, idStaff);
+            if(BillDAO.getInstance().update(bill) == 1) {
+                JOptionPane.showMessageDialog(null, "Cập nhật thành công!", "Success", JOptionPane.INFORMATION_MESSAGE);
                 return true;
+            } else {
+                JOptionPane.showMessageDialog(null, "Cập nhật thất bại!", "Error", JOptionPane.ERROR_MESSAGE);
             }
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "Lỗi truy vấn!", "Error", JOptionPane.ERROR_MESSAGE);
         }
-
         return false;
     }
 
-    public boolean deleteBill(String id) {
-        if(id != null) {
+    public boolean deleteBillById(String id){
+        try {
             Bill bill = BillDAO.getInstance().selectById(id);
-            if(BillDAO.getInstance().delete(bill) == 1){
+            if(BillDAO.getInstance().delete(bill) == 1) {
+                JOptionPane.showMessageDialog(null, "Xóa thành công!", "Success", JOptionPane.INFORMATION_MESSAGE);
                 return true;
+            } else {
+                JOptionPane.showMessageDialog(null, "Xóa thất bại!", "Error", JOptionPane.ERROR_MESSAGE);
             }
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "Lỗi truy vấn!", "Error", JOptionPane.ERROR_MESSAGE);
         }
         return false;
     }
