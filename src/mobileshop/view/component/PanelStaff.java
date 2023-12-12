@@ -227,7 +227,7 @@ public class PanelStaff extends JPanel {
         pass.setLayout(new MigLayout("fill, wrap", "[200]", "[50]"));
         pass.setBackground(new Color(255,255,255));
         pass.setBorder(new TitledBorder(new LineBorder(new Color(0, 0, 0)), "Mật khẩu", TitledBorder.LEADING, TitledBorder.TOP, new Font("sansserif", 1, 14), new Color(0, 0, 0)));
-        JPasswordField passText = new JPasswordField();
+        JTextField passText = new JTextField();
         passText.setFont(new Font("sansserif", 1, 14));
         passText.setForeground(new Color(0, 0, 0));
         passText.setBackground(new Color(255, 255, 255));
