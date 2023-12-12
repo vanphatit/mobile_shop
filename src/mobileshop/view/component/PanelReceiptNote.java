@@ -2,6 +2,7 @@ package mobileshop.view.component;
 
 import mobileshop.controller.ReceiptNoteController;
 import mobileshop.dao.ReceiptNoteDAO;
+import mobileshop.dao.ReceiptNoteDetailDAO;
 import mobileshop.dao.StaffDAO;
 import mobileshop.model.ReceiptNote;
 import mobileshop.model.Staff;
@@ -350,25 +351,17 @@ public class PanelReceiptNote extends JPanel {
                         return;
                     }
                     String id = receiptNote.getValueAt(row, 0).toString();
-                    if(ReceiptNoteController.getInstance().deleteReceiptNoteById(id)){
-                        staffs = StaffDAO.getInstance().selectAll();
-                        try {
-                            model.setRowCount(0);
-                            for (ReceiptNote receiptNote1 : receiptNotes) {
-                                model.addRow(new java.lang.Object[]{
-                                        receiptNote1.getId(),
-                                        receiptNote1.getDate(),
-                                        receiptNote1.getMoreInfo(),
-                                        receiptNote1.getIdSuplier(),
-                                        receiptNote1.getIdStaff()
-                                });
-                            }
-                        } catch (Exception ex) {
-                            System.out.println(ex);
+                    for (mobileshop.model.ReceiptNoteDetail receiptNoteDetail : ReceiptNoteDetailDAO.getInstance().selectAll()) {
+                        if (receiptNoteDetail.getIdRecept().equals(id)) {
+                            ReceiptNoteDetailDAO.getInstance().delete(receiptNoteDetail);
+                            JOptionPane.showMessageDialog(null, "Đã xóa chi tiết phiếu nhập!",
+                                    "Warning", JOptionPane.WARNING_MESSAGE);
                         }
                     }
+                    if(ReceiptNoteController.getInstance().deleteReceiptNoteById(id)){
+                        reloadTable();
+                    }
                 }
-                reloadTable();
             }
         });
 

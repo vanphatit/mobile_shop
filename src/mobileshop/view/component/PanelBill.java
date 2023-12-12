@@ -2,10 +2,7 @@ package mobileshop.view.component;
 
 import mobileshop.controller.BillController;
 import mobileshop.controller.ReceiptNoteController;
-import mobileshop.dao.BillDAO;
-import mobileshop.dao.CustomerDAO;
-import mobileshop.dao.ReceiptNoteDAO;
-import mobileshop.dao.StaffDAO;
+import mobileshop.dao.*;
 import mobileshop.model.*;
 import mobileshop.view.UI.AddBill;
 import mobileshop.view.UI.BillDetail;
@@ -351,25 +348,17 @@ public class PanelBill extends JPanel {
                         return;
                     }
                     String id = bill.getValueAt(row, 0).toString();
-                    if(BillController.getInstance().deleteBillById(id)){
-                        staffs = StaffDAO.getInstance().selectAll();
-                        try {
-                            model.setRowCount(0);
-                            for (Bill bill1 : bills) {
-                                model.addRow(new java.lang.Object[]{
-                                        bill1.getId(),
-                                        bill1.getDate(),
-                                        bill1.getStatus(),
-                                        bill1.getIdCustomer(),
-                                        bill1.getIdStaff()
-                                });
-                            }
-                        } catch (Exception ex) {
-                            System.out.println(ex);
+                    for (mobileshop.model.BillDetail billDetail : BillDetailDAO.getInstance().selectAll()) {
+                        if (billDetail.getIdBill().equals(id)) {
+                            BillDetailDAO.getInstance().delete(billDetail);
+                            JOptionPane.showMessageDialog(null, "Đã xóa chi tiết bill!",
+                                    "Warning", JOptionPane.WARNING_MESSAGE);
                         }
                     }
+                    if(BillController.getInstance().deleteBillById(id)){
+                        reloadTable();
+                    }
                 }
-                reloadTable();
             }
         });
 

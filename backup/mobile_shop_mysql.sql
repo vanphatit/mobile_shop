@@ -88,8 +88,9 @@ create table `rn_detail`
 (
     `unit_price` int not null,
     `count` int not null,
-    `id_receipt` varchar(7) primary key not null,
+    `id_receipt` varchar(7) not null,
     `id_object` varchar(7) not null,
+    primary key(id_receipt, id_object),
 
     foreign key(id_receipt) references receipt_note(id),
     foreign key(id_object) references object(id)
@@ -110,8 +111,9 @@ create table `bill`
 create table `bill_detail`
 (
     `count` int not null,
-    `id_object` varchar(7) primary key not null,
+    `id_object` varchar(7) not null,
     `id_bill` varchar(7) not null,
+    primary key(id_object, id_bill),
 
     foreign key(id_object) references object(id),
     foreign key(id_bill) references bill(id)
@@ -128,9 +130,9 @@ INSERT INTO work_shift (id, name) VALUES ('WS2', '12h - 5h');
 INSERT INTO work_shift (id, name) VALUES ('WS3', 'ADMIN');
 
 -- Inserting into staff table
-INSERT INTO staff (id, name, password, gender, role, id_shift) VALUES ('ST01', 'Lê Văn Phát', 'admin', true, 1, 'WS3');
-INSERT INTO staff (id, name, password, gender, role, id_shift) VALUES ('ST02', 'Huỳnh Thanh Duy', 'admin', true, 1, 'WS1');
-INSERT INTO staff (id, name, gender, role, id_shift) VALUES ('ST03', 'Nguyễn Thị Diễm Thúy', false, 1, 'WS2');
+INSERT INTO staff (id, name, password, gender, role, id_shift) VALUES ('ST01', 'Lê Văn Phát', 'ADMIN', true, 1, 'WS3');
+INSERT INTO staff (id, name, password, gender, role, id_shift) VALUES ('ST02', 'Huỳnh Thanh Duy', 'ADMIN', true, 1, 'WS1');
+INSERT INTO staff (id, name, password, gender, role, id_shift) VALUES ('ST03', 'Lê Thị A', 'ST03', false, 0, 'WS2');
 
 -- Inserting into suplier table
 INSERT INTO suplier (id, name, address, phone, status) VALUES ('S01', 'Suplier 1', 'Address 1', 1234567890, true);
@@ -153,18 +155,18 @@ INSERT INTO object_category (id, name) VALUES ('OC02', 'Category 2');
 INSERT INTO object_category (id, name) VALUES ('OC03', 'Category 3');
 
 -- Inserting into object table
-INSERT INTO object (id, name, status, manufacture, unitprice, id_category) VALUES ('O0001', 'Object 1', 'Status 1', 'Manufacture 1', 100, 'OC01');
-INSERT INTO object (id, name, status, manufacture, unitprice, id_category) VALUES ('O0002', 'Object 2', 'Status 2', 'Manufacture 2', 200, 'OC02');
-INSERT INTO object (id, name, status, manufacture, unitprice, id_category) VALUES ('O0003', 'Object 3', 'Status 3', 'Manufacture 3', 300, 'OC03');
+INSERT INTO object (id, name, status, manufacture, unitprice, id_category) VALUES ('O0001', 'Object 1', 'Status 1', 'Manufacture 1', 10000, 'OC01');
+INSERT INTO object (id, name, status, manufacture, unitprice, id_category) VALUES ('O0002', 'Object 2', 'Status 2', 'Manufacture 2', 20000, 'OC02');
+INSERT INTO object (id, name, status, manufacture, unitprice, id_category) VALUES ('O0003', 'Object 3', 'Status 3', 'Manufacture 3', 30000, 'OC03');
 
 -- Inserting into receipt_note table
 INSERT INTO receipt_note (id, date, more_info, id_suplier, id_staff) VALUES ('RN01', '2022-01-01', 'More info 1', 'S01', 'ST01');
-INSERT INTO receipt_note (id, date, more_info, id_suplier, id_staff) VALUES ('RN02', '2022-02-02', 'More info 2', 'S02', 'ST02');
-INSERT INTO receipt_note (id, date, more_info, id_suplier, id_staff) VALUES ('RN03', '2022-03-03', 'More info 3', 'S03', 'ST03');
+INSERT INTO receipt_note (id, date, more_info, id_suplier, id_staff) VALUES ('RN02', '2022-12-02', 'More info 2', 'S02', 'ST02');
+INSERT INTO receipt_note (id, date, more_info, id_suplier, id_staff) VALUES ('RN03', '2022-03-23', 'More info 3', 'S03', 'ST03');
 
 -- Inserting into rn_detail table
-INSERT INTO rn_detail (unit_price, count, id_receipt, id_object) VALUES (1000, 100, 'RN01', 'O0001');
-INSERT INTO rn_detail (unit_price, count, id_receipt, id_object) VALUES (2000, 500, 'RN02', 'O0002');
+INSERT INTO rn_detail (unit_price, count, id_receipt, id_object) VALUES (1000, 200, 'RN01', 'O0001');
+INSERT INTO rn_detail (unit_price, count, id_receipt, id_object) VALUES (2000, 200, 'RN02', 'O0002');
 INSERT INTO rn_detail (unit_price, count, id_receipt, id_object) VALUES (3000, 300, 'RN03', 'O0003');
 
 -- Inserting into bill table
@@ -173,6 +175,6 @@ INSERT INTO bill (id, date, status, id_customer, id_staff) VALUES ('B0002', '202
 INSERT INTO bill (id, date, status, id_customer, id_staff) VALUES ('B0003', '2022-03-03', 'Status 3', 'C0003', 'ST03');
 
 -- Inserting into bill_detail table
-INSERT INTO bill_detail (count, id_object, id_bill) VALUES (32, 'O0001', 'B0001');
-INSERT INTO bill_detail (count, id_object, id_bill) VALUES (50, 'O0002', 'B0002');
-INSERT INTO bill_detail (count, id_object, id_bill) VALUES (64, 'O0003', 'B0003');
+INSERT INTO bill_detail (count, id_object, id_bill) VALUES (1, 'O0001', 'B0001');
+INSERT INTO bill_detail (count, id_object, id_bill) VALUES (2, 'O0002', 'B0002');
+INSERT INTO bill_detail (count, id_object, id_bill) VALUES (3, 'O0003', 'B0003');
