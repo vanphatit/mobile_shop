@@ -22,7 +22,7 @@ public class PanelCoverChangeinfo extends javax.swing.JPanel {
     }
     
     private void init() {
-        title = new JLabel("Thay đổi thông tin");
+        title = new JLabel("Thay đổi mật khẩu");
         title.setFont(new Font("sansserif", 1, 30));
         title.setForeground(new Color(245, 245, 245));
         add(title);

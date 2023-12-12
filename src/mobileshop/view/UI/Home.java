@@ -143,7 +143,7 @@ public class Home extends javax.swing.JFrame {
         change_info.setBackground(new Color(7, 164, 121));
         change_info.setBorderPainted(false);
         change_info.setCursor(Cursor.getPredefinedCursor(HAND_CURSOR));
-        change_info.setText("Thay đổi thông tin");
+        change_info.setText("Thay đổi mật khẩu");
         change_info.setIcon(new ImageIcon(getClass().getResource("/mobileshop/assets/icon/icons8-information-25.png")));
         change_info.setHorizontalAlignment(SwingConstants.LEFT);
         cover.add(change_info, "w 100%");
