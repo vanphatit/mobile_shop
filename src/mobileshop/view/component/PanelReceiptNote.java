@@ -2,10 +2,10 @@ package mobileshop.view.component;
 
 import mobileshop.controller.ReceiptNoteController;
 import mobileshop.dao.ReceiptNoteDAO;
+import mobileshop.dao.StaffDAO;
 import mobileshop.model.ReceiptNote;
 import mobileshop.model.Staff;
 import mobileshop.model.Suplier;
-import mobileshop.view.UI.AddReceiptNote;
 import mobileshop.view.UI.ReceiptNoteDetail;
 import mobileshop.view.swing.MyTextField;
 import net.miginfocom.swing.MigLayout;
@@ -20,6 +20,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
@@ -295,44 +296,45 @@ public class PanelReceiptNote extends JPanel {
         //</editor-fold>
 
         add(fsPanel, "width 100%, height 5%, wrap");
-        add(moreInfo, "width 100%, height 20%, wrap");
+        add(addReceiptNote, "width 100%, height 20%, wrap");
         add(mainPanel, "width 100%, height 75%, wrap");
-
         fsPanel.add(feature, "width 40%, pos 0al 0 n 100%");
         fsPanel.add(search, "width 58%, pos 1al 0 n 100%");
 
         //<editor-fold defaultstate="collapsed" desc="Event">
-        btnAdd.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                AddReceiptNote addReceiptNote = new AddReceiptNote();
-                addReceiptNote.setVisible(true);
-                addReceiptNote.addWindowListener(new java.awt.event.WindowAdapter() {
-                    @Override
-                    public void windowClosed(java.awt.event.WindowEvent windowEvent) {
-                        reloadTable();
-                    }
-                });
+        receiptNote.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                int row = receiptNote.getSelectedRow();
+                if(row == -1) {
+                    return;
+                }
+                idText.setText(receiptNote.getValueAt(row, 0).toString());
+                SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
+                dateText.setText(format.format(receiptNote.getValueAt(row, 1)));
+                moreInfoText.setText(receiptNote.getValueAt(row, 2).toString());
+                idSuplierText.setSelectedItem(receiptNote.getValueAt(row, 3).toString());
+                idStaffText.setSelectedItem(receiptNote.getValueAt(row, 4).toString());
             }
         });
 
-        btnEdit.addActionListener(new ActionListener() {
+        btnAdd.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if(receiptNote.getSelectedRow() >= 0) {
-                    int row = receiptNote.getSelectedRow();
-                    if(row == -1) {
-                        return;
+                try {
+                    String id = idText.getText().toString();
+                    java.util.Date invoiceDate = format.parse(dateText.getText());
+                    java.sql.Date sqlDate = new java.sql.Date(invoiceDate.getTime());
+                    String moreInfo = moreInfoText.getText().toString();
+                    String idSuplier = idSuplierText.getSelectedItem().toString();
+                    String idStaff = idStaffText.getSelectedItem().toString();
+                    if(ReceiptNoteController.getInstance().addReceiptNote(id, sqlDate, moreInfo, idSuplier, idStaff)) {
                     }
-                    String id = receiptNote.getValueAt(row, 0).toString();
-                    String date = receiptNote.getValueAt(row, 1).toString();
-                    String moreInfo = receiptNote.getValueAt(row, 2).toString();
-                    String idSuplier = receiptNote.getValueAt(row, 3).toString();
-                    String idStaff = receiptNote.getValueAt(row, 4).toString();
-                    if(ReceiptNoteController.getInstance().updateReceiptNote(id, date, moreInfo, idSuplier, idStaff)){
-                        reloadTable();
-                    }
+                } catch (HeadlessException ex) {
+                    System.out.println(ex);
+                } catch (ParseException ex) {
+                    throw new RuntimeException(ex);
                 }
+
             }
         });
 
@@ -346,10 +348,43 @@ public class PanelReceiptNote extends JPanel {
                     }
                     String id = receiptNote.getValueAt(row, 0).toString();
                     if(ReceiptNoteController.getInstance().deleteReceiptNoteById(id)){
-                        reloadTable();
+                        staffs = StaffDAO.getInstance().selectAll();
+                        try {
+                            model.setRowCount(0);
+                            for (ReceiptNote receiptNote1 : receiptNotes) {
+                                model.addRow(new java.lang.Object[]{
+                                        receiptNote1.getId(),
+                                        receiptNote1.getDate(),
+                                        receiptNote1.getMoreInfo(),
+                                        receiptNote1.getIdSuplier(),
+                                        receiptNote1.getIdStaff()
+                                });
+                            }
+                        } catch (Exception ex) {
+                            System.out.println(ex);
+                        }
                     }
                 }
             }
+        });
+
+        btnEdit.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                try {
+                    String id = idText.getText().toString();
+                    java.util.Date invoiceDate = format.parse(dateText.getText());
+                    java.sql.Date sqlDate = new java.sql.Date(invoiceDate.getTime());
+                    String moreInfo = moreInfoText.getText().toString();
+                    String idSuplier = idSuplierText.getSelectedItem().toString();
+                    String idStaff = idStaffText.getSelectedItem().toString();
+                    if(ReceiptNoteController.getInstance().updateReceiptNote(id, sqlDate, moreInfo, idSuplier, idStaff)){}
+                } catch (HeadlessException ex) {
+                    System.out.println(ex);
+                } catch (ParseException ex) {
+                    throw new RuntimeException(ex);
+                }
+            };
         });
 
         btnDetail.addActionListener(e -> {
@@ -528,6 +563,7 @@ public class PanelReceiptNote extends JPanel {
                 }
             }
         });
+        //</editor-fold>
     }
 
     public void reloadTable() {
@@ -548,7 +584,6 @@ public class PanelReceiptNote extends JPanel {
             System.out.println(ex);
         }
     }
-    //</editor-fold>
     
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {

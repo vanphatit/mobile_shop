@@ -1,10 +1,8 @@
 package mobileshop.view.UI;
 
 import mobileshop.controller.BillController;
-import mobileshop.controller.ReceiptNoteController;
 import mobileshop.model.Bill;
 import mobileshop.view.component.PanelCoverAddBill;
-import mobileshop.view.component.PanelCoverAddReceiptNote;
 import net.miginfocom.swing.MigLayout;
 
 import javax.swing.*;
