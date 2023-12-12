@@ -1,5 +1,6 @@
 package mobileshop.view.component;
 
+import mobileshop.controller.BillController;
 import mobileshop.dao.*;
 import mobileshop.model.Bill;
 import mobileshop.model.BillDetail;
@@ -208,27 +209,36 @@ public class PanelBillDetail extends JPanel {
 
         btnAdd.addActionListener(e -> {
             String idObject = JOptionPane.showInputDialog("Nhập mã sản phẩm");
-            String count = JOptionPane.showInputDialog("Nhập số lượng");
+            mobileshop.model.Object object = ObjectDAO.getInstance().selectById(idObject);
+            if(object == null){
+                JOptionPane.showMessageDialog(null, "Mã sản phẩm không tồn tại");
+                return;
+            }
+            String count = JOptionPane.showInputDialog("Nhập số lượng: (Còn " + BillController.getInstance().getStockCount(idObject) + " sản phẩm)");
+            if(Integer.parseInt(count) > BillController.getInstance().getStockCount(idObject)){
+                JOptionPane.showMessageDialog(null, "Số lượng không đủ");
+                return;
+            }
             BillDetail billDetail1 = new BillDetail(Integer.parseInt(count), idObject, bill.getId());
-            if(BillDetailDAO.getInstance().insert(billDetail1) == 1){
+            if(BillController.getInstance().addBillDetail(billDetail1) == true){
                 JOptionPane.showMessageDialog(null, "Thêm thành công");
-                updateTable();
             } else {
                 JOptionPane.showMessageDialog(null, "Thêm thất bại");
             }
+            updateTable();
         });
 
         btnEdit.addActionListener(e -> {
             int row = billDetail.getSelectedRow();
             String idObject = billDetail.getValueAt(row, 0).toString();
             String count = billDetail.getValueAt(row, 1).toString();
-            BillDetail billDetail1 = new BillDetail(Integer.parseInt(count), idObject, bill.getId());
-            if(BillDetailDAO.getInstance().update(billDetail1) == 1){
+            BillDetail billDetail = new BillDetail(Integer.parseInt(count), idObject, bill.getId());
+            if(BillController.getInstance().updateBillDetail(billDetail) == true){
                 JOptionPane.showMessageDialog(null, "Sửa thành công");
-                updateTable();
             } else {
                 JOptionPane.showMessageDialog(null, "Sửa thất bại");
             }
+            updateTable();
         });
 
         btnDel.addActionListener(e -> {
@@ -238,10 +248,10 @@ public class PanelBillDetail extends JPanel {
             BillDetail billDetail1 = new BillDetail(Integer.parseInt(count), idObject, bill.getId());
             if(BillDetailDAO.getInstance().delete(billDetail1) == 1){
                 JOptionPane.showMessageDialog(null, "Xóa thành công");
-                updateTable();
             } else {
                 JOptionPane.showMessageDialog(null, "Xóa thất bại");
             }
+            updateTable();
         });
         //<editor-fold defaultstate="collapsed" desc="Event">
     }
