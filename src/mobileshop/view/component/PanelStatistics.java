@@ -353,15 +353,15 @@ public class PanelStatistics extends JPanel {
                 panelProduct.setVisible(true);
                 nameMenuBtn = productMenu.getText().toString();
                 mainPanel.removeAll();
-                mainPanel.add(menuBar, "growx, wrap, top");
+                mainPanel.add(menuBar, "grow");
                 area.removeAllItems();
                 area.addItem("Tất cả");
                 area.addItem("Mã sản phẩm");
                 area.addItem("Tên sản phẩm");
                 area.addItem("Số lượng nhập");
                 area.addItem("Số lượng bán");
-                mainPanel.add(search, "growx, wrap, top");
-                mainPanel.add(scrollPaneProduct , "growx, growy, wrap");
+                mainPanel.add(search, "grow");
+                mainPanel.add(scrollPaneProduct , "grow");
                 mainPanel.revalidate();
                 mainPanel.repaint();
             }
@@ -371,15 +371,15 @@ public class PanelStatistics extends JPanel {
                 PanelProduct panelProduct = new PanelProduct();
                 panelProduct.setVisible(true);
                 mainPanel.removeAll();
-                mainPanel.add(menuBar, "growx, wrap, top");
+                mainPanel.add(menuBar, "grow");
                 area.removeAllItems();
                 area.addItem("Tất cả");
                 area.addItem("Mã sản phẩm");
                 area.addItem("Tên sản phẩm");
                 area.addItem("Số lượng nhập");
                 area.addItem("Số lượng bán");
-                mainPanel.add(search, "growx, wrap, top");
-                mainPanel.add(scrollPaneProduct, "growx, growy, wrap");
+                mainPanel.add(search, "grow");
+                mainPanel.add(scrollPaneProduct,"grow");
                 mainPanel.revalidate();
                 mainPanel.repaint();
             }
@@ -389,15 +389,15 @@ public class PanelStatistics extends JPanel {
                 PanelProduct panelProduct = new PanelProduct();
                 panelProduct.setVisible(true);
                 mainPanel.removeAll();
-                mainPanel.add(menuBar, "growx, wrap, top");
+                mainPanel.add(menuBar, "grow");
                 area.removeAllItems();
                 area.addItem("Tất cả");
                 area.addItem("Mã sản phẩm");
                 area.addItem("Tên sản phẩm");
                 area.addItem("Số lượng nhập");
                 area.addItem("Số lượng bán");
-                mainPanel.add(search, "growx, wrap, top");
-                mainPanel.add(scrollPaneProduct, "growx, growy, wrap");
+                mainPanel.add(search, "grow");
+                mainPanel.add(scrollPaneProduct,"grow");
                 mainPanel.revalidate();
                 mainPanel.repaint();
             }
@@ -410,7 +410,7 @@ public class PanelStatistics extends JPanel {
                 panelBill.setVisible(true);
                 nameMenuBtn = billMenu.getText().toString();
                 mainPanel.removeAll();
-                mainPanel.add(menuBar, "growx, wrap, top");
+                mainPanel.add(menuBar, "grow");
                 area.removeAllItems();
                 area.addItem("Tất cả");
                 area.addItem("Mã hóa đơn");
@@ -418,8 +418,8 @@ public class PanelStatistics extends JPanel {
                 area.addItem("Tên khách hàng");
                 area.addItem("Tên nhân viên");
                 area.addItem("Tổng tiền");
-                mainPanel.add(search, "growx, wrap, top");
-                mainPanel.add(scrollPaneBill, "growx, growy, wrap");
+                mainPanel.add(search, "grow");
+                mainPanel.add(scrollPaneBill, "grow");
                 mainPanel.revalidate();
                 mainPanel.repaint();
             }
@@ -429,7 +429,7 @@ public class PanelStatistics extends JPanel {
                 PanelBill panelBill = new PanelBill();
                 panelBill.setVisible(true);
                 mainPanel.removeAll();
-                mainPanel.add(menuBar, "growx, wrap, top");
+                mainPanel.add(menuBar, "growx");
                 area.removeAllItems();
                 area.addItem("Tất cả");
                 area.addItem("Mã hóa đơn");
@@ -437,8 +437,8 @@ public class PanelStatistics extends JPanel {
                 area.addItem("Tên khách hàng");
                 area.addItem("Tên nhân viên");
                 area.addItem("Tổng tiền");
-                mainPanel.add(search, "growx, wrap, top");
-                mainPanel.add(scrollPaneBill, "growx, growy, wrap");
+                mainPanel.add(search, "growp");
+                mainPanel.add(scrollPaneBill, "grow");
                 mainPanel.revalidate();
                 mainPanel.repaint();
             }
@@ -448,7 +448,7 @@ public class PanelStatistics extends JPanel {
                 PanelBill panelBill = new PanelBill();
                 panelBill.setVisible(true);
                 mainPanel.removeAll();
-                mainPanel.add(menuBar, "growx, wrap, top");
+                mainPanel.add(menuBar, "grow");
                 area.removeAllItems();
                 area.addItem("Tất cả");
                 area.addItem("Mã hóa đơn");
@@ -456,8 +456,8 @@ public class PanelStatistics extends JPanel {
                 area.addItem("Tên khách hàng");
                 area.addItem("Tên nhân viên");
                 area.addItem("Tổng tiền");
-                mainPanel.add(search, "growx, wrap, top");
-                mainPanel.add(scrollPaneBill, "growx, growy, wrap");
+                mainPanel.add(search, "grow");
+                mainPanel.add(scrollPaneBill, "grow");
                 mainPanel.revalidate();
                 mainPanel.repaint();
             }
@@ -470,7 +470,7 @@ public class PanelStatistics extends JPanel {
                 panelReceiptNote.setVisible(true);
                 nameMenuBtn = receiptNoteMenu.getText().toString();
                 mainPanel.removeAll();
-                mainPanel.add(menuBar, "growx, wrap, top");
+                mainPanel.add(menuBar, "grow");
                 area.removeAllItems();
                 area.addItem("Tất cả");
                 area.addItem("Mã phiếu nhập");
@@ -479,8 +479,8 @@ public class PanelStatistics extends JPanel {
                 area.addItem("Tên nhà cung cấp");
                 area.addItem("Tên nhân viên");
                 area.addItem("Tổng tiền");
-                mainPanel.add(search, "growx, wrap, top");
-                mainPanel.add(scrollPaneReceiptNote, "growx, growy, wrap");
+                mainPanel.add(search, "grow");
+                mainPanel.add(scrollPaneReceiptNote, "grow");
                 mainPanel.revalidate();
                 mainPanel.repaint();
             }
@@ -490,7 +490,7 @@ public class PanelStatistics extends JPanel {
                 PanelReceiptNote panelReceiptNote = new PanelReceiptNote();
                 panelReceiptNote.setVisible(true);
                 mainPanel.removeAll();
-                mainPanel.add(menuBar, "growx, wrap, top");
+                mainPanel.add(menuBar, "grow");
                 area.removeAllItems();
                 area.addItem("Tất cả");
                 area.addItem("Mã phiếu nhập");
@@ -499,8 +499,8 @@ public class PanelStatistics extends JPanel {
                 area.addItem("Tên nhà cung cấp");
                 area.addItem("Tên nhân viên");
                 area.addItem("Tổng tiền");
-                mainPanel.add(search, "growx, wrap, top");
-                mainPanel.add(scrollPaneReceiptNote, "growx, growy, wrap");
+                mainPanel.add(search, "grow");
+                mainPanel.add(scrollPaneReceiptNote, "grow");
                 mainPanel.revalidate();
                 mainPanel.repaint();
             }
@@ -520,7 +520,7 @@ public class PanelStatistics extends JPanel {
                 area.addItem("Tên nhân viên");
                 area.addItem("Tổng tiền");
                 mainPanel.add(search, "growx, wrap, top");
-                mainPanel.add(scrollPaneReceiptNote, "growx, growy, wrap");
+                mainPanel.add(scrollPaneReceiptNote, "grow");
                 mainPanel.revalidate();
                 mainPanel.repaint();
             }

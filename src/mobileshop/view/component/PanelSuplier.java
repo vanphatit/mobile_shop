@@ -479,7 +479,7 @@ public class PanelSuplier extends javax.swing.JPanel {
                         suplier1.getName(),
                         suplier1.getAddress(),
                         suplier1.getPhoneNumber(),
-                        suplier1.getStatus() ? "Còn hàng" : "Hết hàng"
+                        suplier1.getStatus() ? "Còn hoạt động" : "Hết hoạt động"
                 });
             }
         } catch (Exception ex) {

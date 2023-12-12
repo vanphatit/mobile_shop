@@ -59,9 +59,9 @@ public class PanelReceiptNote extends JPanel {
         fsPanel = new JPanel();
         addReceiptNote = new JPanel();
 
-        fsPanel.setLayout(new MigLayout("fill, wrap", "[300][1000]", "[50]"));
+        fsPanel.setLayout(new MigLayout("fill, wrap", "[150][1000]", "[50]"));
         fsPanel.setBackground(new Color(255,255,255));
-        feature.setLayout(new MigLayout("fill, wrap", "[100][100][100]", "[50]"));
+        feature.setLayout(new MigLayout("fill, wrap", "[50][50][50]", "[50]"));
         feature.setBackground(new Color(255,255,255));
         search.setLayout(new MigLayout("fill, wrap", "[200][300][150]", "[50]"));
         search.setBackground(new Color(255,255,255));
@@ -85,7 +85,7 @@ public class PanelReceiptNote extends JPanel {
         btnAdd.setIcon(new ImageIcon(getClass().getResource("/mobileshop/assets/icon/icons8_add_25px_5.png")));
         btnAdd.setVerticalTextPosition(SwingConstants.BOTTOM);
         btnAdd.setHorizontalTextPosition(SwingConstants.CENTER);
-        btnAdd.setHorizontalAlignment(SwingConstants.LEFT);
+        btnAdd.setHorizontalAlignment(SwingConstants.CENTER);
         feature.add(btnAdd, "grow");
 
         JButton btnDel = new JButton();
@@ -98,7 +98,7 @@ public class PanelReceiptNote extends JPanel {
         btnDel.setIcon(new ImageIcon(getClass().getResource("/mobileshop/assets/icon/icons8_delete_25px_1.png")));
         btnDel.setVerticalTextPosition(SwingConstants.BOTTOM);
         btnDel.setHorizontalTextPosition(SwingConstants.CENTER);
-        btnDel.setHorizontalAlignment(SwingConstants.LEFT);
+        btnDel.setHorizontalAlignment(SwingConstants.CENTER);
         feature.add(btnDel, "grow");
 
         JButton btnEdit = new JButton();
@@ -111,7 +111,7 @@ public class PanelReceiptNote extends JPanel {
         btnEdit.setIcon(new ImageIcon(getClass().getResource("/mobileshop/assets/icon/icons8_edit_25px.png")));
         btnEdit.setVerticalTextPosition(SwingConstants.BOTTOM);
         btnEdit.setHorizontalTextPosition(SwingConstants.CENTER);
-        btnEdit.setHorizontalAlignment(SwingConstants.LEFT);
+        btnEdit.setHorizontalAlignment(SwingConstants.CENTER);
         feature.add(btnEdit, "grow");
         //</editor-fold>
 
@@ -302,8 +302,8 @@ public class PanelReceiptNote extends JPanel {
         add(fsPanel, "width 100%, height 5%, wrap");
         add(addReceiptNote, "width 100%, height 20%, wrap");
         add(mainPanel, "width 100%, height 75%, wrap");
-        fsPanel.add(feature, "width 40%, pos 0al 0 n 100%");
-        fsPanel.add(search, "width 58%, pos 1al 0 n 100%");
+        fsPanel.add(feature, "width 30%, pos 0al 0 n 100%");
+        fsPanel.add(search, "width 68%, pos 1al 0 n 100%");
 
         //<editor-fold defaultstate="collapsed" desc="Event">
         receiptNote.addMouseListener(new java.awt.event.MouseAdapter() {
