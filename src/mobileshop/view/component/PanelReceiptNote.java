@@ -228,7 +228,7 @@ public class PanelReceiptNote extends JPanel {
         JPanel date = new JPanel();
         date.setLayout(new MigLayout("fill, wrap", "[200]", "[50]"));
         date.setBackground(new Color(255,255,255));
-        date.setBorder(new TitledBorder(new LineBorder(new Color(0, 0, 0)), "Ngày sinh (dd/MM/yyyy)", TitledBorder.LEADING, TitledBorder.TOP, new Font("sansserif", 1, 14), new Color(0, 0, 0)));
+        date.setBorder(new TitledBorder(new LineBorder(new Color(0, 0, 0)), "Ngày nhập (dd/MM/yyyy)", TitledBorder.LEADING, TitledBorder.TOP, new Font("sansserif", 1, 14), new Color(0, 0, 0)));
         SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
         JFormattedTextField dateText = new JFormattedTextField(format);
         dateText.setFont(new Font("sansserif", 1, 14));

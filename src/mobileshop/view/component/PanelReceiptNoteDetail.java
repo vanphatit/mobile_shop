@@ -181,7 +181,7 @@ public class PanelReceiptNoteDetail extends JPanel {
         //</editor-fold>
 
         //<editor-fold defaultstate="collapsed" desc="Table">
-        String[] columnNames = {"Mã sản phẩm", "Giá thành", "Số lượng"};
+        String[] columnNames = {"Mã sản phẩm", "Số lượng", "Giá thành"};
         DefaultTableModel model = new DefaultTableModel(new Object[][]{}, columnNames);
 
         receiptNoteDetails = ReceiptNoteDetailDAO.getInstance().selectAll();
@@ -192,8 +192,8 @@ public class PanelReceiptNoteDetail extends JPanel {
                 if (receiptNoteDetail.getIdRecept().equals(receiptNote.getId()))
                     model.addRow(new Object[]{
                             receiptNoteDetail.getIdObject(),
-                            receiptNoteDetail.getUnitPrice(),
-                            receiptNoteDetail.getCount()
+                            receiptNoteDetail.getCount(),
+                            receiptNoteDetail.getUnitPrice()
                     });
             }
         } catch (Exception e) {
@@ -225,14 +225,13 @@ public class PanelReceiptNoteDetail extends JPanel {
         btnAdd.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                AddReceiptNoteDetail addReceiptNoteDetail = new AddReceiptNoteDetail(receiptNote.getId());
-                addReceiptNoteDetail.setVisible(true);
-                addReceiptNoteDetail.addWindowListener(new java.awt.event.WindowAdapter() {
-                    @Override
-                    public void windowClosed(java.awt.event.WindowEvent windowEvent) {
-                        reloadTable();
-                    }
-                });
+                String idProduct = JOptionPane.showInputDialog("Nhập id sản phẩm");
+                String count = JOptionPane.showInputDialog("Nhập số lượng");
+                String unitPrice = JOptionPane.showInputDialog("Nhập giá thành");
+                if(ReceiptNoteController.getInstance().addReceiptNoteDetail(
+                        new ReceiptNoteDetail(Integer.parseInt(unitPrice), Integer.parseInt(count),
+                                idProduct, receiptNote.getId())))
+                reloadTable();
             }
         });
 
@@ -242,7 +241,6 @@ public class PanelReceiptNoteDetail extends JPanel {
                 int row = receiptNoteDetail.getSelectedRow();
                 if(row != -1){
                     if(receiptNoteDetail.getSelectedRow() >= 0){
-
                         String idProduct = receiptNoteDetail.getValueAt(row, 0).toString();
                         String count = receiptNoteDetail.getValueAt(row, 1).toString();
                         String unitPrice = receiptNoteDetail.getValueAt(row, 2).toString();
@@ -278,8 +276,8 @@ public class PanelReceiptNoteDetail extends JPanel {
                 if (receiptNoteDetail.getIdRecept().equals(receiptNote.getId()))
                     model.addRow(new Object[]{
                             receiptNoteDetail.getIdObject(),
-                            receiptNoteDetail.getUnitPrice(),
-                            receiptNoteDetail.getCount()
+                            receiptNoteDetail.getCount(),
+                            receiptNoteDetail.getUnitPrice()
                     });
             }
         } catch (Exception e) {
