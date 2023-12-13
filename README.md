@@ -48,7 +48,7 @@ public static Connection getConnection() {
 ![Main1](./backup/main.png)
 ![Main2](./backup/main2.png)
 ![Main3](./backup/main3.png)
-![Product](./backup/product.png")
+![Product](./backup/product.png)
 ![Customer](./backup/customer.png)
 ![Suplier](./backup/suplier.png)
 ![Staff](./backup/staff.png)
